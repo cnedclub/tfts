@@ -1,0 +1,7 @@
+{
+  "package": "tictim.tfts.mixin",
+  "mixins": [
+    "FishingHookMixin"
+  ],
+  "required": true
+}

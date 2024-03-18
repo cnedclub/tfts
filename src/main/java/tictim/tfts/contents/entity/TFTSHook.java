@@ -12,7 +12,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
@@ -20,7 +19,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
@@ -84,114 +82,14 @@ public class TFTSHook extends FishingHook{
 		this.xRotO = getXRot();
 	}
 
-	@NotNull
-	RandomSource random(){
+	@NotNull RandomSource random(){
 		return this.random;
 	}
 
-	// 95% just lifted from base class, only changed here and there
-	// TODO probably better to mixin away FluidState#is(WATER) call with !isEmpty() call, if its not possible then uhh do js asm idk
-	public void tick(){
-		this.syncronizedRandom.setSeed(this.getUUID().getLeastSignificantBits()^this.level().getGameTime());
-
-		// Projectile#tick() {
-		if(!this.hasBeenShot){
-			this.gameEvent(GameEvent.PROJECTILE_SHOOT, this.getOwner());
-			this.hasBeenShot = true;
-		}
-
-		if(!this.leftOwner) this.leftOwner = this.checkLeftOwner();
-		// }
-
-		Player player = this.getPlayerOwner();
-		if(player==null){
-			this.discard();
-			return;
-		}
-		if(!this.level().isClientSide&&this.shouldStopFishing(player)) return;
-
-		if(this.onGround()){
-			++this.life;
-			if(this.life>=1200){
-				this.discard();
-				return;
-			}
-		}else this.life = 0;
-
-		float fluidHeight = 0.0F;
-		BlockPos pos = this.blockPosition();
-		FluidState fluidState = this.level().getFluidState(pos);
-		if(!fluidState.isEmpty()){
-			fluidHeight = fluidState.getHeight(this.level(), pos);
-		}
-
-		boolean inFluid = fluidHeight>0.0F;
-		if(this.currentState==FishHookState.FLYING){
-			if(this.hookedIn!=null){
-				this.setDeltaMovement(Vec3.ZERO);
-				this.currentState = FishHookState.HOOKED_IN_ENTITY;
-				return;
-			}
-
-			if(inFluid){
-				this.setDeltaMovement(this.getDeltaMovement().multiply(0.3D, 0.2D, 0.3D));
-				this.currentState = FishHookState.BOBBING;
-				return;
-			}
-
-			this.checkCollision();
-		}else{
-			if(this.currentState==FishHookState.HOOKED_IN_ENTITY){
-				if(this.hookedIn!=null){
-					if(!this.hookedIn.isRemoved()&&this.hookedIn.level().dimension()==this.level().dimension()){
-						this.setPos(this.hookedIn.getX(), this.hookedIn.getY(0.8D), this.hookedIn.getZ());
-					}else{
-						this.setHookedEntity(null);
-						this.currentState = FishHookState.FLYING;
-					}
-				}
-
-				return;
-			}
-
-			if(this.currentState==FishHookState.BOBBING){
-				Vec3 vec3 = this.getDeltaMovement();
-				double d0 = this.getY()+vec3.y-(double)pos.getY()-(double)fluidHeight;
-				if(Math.abs(d0)<0.01D){
-					d0 += Math.signum(d0)*0.1D;
-				}
-
-				this.setDeltaMovement(vec3.x*0.9D, vec3.y-d0*(double)this.random.nextFloat()*0.2D, vec3.z*0.9D);
-				// this logic is so fucking sus lmao
-				this.openWater = this.anglingEntry==null||
-						this.openWater&&this.outOfWaterTime<10&&this.calculateOpenWater(pos);
-
-				if(inFluid){
-					this.outOfWaterTime = Math.max(0, this.outOfWaterTime-1);
-					if(isBiting()){
-						this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.1D*(double)this.syncronizedRandom.nextFloat()*(double)this.syncronizedRandom.nextFloat(), 0.0D));
-					}
-
-					if(!this.level().isClientSide)
-						this.catchingTFTSFish(player, pos, fluidState);
-				}else{
-					this.outOfWaterTime = Math.min(10, this.outOfWaterTime+1);
-				}
-			}
-		}
-
-		if(fluidState.isEmpty()){
-			this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.03D, 0.0D));
-		}
-
-		this.move(MoverType.SELF, this.getDeltaMovement());
-		this.updateRotation();
-		if(this.currentState==FishHookState.FLYING&&(this.onGround()||this.horizontalCollision)){
-			this.setDeltaMovement(Vec3.ZERO);
-		}
-
-		this.setDeltaMovement(this.getDeltaMovement().scale(0.92D));
-		this.reapplyPosition();
+	@Override public void tick(){
+		super.tick();
+		// 169% sure nobody would use this stupid thing but whatever
+		if(this.currentState==FishHookState.BOBBING) this.openWater |= this.anglingEntry==null;
 	}
 
 	@Override
@@ -234,17 +132,20 @@ public class TFTSHook extends FishingHook{
 
 			for(ItemStack drop : list){
 				ItemEntity entity = new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), drop);
-				double x = player.getX()-this.getX();
-				double y = player.getY()-this.getY();
-				double z = player.getZ()-this.getZ();
-				entity.setDeltaMovement(x*0.1D, y*0.1D+Math.sqrt(Math.sqrt(x*x+y*y+z*z))*0.08D, z*0.1D);
+				double dx = player.getX()-this.getX();
+				double dy = player.getY()-this.getY();
+				double dz = player.getZ()-this.getZ();
+				entity.setDeltaMovement(dx*.1, dy*.1+Math.sqrt(Math.sqrt(dx*dx+dy*dy+dz*dz))*.08, dz*.1);
 				if(this.environment!=null) this.environment.processLoot(entity);
 				this.level().addFreshEntity(entity);
+
+				// TODO make exp amount controllable from anglingentry
 				ExperienceOrb exp = new ExperienceOrb(player.level(),
-						player.getX(), player.getY()+0.5D, player.getZ()+0.5D,
+						player.getX(), player.getY()+.5, player.getZ()+.5,
 						this.random.nextInt(6)+1);
 				if(this.environment!=null) this.environment.processExp(exp);
 				player.level().addFreshEntity(exp);
+
 				if(drop.is(ItemTags.FISHES)){
 					player.awardStat(Stats.FISH_CAUGHT, 1);
 				}
@@ -258,9 +159,12 @@ public class TFTSHook extends FishingHook{
 		return event==null ? itemDamage : event.getRodDamage();
 	}
 
-	// serves same purpose base class's catchingFish (manages server-side states) but with this mod's fishing content
-	private void catchingTFTSFish(@NotNull Player owner, @NotNull BlockPos pos, @Nullable FluidState fluidState){
+	// this method name is a blatant lie, this m,tehod catches 0 motherucking fish
+	@Override protected void catchingFish(@NotNull BlockPos pos){
+		Player owner = getPlayerOwner();
+		if(owner==null) return;
 		ServerLevel level = (ServerLevel)this.level();
+		FluidState fluidState = this.level().getFluidState(pos);
 
 		if(this.anglingEntry==null){ // luring state
 			BlockPos above = pos.above();
@@ -299,6 +203,7 @@ public class TFTSHook extends FishingHook{
 						this.fish.initPosition(level, this);
 					}
 					if(this.fish.moveTo(this, level, ImaginaryFish.FAST_SPEED)){
+						// TODO after implementing fishing minigame snatchers should immediately trigger the minigame
 						bitTheHook = true;
 					}
 				}
@@ -322,11 +227,15 @@ public class TFTSHook extends FishingHook{
 
 							if(this.random.nextDouble()<=nibble.biteChance()){
 								bitTheHook = true; // what an idiot!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+								Vec3 d = getDeltaMovement();
+								setDeltaMovement(d.x+Mth.nextFloat(this.syncronizedRandom, -0.3f, 0.3f),
+										d.y, d.z+Mth.nextFloat(this.syncronizedRandom, -0.3f, 0.3f));
 							}else{
 								// fake bite TODO maybe occasional fake sounds, and chance to still hook the fish even
 								//                when the hook is retrieved on fake bites
-								Vec3 d = this.getDeltaMovement();
-								this.setDeltaMovement(d.x+Mth.nextFloat(this.syncronizedRandom, -0.2f, 0.2f),
+								Vec3 d = getDeltaMovement();
+								setDeltaMovement(d.x+Mth.nextFloat(this.syncronizedRandom, -0.2f, 0.2f),
 										-0.2f*Mth.nextFloat(this.syncronizedRandom, 0.6f, 1),
 										d.z+Mth.nextFloat(this.syncronizedRandom, -0.2f, 0.2f));
 								TFTSMod.LOGGER.info("Nibble!");
@@ -343,10 +252,13 @@ public class TFTSHook extends FishingHook{
 				setBiting(true);
 			}
 
-			if(this.fish!=null) this.fish.updatePosition(this, level);
+			if(this.fish!=null) this.fish.processDelta(this, level);
 		}else{ // biting
 			if(--this.counter<=0) resetStates();
-			if(this.fish!=null) this.fish.updatePosition(this, level);
+			if(this.fish!=null){
+				this.fish.setPosition(this.getX(), this.getY(), this.getZ());
+				this.fish.processDelta(this, level);
+			}
 		} // TODO fishing minigame
 	}
 

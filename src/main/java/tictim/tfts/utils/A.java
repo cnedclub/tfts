@@ -1,4 +1,4 @@
-package tictim.tfts;
+package tictim.tfts.utils;
 
 import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;

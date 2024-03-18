@@ -8,6 +8,7 @@ import org.joml.Vector3d;
 import org.joml.Vector3f;
 import tictim.tfts.TFTSMod;
 import tictim.tfts.angling.AnglingUtils;
+import tictim.tfts.utils.WgtRoll;
 
 /**
  * Data of "imaginary fish" - a pseudo-entity tracked by {@link TFTSHook} for making convincing looking particles
@@ -25,29 +26,25 @@ public final class ImaginaryFish{
 	private final Vector3f vf = new Vector3f();
 
 	public void initPosition(@NotNull ServerLevel level, @NotNull TFTSHook hook){
-		// TODO shuffle up the fish origin a bit, it's kinda predictable rn
-		//      like a random roll between all scanned blockpos N meters away, or weighted roll with sq distance as wgt
-		long[] furthestBlock = new long[1];
-		double[] furthestBlockDistance = new double[1];
-		AnglingUtils.traverseFluid(level, hook.blockPosition(), null, pos -> {
-			long l = pos.asLong();
-			double dist = hook.distanceToSqr(pos.getX()+.5, pos.getY()+.5, pos.getZ()+.5);
-			if(dist>furthestBlockDistance[0]){
-				furthestBlock[0] = l;
-				furthestBlockDistance[0] = dist;
-			}
-		}, 5, 5);
+		var roll = WgtRoll.priorityCutBlockPosRoll(0.5);
 
-		if(furthestBlockDistance[0]==0){ // failsafe
+		AnglingUtils.traverseFluid(level, hook.blockPosition(), null,
+				pos -> roll.add(pos, hook.distanceToSqr(pos.getX()+.5, pos.getY()+.5, pos.getZ()+.5)),
+				5, 7);
+
+		BlockPos pos = roll.get(hook.random());
+		if(pos==null){ // failsafe
 			initPositionWithAngle(hook, Math.random()*(Math.PI*2));
 		}else{
-			this.prevX = this.x = BlockPos.getX(furthestBlock[0])+0.5;
-			this.prevY = this.y = BlockPos.getY(furthestBlock[0])+0.5;
-			this.prevZ = this.z = BlockPos.getZ(furthestBlock[0])+0.5;
+			this.prevX = this.x = pos.getX()+0.5;
+			this.prevY = this.y = pos.getY()+0.5;
+			this.prevZ = this.z = pos.getZ()+0.5;
 			lookAt(hook.getX(), hook.getY(), hook.getZ());
 		}
 
-		TFTSMod.LOGGER.info("Spawned ''''fish'''' at [{} {} {}] ({}m away)", this.x, this.y, this.z, furthestBlockDistance[0]);
+		TFTSMod.LOGGER.info("Spawned ''''fish'''' at [{} {} {}] ({}m away)",
+				this.x, this.y, this.z,
+				hook.distanceToSqr(this.x, this.y, this.z));
 	}
 
 	public void initPositionWithAngle(@NotNull TFTSHook hook, double angle){
@@ -118,14 +115,10 @@ public final class ImaginaryFish{
 
 	private double iDontKnowWhatIAmWritingRightNow;
 
-	public void updatePosition(@NotNull TFTSHook hook, @NotNull ServerLevel level){
+	public void processDelta(@NotNull TFTSHook hook, @NotNull ServerLevel level){
 		double dx = this.x-this.prevX;
 		double dy = this.y-this.prevY;
 		double dz = this.z-this.prevZ;
-
-		double magic = 0.09;
-
-		// TODO dynamic particle increase based on delta scale
 
 		double delta = Math.sqrt(dx*dx+dy*dy+dz*dz);
 		if(delta==0) return;
@@ -133,19 +126,21 @@ public final class ImaginaryFish{
 		double thing = delta/0.11;
 		int particleCount = (int)thing;
 		if(particleCount==0){
-			this.iDontKnowWhatIAmWritingRightNow += Math.max(0.5, thing);
+			this.iDontKnowWhatIAmWritingRightNow += Math.min(0.5, thing);
 			if(this.iDontKnowWhatIAmWritingRightNow>=1){
 				particleCount = 1;
 				this.iDontKnowWhatIAmWritingRightNow -= 1;
 			}
 		}
 
-		double y = Mth.floor(hook.getY())+1;
-		for(int i = 0; i<particleCount; i++){
-			float t = particleCount==1 ? 1 : (float)i/(particleCount-1);
+		if(particleCount>0){
+			double y = Mth.floor(hook.getY())+1;
+			for(int i = 0; i<particleCount; i++){
+				float t = particleCount==1 ? 1 : (float)i/(particleCount-1);
 
-			HookEffects.fish(hook, level, Mth.lerp(t, this.prevX, this.x), y, Mth.lerp(t, this.prevZ, this.z),
-					(float)Mth.atan2(dx, dz), delta*10*((i+1.0)/particleCount)); // TODO speed?
+				HookEffects.fish(hook, level, Mth.lerp(t, this.prevX, this.x), y, Mth.lerp(t, this.prevZ, this.z),
+						(float)Mth.atan2(dx, dz), delta*10*((i+1.0)/particleCount));
+			}
 		}
 
 		this.prevX = this.x;

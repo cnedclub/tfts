@@ -14,20 +14,17 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tictim.tfts.A;
 import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.anglingentry.AnglingEntry;
+import tictim.tfts.utils.A;
+import tictim.tfts.utils.WgtRoll;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
-
-import static java.lang.Double.POSITIVE_INFINITY;
 
 public final class AnglingUtils{
 	private AnglingUtils(){}
@@ -176,47 +173,14 @@ public final class AnglingUtils{
 		Optional<Registry<AnglingEntry<?>>> optionalEntries = serverLevel.getServer().registryAccess()
 				.registry(TFTSRegistries.ANGLING_ENTRY_REGISTRY_KEY);
 		if(optionalEntries.isEmpty()) return null;
-		Registry<AnglingEntry<?>> reg = optionalEntries.get();
-		List<RollEntry> entries = new ArrayList<>();
-		double weightSum = 0;
-		boolean infinite = false; // shoutouts to IEEE 754!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		for(AnglingEntry<?> e : reg){
+
+		WgtRoll<AnglingEntry<?>> roll = WgtRoll.simple();
+		for(AnglingEntry<?> e : optionalEntries.get()){
 			double weight = e.getWeight(player, pos, environment);
-			if(weight>0){
-				if(weight==POSITIVE_INFINITY){
-					if(!infinite){
-						infinite = true;
-						entries.clear();
-					}
-				}else if(infinite) continue;
-				entries.add(new RollEntry(e, weightSum += weight));
-			}
+			roll.add(e, weight);
 		}
-
-		if(entries.isEmpty()) return null;
-		if(infinite) return entries.get(randomSource.nextInt(entries.size())).entry();
-
-		double weight = weightSum*randomSource.nextDouble();
-		for(int i = 0; i<entries.size()-1; i++){
-			RollEntry e = entries.get(i);
-			if(e.wgt>=weight) return e.entry();
-		}
-		return entries.get(entries.size()-1).entry();
+		return roll.get(randomSource);
 	}
-
-	private record RollEntry(@NotNull AnglingEntry<?> entry, double wgt){}
 
 	public static double getFishingPower(@NotNull Player player, double basePower){
 		return basePower; // TODO wtf should i do??? attributes?????
