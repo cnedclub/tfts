@@ -15,9 +15,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import tictim.tfts.caps.TFTSCap;
+import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.client.TFTSOverlay;
 import tictim.tfts.contents.TFTSItems;
+import tictim.tfts.contents.TFTSMenus;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.entity.TFTSHook;
 
@@ -34,7 +35,7 @@ public class TFTSMod{
 
 	@SubscribeEvent
 	public static void registerCapabilities(RegisterCapabilitiesEvent event){
-		event.register(TFTSCap.class);
+		event.register(BaitBoxInventory.class);
 	}
 
 	@SubscribeEvent
@@ -50,6 +51,8 @@ public class TFTSMod{
 					(stack, level, e, i) -> e instanceof Player p&&
 							p.fishing instanceof TFTSHook hook&&
 							hook.isItemPointingToThisHook(stack) ? 1 : 0);
+
+			TFTSMenus.registerScreens();
 		});
 	}
 

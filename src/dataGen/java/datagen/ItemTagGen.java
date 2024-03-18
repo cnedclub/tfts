@@ -22,6 +22,7 @@ public class ItemTagGen extends ItemTagsProvider{
 	}
 
 	@Override protected void addTags(@NotNull HolderLookup.Provider p){
-		this.tag(TFTSTags.CURIO_BAIT_BOX).add(TFTSItems.BAIT_BOX.get());
+		tag(TFTSTags.TFTS_FISHING_RODS).add(TFTSItems.FISHING_ROD.get());
+		tag(TFTSTags.CURIO_BAIT_BOX).add(TFTSItems.BAIT_BOX.get());
 	}
 }

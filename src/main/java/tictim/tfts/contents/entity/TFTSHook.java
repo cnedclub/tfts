@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -21,43 +22,35 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tictim.tfts.TFTSMod;
 import tictim.tfts.angling.AnglingEnvironment;
 import tictim.tfts.angling.AnglingUtils;
+import tictim.tfts.angling.NibbleBehavior;
 import tictim.tfts.contents.TFTSEntities;
 import tictim.tfts.contents.anglingentry.AnglingEntry;
 import tictim.tfts.contents.item.TFTSFishingRodItem;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
-
 public class TFTSHook extends FishingHook{
 	private static final int ENV_UPDATE_DELAY = 20;
+	private static final int NIBBLE_DELAY = 60;
 
-	@Nullable
-	private MutableBlockPos environmentPos;
-	@Nullable
-	private AnglingEnvironment environment;
+	@Nullable private MutableBlockPos environmentPos;
+	@Nullable private AnglingEnvironment environment;
 
-	private int environmentUpdateTickCount;
+	private int counter;
+	private boolean fishArrived;
 
-	protected int timeUntilLured;
-
-	@Nullable
-	protected AnglingEntry<?> entry;
-
-	protected float fishAngle;
+	@Nullable private AnglingEntry<?> anglingEntry;
+	@Nullable private ImaginaryFish fish;
 
 	public TFTSHook(EntityType<? extends TFTSHook> entityType, Level level){
 		super(entityType, level);
@@ -66,7 +59,7 @@ public class TFTSHook extends FishingHook{
 	@SuppressWarnings("SuspiciousNameCombination") // shut the fuck up
 	public TFTSHook(Player player, Level level, int luck, int lureSpeed){
 		super(TFTSEntities.HOOK.get(), level, luck, lureSpeed);
-		this.setOwner(player);
+		setOwner(player);
 		float xRot = player.getXRot();
 		float yRot = player.getYRot();
 		float something = Mth.cos(-yRot*((float)Math.PI/180F)-(float)Math.PI);
@@ -76,21 +69,28 @@ public class TFTSHook extends FishingHook{
 		double x = player.getX()-(double)alsoSomething*0.3D;
 		double y = player.getEyeY();
 		double z = player.getZ()-(double)something*0.3D;
-		this.moveTo(x, y, z, yRot, xRot);
+		moveTo(x, y, z, yRot, xRot);
 		Vec3 vec = new Vec3(-alsoSomething, Mth.clamp(-(idk/someAngleShit), -5.0F, 5.0F), -something);
 		double mag = vec.length();
-		vec = vec.multiply(0.6D/mag+this.random.triangle(0.5D, 0.0103365D),
-				0.6D/mag+this.random.triangle(0.5D, 0.0103365D),
-				0.6D/mag+this.random.triangle(0.5D, 0.0103365D));
-		this.setDeltaMovement(vec);
-		this.setYRot((float)(Mth.atan2(vec.x, vec.z)*(double)(180F/(float)Math.PI)));
-		this.setXRot((float)(Mth.atan2(vec.y, vec.horizontalDistance())*(double)(180F/(float)Math.PI)));
-		this.yRotO = this.getYRot();
-		this.xRotO = this.getXRot();
+		// what the fuck is this const value
+		vec = vec.multiply(0.6/mag+this.random.triangle(0.5, 0.0103365),
+				0.6/mag+this.random.triangle(0.5, 0.0103365),
+				0.6/mag+this.random.triangle(0.5, 0.0103365));
+		setDeltaMovement(vec);
+		double rad2deg = 180/Math.PI;
+		setYRot((float)(Mth.atan2(vec.x, vec.z)*rad2deg));
+		setXRot((float)(Mth.atan2(vec.y, vec.horizontalDistance())*rad2deg));
+		this.yRotO = getYRot();
+		this.xRotO = getXRot();
 	}
 
-	// TODO override shouldStopFishing or something
+	@NotNull
+	RandomSource random(){
+		return this.random;
+	}
+
 	// 95% just lifted from base class, only changed here and there
+	// TODO probably better to mixin away FluidState#is(WATER) call with !isEmpty() call, if its not possible then uhh do js asm idk
 	public void tick(){
 		this.syncronizedRandom.setSeed(this.getUUID().getLeastSignificantBits()^this.level().getGameTime());
 
@@ -162,22 +162,18 @@ public class TFTSHook extends FishingHook{
 				}
 
 				this.setDeltaMovement(vec3.x*0.9D, vec3.y-d0*(double)this.random.nextFloat()*0.2D, vec3.z*0.9D);
-				this.openWater = this.nibble<=0&&this.timeUntilHooked<=0||
+				// this logic is so fucking sus lmao
+				this.openWater = this.anglingEntry==null||
 						this.openWater&&this.outOfWaterTime<10&&this.calculateOpenWater(pos);
 
 				if(inFluid){
 					this.outOfWaterTime = Math.max(0, this.outOfWaterTime-1);
-					if(this.biting){
+					if(isBiting()){
 						this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.1D*(double)this.syncronizedRandom.nextFloat()*(double)this.syncronizedRandom.nextFloat(), 0.0D));
 					}
 
-					if(!this.level().isClientSide){
-						BlockPos above = pos.above();
-						BlockState aboveBlockState = this.level().getBlockState(above);
-						FluidState aboveFluidState = this.level().getFluidState(above);
-						if(aboveFluidState.isEmpty()&&aboveBlockState.getCollisionShape(this.level(), pos).isEmpty())
-							this.catchingTFTSFish(player, pos, fluidState);
-					}
+					if(!this.level().isClientSide)
+						this.catchingTFTSFish(player, pos, fluidState);
 				}else{
 					this.outOfWaterTime = Math.min(10, this.outOfWaterTime+1);
 				}
@@ -207,10 +203,8 @@ public class TFTSHook extends FishingHook{
 			return !fluid.isEmpty()&&
 					fluid.isSource()&&
 					state.getCollisionShape(this.level(), pos).isEmpty() ?
-					FishingHook.OpenWaterType.INSIDE_WATER : FishingHook.OpenWaterType.INVALID;
-		}else{
-			return FishingHook.OpenWaterType.ABOVE_WATER;
-		}
+					OpenWaterType.INSIDE_WATER : OpenWaterType.INVALID;
+		}else return OpenWaterType.ABOVE_WATER;
 	}
 
 	@Override
@@ -226,19 +220,12 @@ public class TFTSHook extends FishingHook{
 			CriteriaTriggers.FISHING_ROD_HOOKED.trigger((ServerPlayer)player, stack, this, Collections.emptyList());
 			this.level().broadcastEntityEvent(this, (byte)31);
 			itemDamage = hookedIn instanceof ItemEntity ? 3 : 5;
-		}else if(this.nibble>0){
-			ServerLevel serverLevel = (ServerLevel)this.level();
-			LootParams lootParams = (new LootParams.Builder(serverLevel))
-					.withParameter(LootContextParams.ORIGIN, this.position())
-					.withParameter(LootContextParams.TOOL, stack)
-					.withParameter(LootContextParams.THIS_ENTITY, this)
-					.withParameter(LootContextParams.KILLER_ENTITY, player)
-					.withParameter(LootContextParams.THIS_ENTITY, this)
-					.withLuck((float)this.luck+player.getLuck()).create(LootContextParamSets.FISHING);
-			LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(BuiltInLootTables.FISHING);
-			List<ItemStack> list = lootTable.getRandomItems(lootParams);
+		}else if(this.anglingEntry!=null&&isBiting()){ // TODO
+			List<ItemStack> list = new ArrayList<>();
+			this.anglingEntry.getLoot(list);
+
 			event = new ItemFishedEvent(list, this.onGround() ? 2 : 1, this);
-			EVENT_BUS.post(event);
+			MinecraftForge.EVENT_BUS.post(event);
 			if(event.isCanceled()){
 				this.discard();
 				return event.getRodDamage();
@@ -251,10 +238,13 @@ public class TFTSHook extends FishingHook{
 				double y = player.getY()-this.getY();
 				double z = player.getZ()-this.getZ();
 				entity.setDeltaMovement(x*0.1D, y*0.1D+Math.sqrt(Math.sqrt(x*x+y*y+z*z))*0.08D, z*0.1D);
+				if(this.environment!=null) this.environment.processLoot(entity);
 				this.level().addFreshEntity(entity);
-				player.level().addFreshEntity(new ExperienceOrb(player.level(),
+				ExperienceOrb exp = new ExperienceOrb(player.level(),
 						player.getX(), player.getY()+0.5D, player.getZ()+0.5D,
-						this.random.nextInt(6)+1));
+						this.random.nextInt(6)+1);
+				if(this.environment!=null) this.environment.processExp(exp);
+				player.level().addFreshEntity(exp);
 				if(drop.is(ItemTags.FISHES)){
 					player.awardStat(Stats.FISH_CAUGHT, 1);
 				}
@@ -264,7 +254,6 @@ public class TFTSHook extends FishingHook{
 		}
 
 		if(this.onGround()) itemDamage = 2;
-
 		this.discard();
 		return event==null ? itemDamage : event.getRodDamage();
 	}
@@ -272,60 +261,102 @@ public class TFTSHook extends FishingHook{
 	// serves same purpose base class's catchingFish (manages server-side states) but with this mod's fishing content
 	private void catchingTFTSFish(@NotNull Player owner, @NotNull BlockPos pos, @Nullable FluidState fluidState){
 		ServerLevel level = (ServerLevel)this.level();
-		int ticks = 1;
 
-		// Disabled vanilla's raining/sky visible modifier
-		// BlockPos above = pos.above();
-		// if(this.random.nextFloat()<0.25F&&this.level().isRainingAt(above)) ++ticks;
-		// if(this.random.nextFloat()<0.5F&&!this.level().canSeeSky(above)) --ticks;
+		if(this.anglingEntry==null){ // luring state
+			BlockPos above = pos.above();
+			BlockState aboveBlockState = this.level().getBlockState(above);
+			FluidState aboveFluidState = this.level().getFluidState(above);
+			if(!aboveFluidState.isEmpty()||!aboveBlockState.getCollisionShape(this.level(), pos).isEmpty()) return;
 
-		if(this.environmentPos==null||!this.environmentPos.equals(pos)){ // TODO need to limit environment re-calculation on initial state
-			if(this.environmentUpdateTickCount++<ENV_UPDATE_DELAY) return;
-			this.environmentUpdateTickCount = 0;
-			if(this.environmentPos==null) this.environmentPos = new MutableBlockPos();
-			this.environmentPos.set(pos);
-			this.environment = AnglingUtils.getFluidEnvironment(this.environment, owner, pos, fluidState);
-		}
-
-		AnglingEnvironment env = this.environment;
-		if(env==null) return;
-
-		// TODO rewrite this shit
-		//      better to declare new fields than reuse base fields, to prevent unwanted state pollution
-
-		if(this.nibble>0){
-			--this.nibble;
-			if(this.nibble<=0){
-				this.timeUntilLured = 0;
-				this.timeUntilHooked = 0;
-				this.getEntityData().set(DATA_BITING, false);
-				TFTSMod.LOGGER.info("biting := false");
+			if(this.environment==null||this.environmentPos==null||!this.environmentPos.equals(pos)){
+				if(this.counter++<ENV_UPDATE_DELAY) return;
+				this.counter = 0;
+				if(this.environmentPos==null) this.environmentPos = new MutableBlockPos();
+				this.environmentPos.set(pos);
+				this.environment = AnglingUtils.getFluidEnvironment(this.environment, owner, pos, fluidState);
 			}
-		}else if(this.timeUntilHooked>0){
-			this.timeUntilHooked -= ticks;
-			if(this.timeUntilHooked>0){
-				this.fishAngle += (float)this.random.triangle(0.0D, 9.188D);
-				HookParticleEffects.fish(this, this.random, level, this.timeUntilHooked*.1f, this.fishAngle);
+
+			if(this.counter<=0){
+				//this.counter = Mth.nextInt(this.random, 100, 600)-this.lureSpeed*20*5; TODO test code
+				this.counter = 10;
 			}else{
-				HookParticleEffects.splash(this, this.random, level);
+				this.counter--;
+				HookEffects.idleSplash(this, level);
 
-				this.nibble = Mth.nextInt(this.random, 20, 40);
-				this.getEntityData().set(DATA_BITING, true);
-				TFTSMod.LOGGER.info("biting := true");
+				if(this.counter<=0){
+					this.anglingEntry = AnglingUtils.pick(level, owner, pos, this.environment, this.random);
+					TFTSMod.LOGGER.info("AnglingEntry: {}", this.anglingEntry);
+				}
 			}
-		}else if(this.timeUntilLured>0){
-			this.timeUntilLured -= ticks;
-			HookParticleEffects.idleSplash(this, this.random, level, this.timeUntilLured);
+		}else if(!isBiting()){ // nibbling state
+			boolean bitTheHook = false;
+			NibbleBehavior b = anglingEntry.nibbleBehavior();
+			switch(b.type()){
+				case NONE -> bitTheHook = true;
+				case SNATCH -> {
+					if(this.fish==null){
+						this.fish = new ImaginaryFish();
+						this.fish.initPosition(level, this);
+					}
+					if(this.fish.moveTo(this, level, ImaginaryFish.FAST_SPEED)){
+						bitTheHook = true;
+					}
+				}
+				case NIBBLE -> {
+					if(this.fish==null){
+						this.fish = new ImaginaryFish();
+						this.fish.initPosition(level, this);
+					}
+					if(!this.fishArrived){
+						if(this.fish.moveTo(this, level, ImaginaryFish.NORMAL_SPEED)){
+							this.fish.xRot = 0;
+							this.fish.yRot = Mth.wrapDegrees(this.fish.yRot+180f+
+									(float)this.random.triangle(0, 9.188)); // wack ass magic const
+							this.fishArrived = true;
+						}
+					}else{
+						if(++this.counter>=NIBBLE_DELAY){
+							this.counter = 0;
 
-			if(this.timeUntilLured<=0){
-				this.fishAngle = Mth.nextFloat(this.random, 0.0F, 360.0F);
-				this.timeUntilHooked = Mth.nextInt(this.random, 20, 80);
-				TFTSMod.LOGGER.info("timeUntilHooked := {}", this.timeUntilHooked);
+							NibbleBehavior.Nibble nibble = (NibbleBehavior.Nibble)b;
+
+							if(this.random.nextDouble()<=nibble.biteChance()){
+								bitTheHook = true; // what an idiot!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+							}else{
+								// fake bite TODO maybe occasional fake sounds, and chance to still hook the fish even
+								//                when the hook is retrieved on fake bites
+								Vec3 d = this.getDeltaMovement();
+								this.setDeltaMovement(d.x+Mth.nextFloat(this.syncronizedRandom, -0.2f, 0.2f),
+										-0.2f*Mth.nextFloat(this.syncronizedRandom, 0.6f, 1),
+										d.z+Mth.nextFloat(this.syncronizedRandom, -0.2f, 0.2f));
+								TFTSMod.LOGGER.info("Nibble!");
+							}
+						}
+						if(this.fish!=null) this.fish.setPosition(this.getX(), this.getY(), this.getZ());
+					}
+				}
 			}
-		}else{
-			this.timeUntilLured = Mth.nextInt(this.random, 100, 600)-this.lureSpeed*20*5;
-			TFTSMod.LOGGER.info("timeUntilLured := {}", this.timeUntilLured);
-		}
+
+			if(bitTheHook){
+				HookEffects.splash(this, level);
+				this.counter = Mth.nextInt(this.random, 20, 40); // TODO?
+				setBiting(true);
+			}
+
+			if(this.fish!=null) this.fish.updatePosition(this, level);
+		}else{ // biting
+			if(--this.counter<=0) resetStates();
+			if(this.fish!=null) this.fish.updatePosition(this, level);
+		} // TODO fishing minigame
+	}
+
+	private void resetStates(){
+		this.counter = 0;
+		this.environment = null;
+		this.fishArrived = false;
+		this.anglingEntry = null;
+
+		setBiting(false);
 	}
 
 	@Override
@@ -343,5 +374,14 @@ public class TFTSHook extends FishingHook{
 
 	public boolean isItemPointingToThisHook(@NotNull ItemStack stack){
 		return this.getUUID().equals(TFTSFishingRodItem.getHookID(stack));
+	}
+
+	public boolean isBiting(){
+		return this.biting;
+	}
+
+	private void setBiting(boolean biting){
+		this.getEntityData().set(DATA_BITING, biting);
+		TFTSMod.LOGGER.info("Biting: {}", biting);
 	}
 }

@@ -1,0 +1,14 @@
+{
+  "type": "tfts:test",
+  "bait_consumption_chance": 0.0,
+  "loots": [
+    {
+      "Count": 1,
+      "id": "minecraft:cobblestone"
+    }
+  ],
+  "nibble_behavior": {
+    "type": "none"
+  },
+  "weight": 10
+}

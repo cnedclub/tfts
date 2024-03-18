@@ -4,14 +4,30 @@ import it.unimi.dsi.fastutil.longs.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tictim.tfts.A;
+import tictim.tfts.caps.BaitBoxInventory;
+import tictim.tfts.contents.TFTSRegistries;
+import tictim.tfts.contents.anglingentry.AnglingEntry;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
+
+import static java.lang.Double.POSITIVE_INFINITY;
 
 public final class AnglingUtils{
 	private AnglingUtils(){}
@@ -39,19 +55,25 @@ public final class AnglingUtils{
 		return Integer.compare(y2, y1);
 	};
 
-	private static final int Y_LIMIT = 15;
-	private static final int XZ_LIMIT = 11;
-
-	// fluid searching algo
 	public static void traverseFluid(
 			@NotNull Level level,
 			@NotNull BlockPos origin,
-			@NotNull Fluid fluid,
+			@Nullable Fluid fluid,
 			@NotNull Consumer<BlockPos> action){
+		traverseFluid(level, origin, fluid, action, 15, 11);
+	}
+
+	public static void traverseFluid(
+			@NotNull Level level,
+			@NotNull BlockPos origin,
+			@Nullable Fluid fluid,
+			@NotNull Consumer<BlockPos> action,
+			int yLimit,
+			int xzLimit){
 		LongPriorityQueue branchQueue = new LongHeapPriorityQueue(comp);
 		LongSet xzSet = new LongOpenHashSet();
 
-		final int minY = origin.getY()-Y_LIMIT+1;
+		final int minY = origin.getY()-yLimit+1;
 		int minX = origin.getX(), maxX = origin.getX();
 		int minZ = origin.getZ(), maxZ = origin.getZ();
 
@@ -66,7 +88,7 @@ public final class AnglingUtils{
 			// scan column
 			while(cursor.getY()>=minY){
 				FluidState state = level.getFluidState(cursor);
-				if(!state.isSourceOfType(fluid)) break;
+				if(fluid!=null ? !state.isSourceOfType(fluid) : state.isEmpty()) break;
 				action.accept(cursor);
 				cursor.move(0, -1, 0);
 			}
@@ -78,22 +100,22 @@ public final class AnglingUtils{
 				switch(dir){
 					case NORTH -> { // -z
 						if(cursor.getZ()<minZ){
-							if(maxZ-cursor.getZ()>XZ_LIMIT) continue;
+							if(maxZ-cursor.getZ()>xzLimit) continue;
 						}
 					}
 					case SOUTH -> { // +z
 						if(cursor.getZ()>maxZ){
-							if(cursor.getZ()-minZ>XZ_LIMIT) continue;
+							if(cursor.getZ()-minZ>xzLimit) continue;
 						}
 					}
 					case WEST -> { // -x
 						if(cursor.getX()<minX){
-							if(maxX-cursor.getX()>XZ_LIMIT) continue;
+							if(maxX-cursor.getX()>xzLimit) continue;
 						}
 					}
 					case EAST -> { // +x
 						if(cursor.getX()>maxX){
-							if(cursor.getX()-minX>XZ_LIMIT) continue;
+							if(cursor.getX()-minX>xzLimit) continue;
 						}
 					}
 				}
@@ -102,9 +124,9 @@ public final class AnglingUtils{
 				if(xzSet.contains(xz)) continue;
 
 				FluidState state = level.getFluidState(cursor);
-				if(!state.isSourceOfType(fluid)){
+				if(fluid!=null ? !state.isSourceOfType(fluid) : state.isEmpty()){
 					state = level.getFluidState(cursor.move(0, -1, 0));
-					if(!state.isSourceOfType(fluid)) continue;
+					if(fluid!=null ? !state.isSourceOfType(fluid) : state.isEmpty()) continue;
 				}
 
 				branchQueue.enqueue(cursor.asLong());
@@ -130,5 +152,73 @@ public final class AnglingUtils{
 
 	private static long xz(@NotNull BlockPos pos){
 		return (long)pos.getX()<<32|Integer.toUnsignedLong(pos.getZ());
+	}
+
+	@Nullable
+	public static BaitBoxInventory getBaitBoxInventory(@NotNull Player player){
+		ICuriosItemHandler curiosItemHandler = A.unwrap(CuriosApi.getCuriosInventory(player));
+		if(curiosItemHandler==null) return null;
+		for(SlotResult slot : curiosItemHandler.findCurios("tfts_bait_box")){
+			ItemStack stack = slot.stack();
+			if(stack==null) continue;
+			BaitBoxInventory baitBoxInventory = A.get(stack, BaitBoxInventory.CAP);
+			if(baitBoxInventory!=null) return baitBoxInventory;
+		}
+		return null;
+	}
+
+	@Nullable
+	public static AnglingEntry<?> pick(@NotNull ServerLevel serverLevel,
+	                                   @NotNull Player player,
+	                                   @NotNull BlockPos pos,
+	                                   @NotNull AnglingEnvironment environment,
+	                                   @NotNull RandomSource randomSource){
+		Optional<Registry<AnglingEntry<?>>> optionalEntries = serverLevel.getServer().registryAccess()
+				.registry(TFTSRegistries.ANGLING_ENTRY_REGISTRY_KEY);
+		if(optionalEntries.isEmpty()) return null;
+		Registry<AnglingEntry<?>> reg = optionalEntries.get();
+		List<RollEntry> entries = new ArrayList<>();
+		double weightSum = 0;
+		boolean infinite = false; // shoutouts to IEEE 754!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		for(AnglingEntry<?> e : reg){
+			double weight = e.getWeight(player, pos, environment);
+			if(weight>0){
+				if(weight==POSITIVE_INFINITY){
+					if(!infinite){
+						infinite = true;
+						entries.clear();
+					}
+				}else if(infinite) continue;
+				entries.add(new RollEntry(e, weightSum += weight));
+			}
+		}
+
+		if(entries.isEmpty()) return null;
+		if(infinite) return entries.get(randomSource.nextInt(entries.size())).entry();
+
+		double weight = weightSum*randomSource.nextDouble();
+		for(int i = 0; i<entries.size()-1; i++){
+			RollEntry e = entries.get(i);
+			if(e.wgt>=weight) return e.entry();
+		}
+		return entries.get(entries.size()-1).entry();
+	}
+
+	private record RollEntry(@NotNull AnglingEntry<?> entry, double wgt){}
+
+	public static double getFishingPower(@NotNull Player player, double basePower){
+		return basePower; // TODO wtf should i do??? attributes?????
 	}
 }

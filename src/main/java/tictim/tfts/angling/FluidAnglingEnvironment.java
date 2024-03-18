@@ -4,13 +4,15 @@ import it.unimi.dsi.fastutil.ints.IntIterator;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tictim.tfts.TFTSMod;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,13 +30,10 @@ public final class FluidAnglingEnvironment implements AnglingEnvironment{
 	                 @NotNull BlockPos origin){
 		this.baseFishingPower.clear();
 		Level level = player.level();
-		long ns = System.nanoTime();
 		AnglingUtils.traverseFluid(level, origin, this.fluid, pos -> {
 			Biome biome = level.getBiome(pos).get();
 			this.baseFishingPower.put(biome, this.baseFishingPower.getInt(biome)+1);
 		});
-		ns = System.nanoTime()-ns;
-		TFTSMod.LOGGER.info("Env scan finished at {} ms, {}", ((double)ns/1_000_000), this);
 	}
 
 	@Override public boolean matches(@NotNull Fluid fluid){
@@ -50,6 +49,13 @@ public final class FluidAnglingEnvironment implements AnglingEnvironment{
 			while(it.hasNext()) sum += it.nextInt();
 		}
 		return sum;
+	}
+
+	@Override public void processLoot(@NotNull ItemEntity itemEntity){
+		// TODO how the fuck do i make items and exps fire immune????????????? mixins???????????????????????????????????
+	}
+	@Override public void processExp(@NotNull ExperienceOrb experienceOrb){
+		// TODO Today was Sonic's birthday, and all his friends came to the party down in Green Hills Zone. Tails was there, Knuckles, even Shadow. Sonic was so happy, but he wished one more friend was there. His super secret special friend. Eggman. Sure he and Eggman fought, but it was for show. The truth was Sonic and Eggman were deeply in love. Everytime Eggman would be up to no good, Sonic would chase after him and they would continue their mischief in there bedroom.
 	}
 
 	@Override public String toString(){

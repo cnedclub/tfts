@@ -1,0 +1,15 @@
+{
+  "type": "tfts:test",
+  "bait_consumption_chance": 0.1,
+  "loots": [
+    {
+      "Count": 1,
+      "id": "minecraft:bee_spawn_egg"
+    }
+  ],
+  "nibble_behavior": {
+    "type": "nibble",
+    "bite_chance": 0.5
+  },
+  "weight": 10
+}

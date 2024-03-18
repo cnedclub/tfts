@@ -27,7 +27,7 @@ public final class TFTSItems{
 	public static final RegistryObject<TFTSFishingRodItem> FISHING_ROD = ITEMS.register("fishing_rod",
 			() -> new TFTSFishingRodItem(p()));
 	public static final RegistryObject<BaitBoxItem> BAIT_BOX = ITEMS.register("bait_box",
-			() -> new BaitBoxItem(3, p()));
+			() -> new BaitBoxItem(3, TFTSMenus.BAIT_BOX, p()));
 
 	@SubscribeEvent
 	public static void registerCreativeModeTab(RegisterEvent event){

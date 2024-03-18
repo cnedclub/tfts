@@ -1,65 +1,75 @@
 package tictim.tfts.contents.item;
 
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tictim.tfts.A;
+import tictim.tfts.caps.BaitBoxInventory;
+import tictim.tfts.contents.inventory.BaitBoxMenu;
+import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-public class BaitBoxItem extends Item{
+import java.util.Objects;
+import java.util.function.Supplier;
+
+public class BaitBoxItem extends Item implements ICurioItem{
 	private final int inventorySize;
+	private final Supplier<MenuType<BaitBoxMenu>> menuType;
 
-	public BaitBoxItem(int inventorySize, Properties p){
+	public BaitBoxItem(int inventorySize, @NotNull Supplier<MenuType<BaitBoxMenu>> menuType, Properties p){
 		super(p.stacksTo(1));
 		this.inventorySize = inventorySize;
+		this.menuType = Objects.requireNonNull(menuType);
 	}
 
-	@Override
-	@Nullable
-	public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, @Nullable CompoundTag tag){
-		return new BaixBoxInventory(this.inventorySize);
+	@Override @NotNull
+	public InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand){
+		ItemStack stack = player.getItemInHand(hand);
+		if(!level.isClientSide&&A.get(stack, ForgeCapabilities.ITEM_HANDLER) instanceof IItemHandlerModifiable itemHandler){
+			int bateBoxIndex = hand==InteractionHand.MAIN_HAND ? player.getInventory().selected : Inventory.SLOT_OFFHAND;
+			NetworkHooks.openScreen((ServerPlayer)player, new MenuProvider(){
+				@Override @NotNull public Component getDisplayName(){
+					return stack.getHoverName();
+				}
+				@Override @NotNull public AbstractContainerMenu createMenu(int cid, @NotNull Inventory inv, @NotNull Player p){
+					return new BaitBoxMenu(menuType.get(), cid, inv, itemHandler, stack, bateBoxIndex);
+				}
+			}, buf -> buf.writeByte(bateBoxIndex));
+		}
+		return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
 	}
 
-	public static final class BaixBoxInventory implements ICapabilitySerializable<CompoundTag>{
-		private final ItemStackHandler inventory;
+	@Override @Nullable public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, @Nullable CompoundTag tag){
+		return new BaitBoxInventory(this.inventorySize);
+	}
 
-		public BaixBoxInventory(int size){
-			this.inventory = new ItemStackHandler(size);
-		}
+	@Override public boolean canSync(SlotContext slotContext, ItemStack stack){
+		return true;
+	}
 
-		@NotNull
-		public IItemHandlerModifiable getInventory(){
-			return this.inventory;
-		}
+	@Override @NotNull public CompoundTag writeSyncData(SlotContext ctx, ItemStack stack){
+		BaitBoxInventory inv = A.get(stack, BaitBoxInventory.CAP);
+		return inv!=null ? inv.serializeNBT() : new CompoundTag();
+	}
 
-		@Nullable
-		private LazyOptional<IItemHandler> invLO;
-
-		@Override
-		@NotNull
-		public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction direction){
-			if(cap==ForgeCapabilities.ITEM_HANDLER){
-				return (this.invLO==null ? (this.invLO = LazyOptional.of(() -> this.inventory)) : this.invLO).cast();
-			}else return LazyOptional.empty();
-		}
-
-		@Override public CompoundTag serializeNBT(){
-			CompoundTag tag = this.inventory.serializeNBT();
-			tag.remove("Size");
-			return tag;
-		}
-		@Override public void deserializeNBT(CompoundTag tag){
-			tag.remove("Size");
-			this.inventory.deserializeNBT(tag);
-		}
+	@Override public void readSyncData(SlotContext ctx, CompoundTag tag, ItemStack stack){
+		BaitBoxInventory inv = A.get(stack, BaitBoxInventory.CAP);
+		if(inv!=null) inv.deserializeNBT(tag);
 	}
 }
