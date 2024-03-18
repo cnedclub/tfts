@@ -1,6 +1,7 @@
 {
   "type": "tfts:test",
   "bait_consumption_chance": 0.0,
+  "gives_exp": false,
   "loots": [
     {
       "Count": 1,

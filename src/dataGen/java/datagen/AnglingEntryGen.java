@@ -20,17 +20,20 @@ public final class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstr
 				10,
 				List.of(new ItemStack(Items.COBBLESTONE)),
 				NibbleBehavior.none(),
-				0));
+				0,
+				false));
 		ctx.register(id("test2"), new TestAnglingEntry(
 				10,
 				List.of(new ItemStack(Items.ACACIA_SLAB)),
 				NibbleBehavior.snatch(),
-				.1));
+				.1,
+				true));
 		ctx.register(id("test3"), new TestAnglingEntry(
 				10,
 				List.of(new ItemStack(Items.BEE_SPAWN_EGG)),
 				NibbleBehavior.nibble(0.5),
-				.1));
+				.1,
+				true));
 	}
 
 	@NotNull

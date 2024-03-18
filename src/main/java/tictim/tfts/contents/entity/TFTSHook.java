@@ -107,56 +107,59 @@ public class TFTSHook extends FishingHook{
 
 	@Override
 	public int retrieve(@NotNull ItemStack stack){
-		Player player = this.getPlayerOwner();
-		if(this.level().isClientSide||player==null||this.shouldStopFishing(player)) return 0;
+		Player player = getPlayerOwner();
+		if(level().isClientSide||player==null||shouldStopFishing(player)) return 0;
 
 		int itemDamage = 0;
-		ItemFishedEvent event = null;
-		Entity hookedIn = this.getHookedIn();
+		Entity hookedIn = getHookedIn();
 		if(hookedIn!=null){
-			this.pullEntity(hookedIn);
+			pullEntity(hookedIn);
 			CriteriaTriggers.FISHING_ROD_HOOKED.trigger((ServerPlayer)player, stack, this, Collections.emptyList());
-			this.level().broadcastEntityEvent(this, (byte)31);
-			itemDamage = hookedIn instanceof ItemEntity ? 3 : 5;
-		}else if(this.anglingEntry!=null&&isBiting()){ // TODO
+			level().broadcastEntityEvent(this, (byte)31);
+			discard();
+			return hookedIn instanceof ItemEntity ? 3 : 5;
+		}
+		AnglingEntry<?> entry = this.anglingEntry;
+		if(entry!=null&&(isBiting()||(this.fishArrived&&this.random.nextDouble()<.25))){
 			List<ItemStack> list = new ArrayList<>();
-			this.anglingEntry.getLoot(list);
+			entry.getLoot(list);
 
-			event = new ItemFishedEvent(list, this.onGround() ? 2 : 1, this);
+			ItemFishedEvent event = new ItemFishedEvent(list, this.onGround() ? 2 : 1, this);
 			MinecraftForge.EVENT_BUS.post(event);
 			if(event.isCanceled()){
-				this.discard();
+				discard();
 				return event.getRodDamage();
 			}
 			CriteriaTriggers.FISHING_ROD_HOOKED.trigger((ServerPlayer)player, stack, this, list);
 
 			for(ItemStack drop : list){
-				ItemEntity entity = new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), drop);
-				double dx = player.getX()-this.getX();
-				double dy = player.getY()-this.getY();
-				double dz = player.getZ()-this.getZ();
+				ItemEntity entity = new ItemEntity(level(), getX(), getY(), getZ(), drop);
+				double dx = player.getX()-getX();
+				double dy = player.getY()-getY();
+				double dz = player.getZ()-getZ();
 				entity.setDeltaMovement(dx*.1, dy*.1+Math.sqrt(Math.sqrt(dx*dx+dy*dy+dz*dz))*.08, dz*.1);
 				if(this.environment!=null) this.environment.processLoot(entity);
 				this.level().addFreshEntity(entity);
 
-				// TODO make exp amount controllable from anglingentry
-				ExperienceOrb exp = new ExperienceOrb(player.level(),
-						player.getX(), player.getY()+.5, player.getZ()+.5,
-						this.random.nextInt(6)+1);
-				if(this.environment!=null) this.environment.processExp(exp);
-				player.level().addFreshEntity(exp);
+				int exp = entry.getExperience(this.random);
+				if(exp>0){
+					ExperienceOrb expOrb = new ExperienceOrb(player.level(), player.getX(), player.getY()+.5, player.getZ()+.5, exp);
+					if(this.environment!=null) this.environment.processExp(expOrb);
+					player.level().addFreshEntity(expOrb);
+				}
 
 				if(drop.is(ItemTags.FISHES)){
 					player.awardStat(Stats.FISH_CAUGHT, 1);
 				}
 			}
 
-			itemDamage = 1;
+			discard();
+			return event.getRodDamage();
 		}
 
-		if(this.onGround()) itemDamage = 2;
-		this.discard();
-		return event==null ? itemDamage : event.getRodDamage();
+		if(onGround()) itemDamage = 2;
+		discard();
+		return itemDamage;
 	}
 
 	// this method name is a blatant lie, this m,tehod catches 0 motherucking fish
