@@ -31,6 +31,8 @@ import java.util.function.Consumer;
 public final class AnglingUtils{
 	private AnglingUtils(){}
 
+	public static final String CURIO_BAIT_BOX_ID = "tfts_bait_box";
+
 	@NotNull
 	public static AnglingEnvironment getFluidEnvironment(
 			@Nullable AnglingEnvironment previousEnvironment,
@@ -157,9 +159,9 @@ public final class AnglingUtils{
 	public static BaitBoxInventory getBaitBoxInventory(@NotNull Player player){
 		ICuriosItemHandler curiosItemHandler = A.unwrap(CuriosApi.getCuriosInventory(player));
 		if(curiosItemHandler==null) return null;
-		for(SlotResult slot : curiosItemHandler.findCurios("tfts_bait_box")){
+		for(SlotResult slot : curiosItemHandler.findCurios(CURIO_BAIT_BOX_ID)){
 			ItemStack stack = slot.stack();
-			if(stack==null) continue;
+			if(stack==null||stack.isEmpty()) continue;
 			BaitBoxInventory baitBoxInventory = A.get(stack, BaitBoxInventory.CAP);
 			if(baitBoxInventory!=null) return baitBoxInventory;
 		}

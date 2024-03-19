@@ -99,6 +99,7 @@ public class BaitBoxMenu extends AbstractContainerMenu{
 	@Override public boolean stillValid(@NotNull Player player){
 		if(this.baitBoxItem==null) return true;
 		if(this.baitBoxItem.isEmpty()) return false;
+		if(this.baitBoxItemIndex<0||this.baitBoxItemIndex>=player.getInventory().getContainerSize()) return true;
 		ItemStack invItem = player.getInventory().getItem(baitBoxItemIndex);
 		return invItem==this.baitBoxItem;
 	}

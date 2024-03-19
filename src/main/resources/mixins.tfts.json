@@ -3,5 +3,8 @@
   "mixins": [
     "FishingHookMixin"
   ],
+  "client": [
+    "MinecraftMixin"
+  ],
   "required": true
 }

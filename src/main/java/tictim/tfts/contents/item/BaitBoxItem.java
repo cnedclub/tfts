@@ -28,7 +28,7 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class BaitBoxItem extends Item implements ICurioItem{
+public class BaitBoxItem extends Item implements ICurioItem, IBaitBoxItem{
 	private final int inventorySize;
 	private final Supplier<MenuType<BaitBoxMenu>> menuType;
 
@@ -42,15 +42,8 @@ public class BaitBoxItem extends Item implements ICurioItem{
 	public InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand){
 		ItemStack stack = player.getItemInHand(hand);
 		if(!level.isClientSide&&A.get(stack, ForgeCapabilities.ITEM_HANDLER) instanceof IItemHandlerModifiable itemHandler){
-			int bateBoxIndex = hand==InteractionHand.MAIN_HAND ? player.getInventory().selected : Inventory.SLOT_OFFHAND;
-			NetworkHooks.openScreen((ServerPlayer)player, new MenuProvider(){
-				@Override @NotNull public Component getDisplayName(){
-					return stack.getHoverName();
-				}
-				@Override @NotNull public AbstractContainerMenu createMenu(int cid, @NotNull Inventory inv, @NotNull Player p){
-					return new BaitBoxMenu(menuType.get(), cid, inv, itemHandler, stack, bateBoxIndex);
-				}
-			}, buf -> buf.writeByte(bateBoxIndex));
+			openScreen((ServerPlayer)player, itemHandler, stack,
+					hand==InteractionHand.MAIN_HAND ? player.getInventory().selected : Inventory.SLOT_OFFHAND);
 		}
 		return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
 	}
@@ -71,5 +64,22 @@ public class BaitBoxItem extends Item implements ICurioItem{
 	@Override public void readSyncData(SlotContext ctx, CompoundTag tag, ItemStack stack){
 		BaitBoxInventory inv = A.get(stack, BaitBoxInventory.CAP);
 		if(inv!=null) inv.deserializeNBT(tag);
+	}
+
+	@Override public void openCurioScreen(@NotNull ServerPlayer player, @NotNull ItemStack stack){
+		if(A.get(stack, ForgeCapabilities.ITEM_HANDLER) instanceof IItemHandlerModifiable itemHandler){
+			openScreen(player, itemHandler, stack, -1);
+		}
+	}
+
+	private void openScreen(@NotNull ServerPlayer player, @NotNull IItemHandlerModifiable itemHandler, @NotNull ItemStack stack, int baitBoxIndex){
+		NetworkHooks.openScreen(player, new MenuProvider(){
+			@Override @NotNull public Component getDisplayName(){
+				return stack.getHoverName();
+			}
+			@Override @NotNull public AbstractContainerMenu createMenu(int cid, @NotNull Inventory inv, @NotNull Player p){
+				return new BaitBoxMenu(menuType.get(), cid, inv, itemHandler, stack, baitBoxIndex);
+			}
+		}, buf -> buf.writeByte(baitBoxIndex));
 	}
 }
