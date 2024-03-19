@@ -6,10 +6,8 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import org.jetbrains.annotations.NotNull;
 import tictim.tfts.angling.AnglingUtils;
 import tictim.tfts.caps.BaitBoxInventory;
-import tictim.tfts.contents.TFTSTags;
 import tictim.tfts.contents.entity.TFTSHook;
 
 public final class TFTSOverlay implements IGuiOverlay{
@@ -18,7 +16,7 @@ public final class TFTSOverlay implements IGuiOverlay{
 		if(mc.screen!=null) return;
 		LocalPlayer player = mc.player;
 		if(player==null) return;
-		if(!isTFTSFishingRod(player.getMainHandItem())&&!isTFTSFishingRod(player.getOffhandItem())) return;
+		if(AnglingUtils.getFishingHand(player)==null) return;
 
 		BaitBoxInventory inv = AnglingUtils.getBaitBoxInventory(player);
 		if(inv!=null){
@@ -56,9 +54,5 @@ public final class TFTSOverlay implements IGuiOverlay{
 		if(player.fishing instanceof TFTSHook hook){
 			// TODO
 		}
-	}
-
-	private static boolean isTFTSFishingRod(@NotNull ItemStack stack){
-		return !stack.isEmpty()&&stack.is(TFTSTags.TFTS_FISHING_RODS);
 	}
 }

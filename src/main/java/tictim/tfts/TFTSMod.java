@@ -21,6 +21,7 @@ import tictim.tfts.contents.TFTSItems;
 import tictim.tfts.contents.TFTSMenus;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.entity.TFTSHook;
+import tictim.tfts.net.TFTSNet;
 
 @Mod(TFTSMod.MODID)
 public class TFTSMod{
@@ -31,16 +32,8 @@ public class TFTSMod{
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		TFTSRegistries.init(bus);
 		bus.register(TFTSMod.class);
-	}
 
-	@SubscribeEvent
-	public static void registerCapabilities(RegisterCapabilitiesEvent event){
-		event.register(BaitBoxInventory.class);
-	}
-
-	@SubscribeEvent
-	public static void registerGuiOverlays(RegisterGuiOverlaysEvent event){
-		event.registerAboveAll(MODID, new TFTSOverlay());
+		TFTSNet.init();
 	}
 
 	@SubscribeEvent
@@ -56,8 +49,17 @@ public class TFTSMod{
 		});
 	}
 
-	@NotNull
-	public static ResourceLocation id(@NotNull String path){
+	@SubscribeEvent
+	public static void registerCapabilities(RegisterCapabilitiesEvent event){
+		event.register(BaitBoxInventory.class);
+	}
+
+	@SubscribeEvent
+	public static void registerGuiOverlays(RegisterGuiOverlaysEvent event){
+		event.registerAboveAll(MODID, new TFTSOverlay());
+	}
+
+	@NotNull public static ResourceLocation id(@NotNull String path){
 		return new ResourceLocation(MODID, path);
 	}
 }

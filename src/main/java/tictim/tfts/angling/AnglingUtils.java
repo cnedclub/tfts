@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -16,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.contents.TFTSRegistries;
+import tictim.tfts.contents.TFTSTags;
 import tictim.tfts.contents.anglingentry.AnglingEntry;
 import tictim.tfts.utils.A;
 import tictim.tfts.utils.WgtRoll;
@@ -184,5 +186,16 @@ public final class AnglingUtils{
 
 	public static double getFishingPower(@NotNull Player player, double basePower){
 		return basePower; // TODO wtf should i do??? attributes?????
+	}
+
+	@Nullable
+	public static InteractionHand getFishingHand(@NotNull Player player){
+		if(isTFTSFishingRod(player.getMainHandItem())) return InteractionHand.MAIN_HAND;
+		if(isTFTSFishingRod(player.getOffhandItem())) return InteractionHand.OFF_HAND;
+		return null;
+	}
+
+	private static boolean isTFTSFishingRod(@NotNull ItemStack stack){
+		return !stack.isEmpty()&&stack.is(TFTSTags.TFTS_FISHING_RODS);
 	}
 }
