@@ -257,11 +257,11 @@ public class TFTSHook extends FishingHook{
 
 			if(this.fish!=null) this.fish.processDelta(this, level);
 		}else{ // biting
-			if(--this.counter<=0) resetStates();
 			if(this.fish!=null){
 				this.fish.setPosition(this.getX(), this.getY(), this.getZ());
 				this.fish.processDelta(this, level);
 			}
+			if(--this.counter<=0) resetStates();
 		} // TODO fishing minigame
 	}
 
@@ -270,6 +270,7 @@ public class TFTSHook extends FishingHook{
 		this.environment = null;
 		this.fishArrived = false;
 		this.anglingEntry = null;
+		this.fish = null;
 
 		setBiting(false);
 	}
