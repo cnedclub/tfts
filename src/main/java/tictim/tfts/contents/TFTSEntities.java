@@ -10,12 +10,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegistryObject;
 import tictim.tfts.contents.entity.TFTSHook;
+import tictim.tfts.utils.A;
 
 import static tictim.tfts.TFTSMod.MODID;
 import static tictim.tfts.contents.TFTSRegistries.ENTITIES;
 
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-@SuppressWarnings("DataFlowIssue")
 public final class TFTSEntities{
 	private TFTSEntities(){}
 
@@ -27,7 +27,7 @@ public final class TFTSEntities{
 					.sized(0.25F, 0.25F)
 					.clientTrackingRange(4)
 					.updateInterval(5)
-					.build(null));
+					.build(A.stfu()));
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)

@@ -10,6 +10,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tictim.tfts.utils.A;
 
 public class BaitBoxInventory implements ICapabilitySerializable<CompoundTag>{
 	public static final Capability<BaitBoxInventory> CAP = CapabilityManager.get(new CapabilityToken<>(){});
@@ -44,14 +45,13 @@ public class BaitBoxInventory implements ICapabilitySerializable<CompoundTag>{
 	}
 
 	@Override public CompoundTag serializeNBT(){
-		CompoundTag tag = this.inventory.serializeNBT();
+		CompoundTag tag = A.writeWithoutSize(this.inventory);
 		tag.remove("Size");
 		if(this.selectedIndex!=0) tag.putInt("SelectedIndex", this.selectedIndex);
 		return tag;
 	}
 	@Override public void deserializeNBT(CompoundTag tag){
-		tag.remove("Size");
-		this.inventory.deserializeNBT(tag);
+		A.readWithoutSize(this.inventory, tag);
 		this.selectedIndex = tag.getInt("SelectedIndex");
 	}
 }
