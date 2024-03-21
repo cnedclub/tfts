@@ -1,0 +1,11 @@
+{
+  "type": "tfts:preparation",
+  "ingredient": {
+    "item": "minecraft:bee_spawn_egg"
+  },
+  "result": {
+    "chance": 0.5,
+    "count": 1,
+    "item": "minecraft:item_frame"
+  }
+}

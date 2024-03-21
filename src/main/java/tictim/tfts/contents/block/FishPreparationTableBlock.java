@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tictim.tfts.utils.A;
@@ -43,36 +44,60 @@ public class FishPreparationTableBlock extends Block implements EntityBlock{
 	@Override @NotNull public InteractionResult use(@NotNull BlockState state, @NotNull Level level,
 	                                                @NotNull BlockPos pos, @NotNull Player player,
 	                                                @NotNull InteractionHand hand, @NotNull BlockHitResult hit){
-		if(!level.isClientSide){
-			BlockPos sourceBlockPos = getSourceBlockPos(pos, state);
-			if(level.getBlockState(sourceBlockPos)==state.setValue(SOURCE, true)&&
-					level.getBlockEntity(sourceBlockPos) instanceof FishPreparationTableBlockEntity be){
-				player.openMenu(be);
+		BlockPos sourcePos;
+		if(state.getValue(SOURCE)){
+			sourcePos = pos;
+		}else{
+			sourcePos = getSourceBlockPos(pos, state);
+			if(level.getBlockState(sourcePos)!=state.setValue(SOURCE, true)){
+				return InteractionResult.FAIL; // invalid
 			}
+		}
+		if(!level.isClientSide&&
+				level.getBlockEntity(sourcePos) instanceof FishPreparationTableBlockEntity be){
+			player.openMenu(be);
 		}
 		return InteractionResult.SUCCESS;
 	}
 
 	@Override @Nullable public BlockState getStateForPlacement(BlockPlaceContext ctx){
-		Direction facing = ctx.getHorizontalDirection();
+		Direction facing = ctx.getHorizontalDirection().getOpposite();
 		BlockPos clickedPos = ctx.getClickedPos();
-		BlockPos thing = getNonSourceBlockPos(clickedPos, facing);
 		Level level = ctx.getLevel();
-		return level.getBlockState(thing).canBeReplaced(ctx)&&level.getWorldBorder().isWithinBounds(thing) ?
-				defaultBlockState().setValue(SOURCE, true).setValue(HORIZONTAL_FACING, facing.getOpposite()) :
-				null;
+
+		// place as source
+		BlockPos thing = getNonSourceBlockPos(clickedPos, facing);
+		if(level.getBlockState(thing).canBeReplaced(ctx)&&level.getWorldBorder().isWithinBounds(thing)){
+			return defaultBlockState().setValue(SOURCE, true).setValue(HORIZONTAL_FACING, facing);
+		}
+		// place as non-source
+		thing = getSourceBlockPos(clickedPos, facing);
+		if(level.getBlockState(thing).canBeReplaced(ctx)&&level.getWorldBorder().isWithinBounds(thing)){
+			return defaultBlockState().setValue(SOURCE, false).setValue(HORIZONTAL_FACING, facing);
+		}
+		return null;
 	}
 
 	@Override public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state,
 	                                  @Nullable LivingEntity placer, @NotNull ItemStack stack){
+		BlockPos sourcePos;
 		if(!level.isClientSide){
-			var thing = getNonSourceBlockPos(pos, state);
-			level.setBlock(thing, state.setValue(SOURCE, false), 3);
+			boolean isSource = state.getValue(SOURCE);
+			BlockPos otherPartPos;
+			if(isSource){
+				sourcePos = pos;
+				otherPartPos = getNonSourceBlockPos(pos, state);
+			}else{
+				sourcePos = otherPartPos = getSourceBlockPos(pos, state);
+			}
+
+			level.setBlock(otherPartPos, state.setValue(SOURCE, !isSource), 3);
 			level.blockUpdated(pos, Blocks.AIR); // bed block does this for some reason????????
 			state.updateNeighbourShapes(level, pos, 3);
-		}
-		if(stack.hasCustomHoverName()&&level.getBlockEntity(pos) instanceof FishPreparationTableBlockEntity be){
-			be.setCustomName(stack.getHoverName());
+
+			if(stack.hasCustomHoverName()&&level.getBlockEntity(sourcePos) instanceof FishPreparationTableBlockEntity be){
+				be.setCustomName(stack.getHoverName());
+			}
 		}
 	}
 
@@ -88,20 +113,18 @@ public class FishPreparationTableBlock extends Block implements EntityBlock{
 				state.getValue(HORIZONTAL_FACING).getCounterClockWise() :
 				state.getValue(HORIZONTAL_FACING).getClockWise();
 		if(facing==partDirection){
-			return facingState==state.setValue(SOURCE, !isSource) ?
-					state : Blocks.AIR.defaultBlockState();
+			return facingState==state.setValue(SOURCE, !isSource) ? state : Blocks.AIR.defaultBlockState();
 		}
 		return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
 	}
 
 	@Override public void playerWillDestroy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state,
 	                                        @NotNull Player player){
-		if(!level.isClientSide&&player.isCreative()){
-			boolean isSource = state.getValue(SOURCE);
-			BlockPos otherPos = isSource ? getSourceBlockPos(pos, state) : getNonSourceBlockPos(pos, state);
+		if(!level.isClientSide&&player.isCreative()&&!state.getValue(SOURCE)){
+			BlockPos otherPos = getSourceBlockPos(pos, state);
 
 			BlockState otherState = level.getBlockState(otherPos);
-			if(otherState==state.setValue(SOURCE, !isSource)){
+			if(otherState==state.setValue(SOURCE, true)){
 				level.setBlock(otherPos, Blocks.AIR.defaultBlockState(), 35);
 				level.levelEvent(player, LevelEvent.PARTICLES_DESTROY_BLOCK, otherPos, Block.getId(otherState));
 			}
@@ -125,13 +148,24 @@ public class FishPreparationTableBlock extends Block implements EntityBlock{
 		return state.getValue(SOURCE) ? new FishPreparationTableBlockEntity(pos, state) : null;
 	}
 
-	@NotNull private static BlockPos getSourceBlockPos(@NotNull BlockPos pos, @NotNull BlockState state){
-		return state.getValue(SOURCE) ? pos : pos.relative(state.getValue(HORIZONTAL_FACING).getClockWise());
+	@NotNull public static BlockPos getSourceBlockPos(@NotNull BlockPos nonSourcePos, @NotNull BlockState state){
+		return getSourceBlockPos(nonSourcePos, state.getValue(HORIZONTAL_FACING));
 	}
-	@NotNull private static BlockPos getNonSourceBlockPos(@NotNull BlockPos sourcePos, @NotNull BlockState state){
+	@NotNull public static BlockPos getSourceBlockPos(@NotNull BlockPos nonSourcePos, @NotNull Direction facing){
+		return nonSourcePos.relative(facing.getClockWise());
+	}
+	@NotNull public static BlockPos getNonSourceBlockPos(@NotNull BlockPos sourcePos, @NotNull BlockState state){
 		return getNonSourceBlockPos(sourcePos, state.getValue(HORIZONTAL_FACING));
 	}
-	@NotNull private static BlockPos getNonSourceBlockPos(@NotNull BlockPos sourcePos, @NotNull Direction facing){
+	@NotNull public static BlockPos getNonSourceBlockPos(@NotNull BlockPos sourcePos, @NotNull Direction facing){
 		return sourcePos.relative(facing.getCounterClockWise());
+	}
+
+	@NotNull public static Vec3 getTableCenter(@NotNull BlockPos sourcePos, @NotNull Direction facing){
+		Direction nonSourceDirection = facing.getCounterClockWise();
+		return Vec3.atLowerCornerWithOffset(sourcePos,
+				0.5+nonSourceDirection.getStepX()*0.5,
+				1,
+				0.5+nonSourceDirection.getStepZ()*0.5);
 	}
 }

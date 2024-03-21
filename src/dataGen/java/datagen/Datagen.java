@@ -34,5 +34,7 @@ public class Datagen{
 
 		gen.addProvider(server, new LootTableProvider(gen.getPackOutput(), Set.of(),
 				List.of(new LootTableProvider.SubProviderEntry(BlockLootGen::new, LootContextParamSets.BLOCK))));
+
+		gen.addProvider(server, new RecipeGen(gen.getPackOutput()));
 	}
 }

@@ -1,4 +1,8 @@
 {
+  "block.tfts.fish_preparation_table": "Preparation Table",
+
+  "container.tfts.fish_preparation_table": "Preparation Table",
+
   "curios.identifier.tfts_bait_box": "Bait Box",
 
   "item.tfts.bait_box": "Bait Box",

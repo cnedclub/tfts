@@ -3,7 +3,6 @@ package tictim.tfts.contents.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -61,7 +60,7 @@ public class FishPreparationTableBlockEntity extends BlockEntity implements Menu
 	}
 
 	@Override @NotNull public AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player){
-		return new FishPreparationTableMenu(id, inv, this.inventory);
+		return new FishPreparationTableMenu(id, inv, this);
 	}
 
 	@Override @Nullable public Packet<ClientGamePacketListener> getUpdatePacket(){

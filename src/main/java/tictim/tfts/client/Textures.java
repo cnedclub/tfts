@@ -9,6 +9,7 @@ public final class Textures{
 
 	// 176x66
 	public static final ResourceLocation BAIT_BOX = id("textures/gui/bait_box.png");
+	public static final ResourceLocation FISH_PREPARATION_TABLE = id("textures/gui/fish_preparation_table.png");
 	// 176x90
 	public static final ResourceLocation INVENTORY = id("textures/gui/inventory.png");
 

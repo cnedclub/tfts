@@ -9,8 +9,10 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import org.jetbrains.annotations.ApiStatus;
 import tictim.tfts.angling.AnglingUtils;
 import tictim.tfts.caps.BaitBoxInventory;
+import tictim.tfts.contents.inventory.FishPreparationTableMenu;
 import tictim.tfts.contents.item.IBaitBoxItem;
 import tictim.tfts.net.messages.OpenCurioBaitBoxScreenMsg;
+import tictim.tfts.net.messages.PrepareFishMsg;
 import tictim.tfts.net.messages.SelectBaitBoxSlotMsg;
 import tictim.tfts.utils.A;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -43,6 +45,11 @@ public final class TFTSNet{
 				OpenCurioBaitBoxScreenMsg::write,
 				buf -> OpenCurioBaitBoxScreenMsg.get(),
 				TFTSNet::handleOpenCurioBaitBoxScreen,
+				Optional.of(NetworkDirection.PLAY_TO_SERVER));
+		NET.registerMessage(2, PrepareFishMsg.class,
+				PrepareFishMsg::write,
+				buf -> PrepareFishMsg.get(),
+				TFTSNet::handlePrepareFishMsg,
 				Optional.of(NetworkDirection.PLAY_TO_SERVER));
 	}
 
@@ -80,6 +87,19 @@ public final class TFTSNet{
 					return;
 				}
 			}
+		});
+	}
+
+	private static void handlePrepareFishMsg(PrepareFishMsg msg, Supplier<NetworkEvent.Context> contextSupplier){
+		NetworkEvent.Context ctx = contextSupplier.get();
+		ctx.setPacketHandled(true);
+		ctx.enqueueWork(() -> {
+			ServerPlayer sender = ctx.getSender();
+			if(sender==null||sender.isSpectator()) return;
+
+			if(!(sender.containerMenu instanceof FishPreparationTableMenu menu)) return;
+
+			menu.prepareFish(sender);
 		});
 	}
 }

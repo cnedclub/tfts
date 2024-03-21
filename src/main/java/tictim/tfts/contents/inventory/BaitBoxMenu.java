@@ -11,6 +11,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tictim.tfts.utils.A;
 
 public class BaitBoxMenu extends AbstractContainerMenu{
 	private final IItemHandlerModifiable baitBox;
@@ -58,19 +59,8 @@ public class BaitBoxMenu extends AbstractContainerMenu{
 			addSlot(new SlotItemHandler(this.baitBox, i, xStart+i*18, 29));
 		}
 
-		final int invYOffset = 76;
-
-		for(int i = 0; i<3; ++i){
-			for(int j = 0; j<9; ++j){
-				addSlot(new Slot(inventory, j+i*9+9, 8+j*18, invYOffset+8+i*18));
-			}
-		}
-
-		for(int i = 0; i<9; ++i){
-			addSlot(i==this.baitBoxItemIndex ?
-					this.baitBoxSlot = new ViewOnlySlot(inventory, i, 8+i*18, invYOffset+66) :
-					new Slot(inventory, i, 8+i*18, 142));
-		}
+		A.createInventorySlots(this::addSlot, (i, x, y) -> i==this.baitBoxItemIndex ?
+				this.baitBoxSlot = new ViewOnlySlot(inventory, i, x, y) : new Slot(inventory, i, x, y));
 	}
 
 	@Override @NotNull public ItemStack quickMoveStack(@NotNull Player player, int index){

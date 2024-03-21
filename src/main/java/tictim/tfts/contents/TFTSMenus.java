@@ -9,6 +9,7 @@ import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.ApiStatus;
 import tictim.tfts.client.screen.BaitBoxScreen;
+import tictim.tfts.client.screen.FishPreparationTableScreen;
 import tictim.tfts.contents.inventory.BaitBoxMenu;
 import tictim.tfts.contents.inventory.FishPreparationTableMenu;
 
@@ -27,5 +28,6 @@ public final class TFTSMenus{
 	@ApiStatus.Internal
 	public static void registerScreens(){
 		MenuScreens.register(TFTSMenus.BAIT_BOX.get(), BaitBoxScreen::new);
+		MenuScreens.register(TFTSMenus.FISH_PREPARATION_TABLE.get(), FishPreparationTableScreen::new);
 	}
 }

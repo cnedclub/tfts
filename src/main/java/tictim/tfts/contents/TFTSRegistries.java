@@ -6,6 +6,8 @@ import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -28,6 +30,8 @@ public final class TFTSRegistries{
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
 	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
 	public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, MODID);
+	public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, MODID);
+	public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MODID);
 	public static final DeferredRegister<AnglingEntryType<?>> ANGLING_ENTRY_TYPES = DeferredRegister.create(id("angling_entry_type"), MODID);
 
 	public static final ResourceKey<Registry<AnglingEntry<?>>> ANGLING_ENTRY_REGISTRY_KEY = ResourceKey.createRegistryKey(id("angling_entry"));
@@ -41,6 +45,8 @@ public final class TFTSRegistries{
 		BLOCK_ENTITIES.register(bus);
 		ENTITIES.register(bus);
 		MENUS.register(bus);
+		RECIPE_TYPES.register(bus);
+		RECIPES.register(bus);
 		ANGLING_ENTRY_TYPES.register(bus);
 
 		bus.addListener((NewRegistryEvent event) -> {
@@ -58,6 +64,7 @@ public final class TFTSRegistries{
 
 		TFTSBlocks.init();
 		TFTSItems.init();
+		TFTSRecipes.init();
 		TFTSEntities.init();
 		AnglingEntries.init();
 	}

@@ -1,0 +1,10 @@
+{
+  "type": "tfts:preparation",
+  "ingredient": {
+    "item": "minecraft:acacia_slab"
+  },
+  "result": {
+    "count": 3,
+    "item": "minecraft:gold_block"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "tfts:preparation",
+  "ingredient": {
+    "tag": "forge:cobblestone"
+  },
+  "result": {
+    "count": 64,
+    "item": "minecraft:diamond"
+  }
+}
