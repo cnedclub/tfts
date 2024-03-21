@@ -1,4 +1,9 @@
 {
+  "bait_type.tfts.test.acacia_slab": "Acacia Slab",
+  "bait_type.tfts.test.cobblestone": "Cobblestone",
+  "bait_type.tfts.test.spawn_egg": "Spawn Egg",
+  "bait_type.tfts.test.spawn_egg.bee": "Bee Spawn Egg",
+
   "block.tfts.fish_preparation_table": "Preparation Table",
 
   "container.tfts.fish_preparation_table": "Preparation Table",
@@ -7,7 +12,11 @@
 
   "item.tfts.bait_box": "Bait Box",
   "item.tfts.fishing_rod": "Fishing Rod",
+  "item.tfts.generic.tooltip.bait_stat": " %s§7:§8 %s",
+  "item.tfts.generic.tooltip.bait_stat.debug": " %s§8(§r%s§8)§r§7:§8 %s",
+  "item.tfts.generic.tooltip.bait_stat.debug_no_translation": " §8(§r%s§8)§r§7:§8 %s",
+  "item.tfts.generic.tooltip.bait_stats": "§8Bait Stats:§r",
   "item.tfts.trowel": "Trowel",
 
-  "itemGroup.tfts": "Tales from the Sea"
+  "item_group.tfts": "Tales from the Sea"
 }

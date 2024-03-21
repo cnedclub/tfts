@@ -16,6 +16,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import tictim.tfts.contents.anglingentry.AnglingEntry;
 import tictim.tfts.contents.anglingentry.AnglingEntryType;
+import tictim.tfts.contents.bait.BaitStat;
 
 import java.util.function.Supplier;
 
@@ -34,7 +35,8 @@ public final class TFTSRegistries{
 	public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MODID);
 	public static final DeferredRegister<AnglingEntryType<?>> ANGLING_ENTRY_TYPES = DeferredRegister.create(id("angling_entry_type"), MODID);
 
-	public static final ResourceKey<Registry<AnglingEntry<?>>> ANGLING_ENTRY_REGISTRY_KEY = ResourceKey.createRegistryKey(id("angling_entry"));
+	public static final ResourceKey<Registry<AnglingEntry<?>>> ANGLING_ENTRY_REGISTRY_KEY = ResourceKey.createRegistryKey(id("angling_entries"));
+	public static final ResourceKey<Registry<BaitStat>> BAIT_STAT_REGISTRY_KEY = ResourceKey.createRegistryKey(id("bait_stats"));
 
 	private static Supplier<IForgeRegistry<AnglingEntryType<?>>> typeRegistry;
 
@@ -60,6 +62,8 @@ public final class TFTSRegistries{
 			event.dataPackRegistry(ANGLING_ENTRY_REGISTRY_KEY,
 					ExtraCodecs.lazyInitializedCodec(() -> anglingEntryTypeRegistry().getCodec()
 							.dispatch(AnglingEntry::type, AnglingEntryType::codec)));
+
+			event.dataPackRegistry(BAIT_STAT_REGISTRY_KEY, BaitStat.CODEC, BaitStat.CODEC);
 		});
 
 		TFTSBlocks.init();

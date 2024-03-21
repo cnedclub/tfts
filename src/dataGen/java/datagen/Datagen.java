@@ -10,6 +10,7 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tictim.tfts.contents.TFTSRegistries;
+import tictim.tfts.utils.A;
 
 import java.util.List;
 import java.util.Set;
@@ -29,8 +30,10 @@ public class Datagen{
 		gen.addProvider(server, new ItemTagGen(gen.getPackOutput(), lookup, blockTags.contentsGetter(), MODID, efh));
 
 		gen.addProvider(server, new DatapackBuiltinEntriesProvider(gen.getPackOutput(), lookup,
-				new RegistrySetBuilder().add(TFTSRegistries.ANGLING_ENTRY_REGISTRY_KEY, new AnglingEntryGen()),
-				Set.of(MODID)));
+				new RegistrySetBuilder()
+						.add(TFTSRegistries.ANGLING_ENTRY_REGISTRY_KEY, new AnglingEntryGen())
+						.add(TFTSRegistries.BAIT_STAT_REGISTRY_KEY, new BaitStatGen()),
+				A.stfu()));
 
 		gen.addProvider(server, new LootTableProvider(gen.getPackOutput(), Set.of(),
 				List.of(new LootTableProvider.SubProviderEntry(BlockLootGen::new, LootContextParamSets.BLOCK),

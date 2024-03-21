@@ -40,7 +40,7 @@ public final class TFTSItems{
 	@SubscribeEvent
 	public static void registerCreativeModeTab(RegisterEvent event){
 		event.register(Registries.CREATIVE_MODE_TAB, id("main"), () -> CreativeModeTab.builder()
-				.title(Component.translatable("itemGroup."+MODID))
+				.title(Component.translatable("item_group."+MODID))
 				.icon(() -> new ItemStack(FISHING_ROD.get()))
 				.displayItems((p, o) -> {
 					o.accept(FISHING_ROD.get());

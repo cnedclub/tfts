@@ -4,7 +4,8 @@
     "FishingHookMixin"
   ],
   "client": [
-    "MinecraftMixin"
+    "MinecraftMixin",
+    "ItemStackMixin"
   ],
   "required": true
 }
