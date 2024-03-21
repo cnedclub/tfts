@@ -14,6 +14,7 @@ import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import tictim.tfts.contents.item.BaitBoxItem;
 import tictim.tfts.contents.item.TFTSFishingRodItem;
+import tictim.tfts.contents.item.TrowelItem;
 
 import static tictim.tfts.TFTSMod.MODID;
 import static tictim.tfts.TFTSMod.id;
@@ -33,6 +34,9 @@ public final class TFTSItems{
 	public static final RegistryObject<BlockItem> FISH_PREPARATION_TABLE = ITEMS.register("fish_preparation_table",
 			() -> new BlockItem(TFTSBlocks.FISH_PREPARATION_TABLE.get(), p()));
 
+	public static final RegistryObject<TrowelItem> TROWEL = ITEMS.register("trowel",
+			() -> new TrowelItem(p()));
+
 	@SubscribeEvent
 	public static void registerCreativeModeTab(RegisterEvent event){
 		event.register(Registries.CREATIVE_MODE_TAB, id("main"), () -> CreativeModeTab.builder()
@@ -41,6 +45,7 @@ public final class TFTSItems{
 				.displayItems((p, o) -> {
 					o.accept(FISHING_ROD.get());
 					o.accept(BAIT_BOX.get());
+					o.accept(TROWEL.get());
 
 					o.accept(FISH_PREPARATION_TABLE.get());
 				})

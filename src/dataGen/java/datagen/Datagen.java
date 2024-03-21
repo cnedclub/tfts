@@ -33,7 +33,8 @@ public class Datagen{
 				Set.of(MODID)));
 
 		gen.addProvider(server, new LootTableProvider(gen.getPackOutput(), Set.of(),
-				List.of(new LootTableProvider.SubProviderEntry(BlockLootGen::new, LootContextParamSets.BLOCK))));
+				List.of(new LootTableProvider.SubProviderEntry(BlockLootGen::new, LootContextParamSets.BLOCK),
+						new LootTableProvider.SubProviderEntry(TrowelLootGen::new, LootContextParamSets.EMPTY))));
 
 		gen.addProvider(server, new RecipeGen(gen.getPackOutput()));
 	}
