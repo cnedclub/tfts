@@ -1,5 +1,5 @@
 {
-  "foot/sugar": 0.1,
   "plant": 0.5,
-  "plant/fruit/melon": 1.0
+  "plant/fruit/melon": 1.0,
+  "sugar": 0.1
 }

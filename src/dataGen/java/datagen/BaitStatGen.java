@@ -6,6 +6,7 @@ import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -52,21 +53,24 @@ public class BaitStatGen implements RegistrySetBuilder.RegistryBootstrap<BaitSta
 		register(Bait.SEED_BAIT).stat(SEED, 1).stat(ALL_PLANTS, .25);
 		register(Bait.FLOWER_BAIT).stat(FLOWER, 1).stat(ALL_PLANTS, .25);
 
-		register(Bait.BROWN_MUSHROOM_BAIT).stat(BROWN_MUSHROOM, 1).stat(ALL_PLANTS, .25);
-		register(Bait.RED_MUSHROOM_BAIT).stat(RED_MUSHROOM, 1).stat(ALL_PLANTS, .25);
-
 		register(Bait.GOLDEN_APPLE_BAIT).stat(APPLE, 1).stat(SUGAR, .5).stat(GOLD, 1.5);
 		register(Bait.GOLDEN_CARROT_BAIT).stat(CARROT, 1).stat(GOLD, .5);
 		register(Bait.GLISTERING_MELON_BAIT).stat(MELON, 1).stat(SUGAR, .1).stat(ALL_PLANTS, .5).stat(GOLD, .5);
-		register(Bait.ENCHANTED_APPLE_BAIT).stat(APPLE, 1).stat(SUGAR, .5).stat(GOLD, 20);
+		register(Bait.ENCHANTED_GOLDEN_APPLE_BAIT).stat(APPLE, 1).stat(SUGAR, .5).stat(GOLD, 20);
 
 		register(Bait.WORM).stat(WORM_MEAT, 1);
 		register(Bait.GOLDEN_WORM).stat(WORM_MEAT, 2.5).stat(GOLD, 2.5);
 
-		register(Bait.ROTTEN_FLESH_BAIT).stat(ROTTEN_FLESH, 1).stat(POISON, .1);
+		register(Bait.ROTTEN_FLESH_BAIT).stat(ZOMBIE, 1).stat(POISON, .1);
 		register(Bait.BONE_MEAL_BAIT).stat(BONE, 1);
 
-		register(Fish.SHRIMP).stat(FISH_MEAT, 1);
+		register(Fish.SHRIMP).stat(FISH_MEAT, 1.5);
+
+		register(Items.BROWN_MUSHROOM).stat(BROWN_MUSHROOM, 1).stat(ALL_PLANTS, .25);
+		register(Items.RED_MUSHROOM).stat(RED_MUSHROOM, 1).stat(ALL_PLANTS, .25);
+
+		register(Items.SPIDER_EYE).stat(SPIDER, 1).stat(INSECT_MEAT, 1);
+		register(Items.FERMENTED_SPIDER_EYE).stat(SPIDER, .75).stat(INSECT_MEAT, .75).stat(SUGAR, .25).stat(BROWN_MUSHROOM, .25);
 	}
 
 	@Override public final void run(@NotNull BootstapContext<BaitStat> context){

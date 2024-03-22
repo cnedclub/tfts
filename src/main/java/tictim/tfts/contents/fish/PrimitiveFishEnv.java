@@ -27,7 +27,7 @@ public enum PrimitiveFishEnv implements FishEnv, StringRepresentable{
 	private final String name = name().toLowerCase(Locale.ROOT);
 	private final Set<ResourceKey<Biome>> biomes;
 
-	PrimitiveFishEnv(ResourceKey<Biome>... biomes){
+	@SafeVarargs PrimitiveFishEnv(ResourceKey<Biome>... biomes){
 		this.biomes = new ObjectOpenHashSet<>(biomes);
 	}
 

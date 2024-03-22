@@ -1,7 +1,9 @@
 package tictim.tfts.contents.item;
 
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
@@ -12,61 +14,37 @@ import java.util.Locale;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public enum Bait implements ItemLike{
-	APPRENTICE_BAIT,
-	JOURNEYMAN_BAIT,
-	MASTER_BAIT,
+public enum Thing implements ItemLike{
+	SMALL_FISH_FILLET,
+	COOLED_SMALL_FISH_FILLET,
+	FISH_FILLET,
+	COOLED_FISH_FILLET,
 
-	// apple
-
-	APPLE_BAIT,
-	SWEET_BERRY_BAIT,
-	GLOW_BERRY_BAIT,
-	MELON_BAIT,
-	PUMPKIN_BAIT,
-
-	POTATO_BAIT,
-	POISONOUS_POTATO_BAIT,
-	BEETROOT_BAIT,
-	CARROT_BAIT,
-
-	SEED_BAIT,
-	FLOWER_BAIT,
-
-	GOLDEN_APPLE_BAIT,
-	GOLDEN_CARROT_BAIT,
-	GLISTERING_MELON_BAIT,
-	ENCHANTED_GOLDEN_APPLE_BAIT(p -> new Item(p){
-		@Override public boolean isFoil(@NotNull ItemStack stack){
-			return true;
-		}
-	}),
-
-	// insects
-
-	WORM,
-	GOLDEN_WORM,
-
-	// weird shit
-
-	ROTTEN_FLESH_BAIT,
-	BONE_MEAL_BAIT;
+	JAJO_COLA(() -> new Item.Properties().food(new FoodProperties.Builder()
+			.nutrition(1)
+			.saturationMod(0)
+			.effect(() -> new MobEffectInstance(MobEffects.BLINDNESS, 200), 1)
+			.effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 200), 1)
+			.effect(() -> new MobEffectInstance(MobEffects.POISON, 100), 1)
+			.effect(() -> new MobEffectInstance(MobEffects.WEAKNESS, 200), 1)
+			.effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200), 1)
+			.build()));
 
 	private final String registryName = name().toLowerCase(Locale.ROOT);
 	private final Supplier<Item.Properties> propertyFactory;
 	private final Function<Item.Properties, Item> itemFactory;
 	private RegistryObject<Item> item;
 
-	Bait(){
+	Thing(){
 		this(null, null);
 	}
-	Bait(@Nullable Supplier<Item.Properties> propertyFactory){
+	Thing(@Nullable Supplier<Item.Properties> propertyFactory){
 		this(propertyFactory, null);
 	}
-	Bait(@Nullable Function<Item.Properties, Item> itemFactory){
+	Thing(@Nullable Function<Item.Properties, Item> itemFactory){
 		this(null, itemFactory);
 	}
-	Bait(@Nullable Supplier<Item.Properties> propertyFactory, @Nullable Function<Item.Properties, Item> itemFactory){
+	Thing(@Nullable Supplier<Item.Properties> propertyFactory, @Nullable Function<Item.Properties, Item> itemFactory){
 		this.propertyFactory = propertyFactory;
 		this.itemFactory = itemFactory;
 	}

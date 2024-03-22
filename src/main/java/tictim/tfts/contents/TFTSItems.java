@@ -32,12 +32,12 @@ public final class TFTSItems{
 	public static final RegistryObject<BlockItem> FISH_PREPARATION_TABLE = ITEMS.register("fish_preparation_table",
 			() -> new BlockItem(TFTSBlocks.FISH_PREPARATION_TABLE.get(), p()));
 
-	public static final RegistryObject<TrowelItem> TROWEL = ITEMS.register("trowel",
-			() -> new TrowelItem(p()));
+	public static final RegistryObject<TrowelItem> TROWEL = ITEMS.register("trowel", () -> new TrowelItem(p()));
 
 	static{
 		Fish.register();
 		Bait.register();
+		Thing.register();
 	}
 
 	@SubscribeEvent
@@ -51,6 +51,16 @@ public final class TFTSItems{
 					o.accept(TROWEL.get());
 
 					o.accept(FISH_PREPARATION_TABLE.get());
+
+					for(Bait bait : Bait.values()) o.accept(bait);
+					for(Thing thing : Thing.values()) o.accept(thing);
+				})
+				.build());
+
+		event.register(Registries.CREATIVE_MODE_TAB, id("fish"), () -> CreativeModeTab.builder()
+				.title(Component.translatable("item_group."+MODID+".fish"))
+				.icon(() -> new ItemStack(Fish.BASS)).displayItems((p, o) -> {
+					for(Fish fish : Fish.values()) o.accept(fish);
 				})
 				.build());
 	}

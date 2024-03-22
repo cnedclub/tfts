@@ -14,7 +14,6 @@ public interface BaitTypes{
 	BaitType PUMPKIN = BaitType.of("plant/fruit/pumpkin");
 
 	BaitType POTATO = BaitType.of("plant/vegetable/potato");
-	BaitType POISONOUS_POTATO = BaitType.of("plant/vegetable/potato/poisonous");
 	BaitType BEETROOT = BaitType.of("plant/vegetable/beetroot");
 	BaitType CARROT = BaitType.of("plant/vegetable/carrot");
 
@@ -25,8 +24,8 @@ public interface BaitTypes{
 
 	BaitType ALL_MUSHROOMS = BaitType.of("mushroom");
 
-	BaitType BROWN_MUSHROOM = BaitType.of("mushroom/overworld/brown");
-	BaitType RED_MUSHROOM = BaitType.of("mushroom/overworld/red");
+	BaitType BROWN_MUSHROOM = BaitType.of("mushroom/brown");
+	BaitType RED_MUSHROOM = BaitType.of("mushroom/red");
 
 	// meat. meat. meat. meat. meat. meat. meat. meat. meat. meat. meat. meat. meat. meat. meat. meat. meat. meat.
 
@@ -41,15 +40,14 @@ public interface BaitTypes{
 	BaitType ALL_MINERALS = BaitType.of("mineral");
 
 	BaitType GOLD = BaitType.of("mineral/gold");
+	BaitType BONE = BaitType.of("monster/bone");
 
 	// monster supercategory represents all kinds of monster drops
 
 	BaitType ALL_MONSTER_ITEMS = BaitType.of("monster");
 
-	BaitType ROTTEN_FLESH = BaitType.of("monster/zombie/rotten_flesh");
-	BaitType SPIDER_EYE = BaitType.of("monster/spider/eye");
-	BaitType FERMENTED_SPIDER_EYE = BaitType.of("monster/spider/eye/fermented");
-	BaitType BONE = BaitType.of("monster/skeleton/bone");
+	BaitType ZOMBIE = BaitType.of("monster/zombie");
+	BaitType SPIDER = BaitType.of("monster/spider");
 
 	// food supercategory represents processed foods, often for human consumption but not necessarily
 
@@ -59,9 +57,9 @@ public interface BaitTypes{
 	BaitType CAKE = BaitType.of("food/cake");
 	BaitType COOKIE = BaitType.of("food/cookie");
 	BaitType HONEY = BaitType.of("food/honey");
-	BaitType SUGAR = BaitType.of("foot/sugar");
 
-	// lol
+	// types with no supercategory
+	BaitType SUGAR = BaitType.of("sugar");
 	BaitType POISON = BaitType.of("poison");
 
 	// exotic baits, or "otherworldly" baits has its own supercategory

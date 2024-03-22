@@ -50,7 +50,7 @@ public abstract class ItemStackMixin{ // i'm using mixin because forge's tooltip
 
 		boolean debug = flags.isAdvanced()&&Screen.hasShiftDown();
 
-		for(var e : (debug ? stat.allStats() : stat.rawStats()).object2DoubleEntrySet()){
+		for(var e : (debug ? stat.allStats() : stat.allStatsSorted()).object2DoubleEntrySet()){
 			String key = e.getKey().getTranslationKey();
 			if(I18n.exists(key)){
 				if(debug){
