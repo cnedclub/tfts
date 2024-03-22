@@ -11,7 +11,8 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import tictim.tfts.contents.TFTSRegistries;
-import tictim.tfts.contents.bait.BaitStat;
+import tictim.tfts.contents.fish.BaitStat;
+import tictim.tfts.contents.fish.BaitStatBuilder;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package tictim.tfts.contents.bait;
+package tictim.tfts.contents.fish;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -1,4 +1,4 @@
-package tictim.tfts.contents.bait;
+package tictim.tfts.contents.fish;
 
 import com.mojang.serialization.Codec;
 import it.unimi.dsi.fastutil.objects.*;
@@ -14,7 +14,7 @@ public final class BaitStat{
 
 	private final Object2DoubleMap<BaitType> rawStats = new Object2DoubleAVLTreeMap<>(BaitTypeComparator.get());
 	private final Object2DoubleMap<BaitType> propagatedStats = new Object2DoubleOpenHashMap<>();
-	private final Object2DoubleMap<BaitType> propagatedStatsSorted = new Object2DoubleAVLTreeMap<>(BaitTypeComparator.get());
+	private Object2DoubleMap<BaitType> propagatedStatsSorted;
 
 	public BaitStat(Map<BaitType, Double> stats){
 		this.rawStats.putAll(stats);
@@ -41,18 +41,26 @@ public final class BaitStat{
 		}
 
 		this.propagatedStats.putAll(this.rawStats);
-
-		this.propagatedStatsSorted.putAll(this.propagatedStats);
 	}
 
 	public double get(@NotNull BaitType type){
 		return this.propagatedStats.getDouble(type);
+	}
+	public boolean has(@NotNull BaitType type){
+		return this.propagatedStats.containsKey(type);
 	}
 
 	@NotNull @Unmodifiable public Object2DoubleMap<BaitType> rawStats(){
 		return Object2DoubleMaps.unmodifiable(this.rawStats);
 	}
 	@NotNull @Unmodifiable public Object2DoubleMap<BaitType> allStats(){
+		return Object2DoubleMaps.unmodifiable(this.propagatedStats);
+	}
+	@NotNull @Unmodifiable public Object2DoubleMap<BaitType> allStatsSorted(){
+		if(this.propagatedStatsSorted==null){
+			this.propagatedStatsSorted = new Object2DoubleAVLTreeMap<>(BaitTypeComparator.get());
+			this.propagatedStatsSorted.putAll(this.propagatedStats);
+		}
 		return Object2DoubleMaps.unmodifiable(this.propagatedStatsSorted);
 	}
 
@@ -67,7 +75,7 @@ public final class BaitStat{
 	}
 
 	@Override public String toString(){
-		return "BaitStat { "+propagatedStatsSorted.object2DoubleEntrySet().stream()
+		return "BaitStat { "+propagatedStats.object2DoubleEntrySet().stream()
 				.map(e -> e.getKey()+": "+e.getDoubleValue())
 				.collect(Collectors.joining(", "))+" }";
 	}

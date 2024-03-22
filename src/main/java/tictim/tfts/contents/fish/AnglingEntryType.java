@@ -1,4 +1,4 @@
-package tictim.tfts.contents.anglingentry;
+package tictim.tfts.contents.fish;
 
 import com.mojang.serialization.Codec;
 import org.jetbrains.annotations.NotNull;

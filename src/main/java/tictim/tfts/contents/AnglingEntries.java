@@ -1,30 +1,31 @@
 package tictim.tfts.contents;
 
-import com.mojang.serialization.Codec;
-import net.minecraft.resources.ResourceKey;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.*;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
-import tictim.tfts.TFTSMod;
-import tictim.tfts.contents.anglingentry.AnglingEntry;
-import tictim.tfts.contents.anglingentry.AnglingEntryType;
-import tictim.tfts.contents.anglingentry.TestAnglingEntry;
+import tictim.tfts.contents.fish.AnglingEntryType;
+import tictim.tfts.contents.fish.condition.FishConditionType;
+import tictim.tfts.contents.fish.SimpleAnglingEntry;
+import tictim.tfts.contents.fish.condition.TimeCondition;
 
-import java.util.function.Supplier;
-
-import static tictim.tfts.TFTSMod.id;
 import static tictim.tfts.contents.TFTSRegistries.ANGLING_ENTRY_TYPES;
+import static tictim.tfts.contents.TFTSRegistries.FISH_CONDITION_TYPES;
 
 public final class AnglingEntries{
 	private AnglingEntries(){}
 
 	public static void init(){}
 
-	public static final RegistryObject<AnglingEntryType<TestAnglingEntry>> TEST = type("test", TestAnglingEntry.CODEC);
+	public static final RegistryObject<AnglingEntryType<SimpleAnglingEntry>> SIMPLE = anglingEntry("angling", SimpleAnglingEntry.TYPE);
 
-	@NotNull
-	private static <T extends AnglingEntry<T>> RegistryObject<AnglingEntryType<T>> type(@NotNull String name, @NotNull Codec<T> codec){
-		return ANGLING_ENTRY_TYPES.register(name, () -> new AnglingEntryType<>(codec));
+	static{
+		TimeCondition.register();
+	}
+
+	@NotNull private static <T extends AnglingEntryType<?>> RegistryObject<T> anglingEntry(@NotNull String name, @NotNull T type){
+		return ANGLING_ENTRY_TYPES.register(name, () -> type);
+	}
+
+	@NotNull private static <T extends FishConditionType<?>> RegistryObject<T> type(@NotNull String name, @NotNull T type){
+		return FISH_CONDITION_TYPES.register(name, () -> type);
 	}
 }

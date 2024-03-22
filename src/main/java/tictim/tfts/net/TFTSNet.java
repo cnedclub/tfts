@@ -7,7 +7,7 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.jetbrains.annotations.ApiStatus;
-import tictim.tfts.angling.AnglingUtils;
+import tictim.tfts.contents.fish.AnglingUtils;
 import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.contents.inventory.FishPreparationTableMenu;
 import tictim.tfts.contents.item.IBaitBoxItem;
@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import static tictim.tfts.TFTSMod.id;
-import static tictim.tfts.angling.AnglingUtils.CURIO_BAIT_BOX_ID;
+import static tictim.tfts.contents.fish.AnglingUtils.CURIO_BAIT_BOX_ID;
 
 public final class TFTSNet{
 	private TFTSNet(){}

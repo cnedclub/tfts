@@ -1,0 +1,29 @@
+{
+  "type": "tfts:angling",
+  "bait_consumption_chance": 0.1,
+  "baits": {
+    "type": "condition",
+    "condition": "plant",
+    "modifier": 1.0
+  },
+  "environment": [
+    "ocean_warm",
+    [
+      "ocean_lukewarm_surface",
+      "ocean_lukewarm_deep"
+    ]
+  ],
+  "environment_bonus": 1.0,
+  "gives_exp": false,
+  "loots": [
+    {
+      "Count": 1,
+      "id": "minecraft:tropical_fish"
+    }
+  ],
+  "nibble_behavior": {
+    "type": "nibble",
+    "bite_chance": 0.5
+  },
+  "weight": 50.0
+}

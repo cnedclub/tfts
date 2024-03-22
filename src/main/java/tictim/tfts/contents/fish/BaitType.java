@@ -1,9 +1,8 @@
-package tictim.tfts.contents.bait;
+package tictim.tfts.contents.fish;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,7 +14,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
-public final class BaitType{
+public final class BaitType implements BaitModifierCondition{
 	private static final Pattern NAME_REGEX = Pattern.compile("[0-9a-z._-]+");
 
 	public static final Codec<BaitType> CODEC = Codec.STRING.comapFlatMap(s -> {
@@ -112,6 +111,10 @@ public final class BaitType{
 	}
 	@Nullable public BaitType parent(){
 		return this.parent;
+	}
+
+	@Override public boolean matches(@NotNull BaitStat baitStat){
+		return baitStat.has(this);
 	}
 
 	private int depth = -1;

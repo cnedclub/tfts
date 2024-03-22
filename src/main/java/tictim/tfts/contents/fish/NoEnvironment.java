@@ -1,11 +1,7 @@
-package tictim.tfts.angling;
+package tictim.tfts.contents.fish;
 
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Set;
 
 public final class NoEnvironment implements AnglingEnvironment{
 	private static final NoEnvironment inst = new NoEnvironment();
@@ -18,7 +14,7 @@ public final class NoEnvironment implements AnglingEnvironment{
 	@Override public boolean matches(@NotNull Fluid fluid){
 		return false;
 	}
-	@Override public double getBaseFishingPower(@Nullable Set<Biome> biomes){
+	@Override public double getBaseFishingPower(@NotNull FishEnv fishEnv){
 		return 0;
 	}
 

@@ -1,0 +1,36 @@
+{
+  "type": "tfts:angling",
+  "bait_consumption_chance": 0.1,
+  "baits": {
+    "type": "max",
+    "functions": [
+      {
+        "type": "condition",
+        "condition": "plant",
+        "modifier": 0.5
+      },
+      {
+        "type": "condition",
+        "condition": "meat/insect",
+        "modifier": 1.0
+      }
+    ]
+  },
+  "environment": [
+    "ocean_surface",
+    "ocean_warm"
+  ],
+  "environment_bonus": 1.0,
+  "gives_exp": false,
+  "loots": [
+    {
+      "Count": 1,
+      "id": "tfts:seahorse"
+    }
+  ],
+  "nibble_behavior": {
+    "type": "nibble",
+    "bite_chance": 0.3
+  },
+  "weight": 50.0
+}

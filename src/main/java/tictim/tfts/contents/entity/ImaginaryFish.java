@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 import tictim.tfts.TFTSMod;
-import tictim.tfts.angling.AnglingUtils;
+import tictim.tfts.contents.fish.AnglingUtils;
 import tictim.tfts.utils.WgtRoll;
 
 /**

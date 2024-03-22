@@ -26,11 +26,11 @@ import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tictim.tfts.TFTSMod;
-import tictim.tfts.angling.AnglingEnvironment;
-import tictim.tfts.angling.AnglingUtils;
-import tictim.tfts.angling.NibbleBehavior;
 import tictim.tfts.contents.TFTSEntities;
-import tictim.tfts.contents.anglingentry.AnglingEntry;
+import tictim.tfts.contents.fish.AnglingEntry;
+import tictim.tfts.contents.fish.AnglingEnvironment;
+import tictim.tfts.contents.fish.AnglingUtils;
+import tictim.tfts.contents.fish.NibbleBehavior;
 import tictim.tfts.contents.item.TFTSFishingRodItem;
 
 import java.util.ArrayList;
@@ -180,7 +180,7 @@ public class TFTSHook extends FishingHook{
 				this.counter = 0;
 				if(this.environmentPos==null) this.environmentPos = new MutableBlockPos();
 				this.environmentPos.set(pos);
-				this.environment = AnglingUtils.getFluidEnvironment(this.environment, owner, pos, fluidState);
+				this.environment = AnglingUtils.getFluidEnvironment(this.environment, level, pos, fluidState);
 			}
 
 			if(this.counter<=0){

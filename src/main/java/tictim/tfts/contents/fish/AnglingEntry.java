@@ -1,12 +1,10 @@
-package tictim.tfts.contents.anglingentry;
+package tictim.tfts.contents.fish;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import tictim.tfts.angling.AnglingEnvironment;
-import tictim.tfts.angling.NibbleBehavior;
 
 import java.util.List;
 

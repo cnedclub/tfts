@@ -6,7 +6,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import tictim.tfts.angling.AnglingUtils;
+import tictim.tfts.contents.fish.AnglingUtils;
 import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.net.TFTSNet;
 import tictim.tfts.net.messages.SelectBaitBoxSlotMsg;

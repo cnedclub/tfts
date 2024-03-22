@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+import tictim.tfts.contents.fish.Fish;
 import tictim.tfts.contents.item.BaitBoxItem;
 import tictim.tfts.contents.item.TFTSFishingRodItem;
 import tictim.tfts.contents.item.TrowelItem;
@@ -37,6 +38,10 @@ public final class TFTSItems{
 	public static final RegistryObject<TrowelItem> TROWEL = ITEMS.register("trowel",
 			() -> new TrowelItem(p()));
 
+	static{
+		Fish.register();
+	}
+
 	@SubscribeEvent
 	public static void registerCreativeModeTab(RegisterEvent event){
 		event.register(Registries.CREATIVE_MODE_TAB, id("main"), () -> CreativeModeTab.builder()
@@ -52,8 +57,10 @@ public final class TFTSItems{
 				.build());
 	}
 
-	@NotNull
-	private static Item.Properties p(){
+	@NotNull private static Item.Properties p(){
 		return new Item.Properties();
+	}
+	@NotNull private static RegistryObject<Item> simple(@NotNull String path){
+		return ITEMS.register(path, () -> new Item(p()));
 	}
 }

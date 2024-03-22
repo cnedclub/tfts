@@ -1,4 +1,4 @@
-package tictim.tfts.angling;
+package tictim.tfts.contents.fish;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

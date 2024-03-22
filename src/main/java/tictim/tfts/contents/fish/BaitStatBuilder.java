@@ -1,10 +1,8 @@
-package datagen;
+package tictim.tfts.contents.fish;
 
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap;
 import org.jetbrains.annotations.NotNull;
-import tictim.tfts.contents.bait.BaitStat;
-import tictim.tfts.contents.bait.BaitType;
 
 public final class BaitStatBuilder{
 	private final Object2DoubleMap<BaitType> map = new Object2DoubleOpenHashMap<>();

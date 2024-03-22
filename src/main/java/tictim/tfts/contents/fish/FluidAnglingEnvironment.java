@@ -1,38 +1,39 @@
-package tictim.tfts.angling;
+package tictim.tfts.contents.fish;
 
-import it.unimi.dsi.fastutil.ints.IntIterator;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public final class FluidAnglingEnvironment implements AnglingEnvironment{
 	private final Fluid fluid;
 
-	private final Object2IntMap<Biome> baseFishingPower = new Object2IntOpenHashMap<>();
+	private final Object2IntMap<ResourceLocation> baseFishingPower = new Object2IntOpenHashMap<>();
 
 	public FluidAnglingEnvironment(@NotNull Fluid fluid){
 		this.fluid = fluid;
 	}
 
-	public void eval(@NotNull Player player,
-	                 @NotNull BlockPos origin){
+	public void eval(@NotNull ServerLevel level, @NotNull BlockPos origin){
 		this.baseFishingPower.clear();
-		Level level = player.level();
+		Optional<Registry<Biome>> o = level.getServer().registryAccess().registry(Registries.BIOME);
+		if(o.isEmpty()) return; // ??
+		Registry<Biome> biomes = o.get();
 		AnglingUtils.traverseFluid(level, origin, this.fluid, pos -> {
 			Biome biome = level.getBiome(pos).get();
-			this.baseFishingPower.put(biome, this.baseFishingPower.getInt(biome)+1);
+			var id = biomes.getKey(biome);
+			if(id!=null) this.baseFishingPower.put(id, this.baseFishingPower.getInt(id)+1);
 		});
 	}
 
@@ -40,14 +41,16 @@ public final class FluidAnglingEnvironment implements AnglingEnvironment{
 		return this.fluid.isSame(fluid);
 	}
 
-	@Override public double getBaseFishingPower(@Nullable Set<Biome> biomes){
+	@Override public double getBaseFishingPower(@NotNull FishEnv fishEnv){
+		// TODO
 		long sum = 0;
-		if(biomes!=null){
-			for(Biome biome : biomes) sum += baseFishingPower.getInt(biome);
-		}else{
-			IntIterator it = baseFishingPower.values().intIterator();
-			while(it.hasNext()) sum += it.nextInt();
+
+		for(PrimitiveFishEnv env : fishEnv.asSet()){
+			for(var biome : env.biomes()){
+				sum += baseFishingPower.getInt(biome.location());
+			}
 		}
+
 		return sum;
 	}
 

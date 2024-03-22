@@ -1,4 +1,4 @@
-package tictim.tfts.angling;
+package tictim.tfts.contents.fish;
 
 import it.unimi.dsi.fastutil.longs.*;
 import net.minecraft.core.BlockPos;
@@ -18,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.TFTSTags;
-import tictim.tfts.contents.anglingentry.AnglingEntry;
 import tictim.tfts.utils.A;
 import tictim.tfts.utils.WgtRoll;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -36,13 +35,13 @@ public final class AnglingUtils{
 	@NotNull
 	public static AnglingEnvironment getFluidEnvironment(
 			@Nullable AnglingEnvironment previousEnvironment,
-			@NotNull Player player,
+			@NotNull ServerLevel level,
 			@NotNull BlockPos origin,
 			@Nullable FluidState fluidState){
 		if(fluidState!=null){
 			FluidAnglingEnvironment fae = previousEnvironment instanceof FluidAnglingEnvironment prev ? prev :
 					new FluidAnglingEnvironment(fluidState.getType());
-			fae.eval(player, origin);
+			fae.eval(level, origin);
 			return fae;
 		}
 		return NoEnvironment.get();

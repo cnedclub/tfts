@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import tictim.tfts.angling.AnglingUtils;
+import tictim.tfts.contents.fish.AnglingUtils;
 import tictim.tfts.net.TFTSNet;
 import tictim.tfts.net.messages.OpenCurioBaitBoxScreenMsg;
 

@@ -6,7 +6,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import tictim.tfts.angling.AnglingUtils;
+import tictim.tfts.contents.fish.AnglingUtils;
 import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.contents.entity.TFTSHook;
 

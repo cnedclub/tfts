@@ -1,7 +1,11 @@
-// 1.20.1	2024-03-21T23:10:56.494980136	Registries
+// 1.20.1	2024-03-22T16:21:10.941609273	Registries
+63016525d7c9bf9eaf8c61d16f008196682b5011 data/minecraft/tfts/angling_entries/cod.json
+cf1789f1822ca73ed0ed33acd730d65f5f304147 data/minecraft/tfts/angling_entries/pufferfish.json
+a8c0a25579e1b2d7024656d5429b30f6787f970c data/minecraft/tfts/angling_entries/salmon.json
+8f3cfaac583f1c86f5331f3b399454047d54cbd2 data/minecraft/tfts/angling_entries/tropical_fish.json
 fcd01d491a6f383f0992c09f7b97e771bf93d835 data/minecraft/tfts/bait_stats/acacia_slab.json
 7f2eca41a5ae7d6ee162d9d179e095e30f0b6f19 data/minecraft/tfts/bait_stats/bee_spawn_egg.json
 723161b13df25a511118cf73cd2fd98eeeaa813d data/minecraft/tfts/bait_stats/cobblestone.json
-b3c552210047ac1a78acda8c39299d089cabdf73 data/tfts/tfts/angling_entries/test1.json
-8a50b918ec8557f458ee77a7699cee900fe3cbc8 data/tfts/tfts/angling_entries/test2.json
-9cf18a33fcb1330369109bd80fcc4cc62ad4d698 data/tfts/tfts/angling_entries/test3.json
+90c9db412edc08990a3c3b878a5ee6985e34f60e data/tfts/tfts/angling_entries/bass.json
+a1f8e5589b4265bdf904cc730ada32635ae99d4a data/tfts/tfts/angling_entries/flying_fish.json
+e1a837c067d4267c6e3b99dd1da58e6bfa701ca7 data/tfts/tfts/angling_entries/seahorse.json
