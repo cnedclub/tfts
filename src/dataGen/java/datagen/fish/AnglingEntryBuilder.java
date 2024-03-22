@@ -15,10 +15,11 @@ import java.util.function.Function;
 public final class AnglingEntryBuilder<T extends AnglingEntry<T>>{
 	public static AnglingEntryBuilder<SimpleAnglingEntry> simpleFish(){
 		return new AnglingEntryBuilder<>(b -> new SimpleAnglingEntry(
-				b.weight(),
+				b.baseWeight(),
+				b.weightGrowth(),
+				b.minFishingPower(),
 				b.conditions(),
 				b.environment(),
-				b.envBonus(),
 				b.baitModifier(),
 				b.loots(),
 				b.nibbleBehavior(),
@@ -32,7 +33,8 @@ public final class AnglingEntryBuilder<T extends AnglingEntry<T>>{
 	private double baseWeight;
 	private final List<FishCondition<?>> conditions = new ArrayList<>();
 	private FishEnv environment;
-	private double envBonus = 1;
+	private double minFishingPower = Double.NaN;
+	private double weightGrowth = 1;
 	private final List<ItemStack> loots = new ArrayList<>();
 	private BaitModifierFunction baitModifier;
 	private NibbleBehavior nibbleBehavior;
@@ -43,8 +45,8 @@ public final class AnglingEntryBuilder<T extends AnglingEntry<T>>{
 		this.factory = Objects.requireNonNull(factory, "factory == null");
 	}
 
-	public double weight(){
-		if(baseWeight<=0) throw new IllegalStateException("Property 'weight' not set");
+	public double baseWeight(){
+		if(baseWeight<=0) throw new IllegalStateException("Property 'baseWeight' not set");
 		return baseWeight;
 	}
 	public List<FishCondition<?>> conditions(){
@@ -54,8 +56,12 @@ public final class AnglingEntryBuilder<T extends AnglingEntry<T>>{
 		if(environment==null) throw new IllegalStateException("Property 'environment' not set");
 		return environment;
 	}
-	public double envBonus(){
-		return envBonus;
+	public double minFishingPower(){
+		if(Double.isNaN(minFishingPower)) throw new IllegalStateException("Property 'minFishingPower' not set");
+		return minFishingPower;
+	}
+	public double weightGrowth(){
+		return weightGrowth;
 	}
 	public BaitModifierFunction baitModifier(){
 		if(baitModifier==null) throw new IllegalStateException("Property 'baitModifier' not set");
@@ -76,8 +82,16 @@ public final class AnglingEntryBuilder<T extends AnglingEntry<T>>{
 		return givesExp;
 	}
 
-	public AnglingEntryBuilder<T> weight(double weight){
-		this.baseWeight = weight;
+	public AnglingEntryBuilder<T> baseWeight(double baseWeight){
+		this.baseWeight = baseWeight;
+		return this;
+	}
+	public AnglingEntryBuilder<T> weightGrowth(double weightGrowth){
+		this.weightGrowth = weightGrowth;
+		return this;
+	}
+	public AnglingEntryBuilder<T> minFishingPower(double minFishingPower){
+		this.minFishingPower = minFishingPower;
 		return this;
 	}
 	public AnglingEntryBuilder<T> condition(FishCondition<?> condition){
@@ -85,11 +99,7 @@ public final class AnglingEntryBuilder<T extends AnglingEntry<T>>{
 		return this;
 	}
 	public AnglingEntryBuilder<T> env(FishEnv... environment){
-		this.environment = FishEnv.combine(environment);
-		return this;
-	}
-	public AnglingEntryBuilder<T> envBonus(double envBonus){
-		this.envBonus = envBonus;
+		this.environment = FishEnv.of(environment);
 		return this;
 	}
 	public AnglingEntryBuilder<T> bait(BaitModifierCondition condition, double modifier){

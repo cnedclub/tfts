@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.List;
@@ -12,10 +13,11 @@ import java.util.Locale;
 import java.util.function.Function;
 
 public sealed interface BaitModifierCondition permits BaitModifierCondition.Const, BaitModifierCondition.RecordCodecCondition, BaitType{
-	boolean matches(@NotNull BaitStat baitStat);
+	boolean matches(@Nullable BaitStat baitStat);
 
 	Const TRUE = new Const(true);
 	Const FALSE = new Const(false);
+	RecordCodecCondition.NoBait NO_BAIT = new RecordCodecCondition.NoBait();
 
 	Codec<BaitModifierCondition> CODEC = Codec.either(
 					Codec.either(
@@ -41,8 +43,11 @@ public sealed interface BaitModifierCondition permits BaitModifierCondition.Cons
 			this.value = value;
 		}
 
-		@Override public boolean matches(@NotNull BaitStat baitStat){
+		@Override public boolean matches(@Nullable BaitStat baitStat){
 			return this.value;
+		}
+		@Override public String toString(){
+			return this.value+"";
 		}
 	}
 
@@ -53,7 +58,7 @@ public sealed interface BaitModifierCondition permits BaitModifierCondition.Cons
 			@Override @NotNull public Type type(){
 				return Type.NOT;
 			}
-			@Override public boolean matches(@NotNull BaitStat baitStat){
+			@Override public boolean matches(@Nullable BaitStat baitStat){
 				return !this.condition.matches(baitStat);
 			}
 		}
@@ -62,7 +67,7 @@ public sealed interface BaitModifierCondition permits BaitModifierCondition.Cons
 			@Override @NotNull public Type type(){
 				return Type.ANY;
 			}
-			@Override public boolean matches(@NotNull BaitStat baitStat){
+			@Override public boolean matches(@Nullable BaitStat baitStat){
 				for(BaitModifierCondition c : this.conditions){
 					if(c.matches(baitStat)) return true;
 				}
@@ -74,11 +79,27 @@ public sealed interface BaitModifierCondition permits BaitModifierCondition.Cons
 			@Override @NotNull public Type type(){
 				return Type.ALL;
 			}
-			@Override public boolean matches(@NotNull BaitStat baitStat){
+			@Override public boolean matches(@Nullable BaitStat baitStat){
 				for(BaitModifierCondition c : this.conditions){
 					if(!c.matches(baitStat)) return false;
 				}
 				return true;
+			}
+		}
+
+		final class NoBait implements RecordCodecCondition{
+			private NoBait(){}
+
+
+			@Override public boolean matches(@Nullable BaitStat baitStat){
+				return baitStat==null;
+			}
+			@Override @NotNull public Type type(){
+				return Type.NO_BAIT;
+			}
+
+			@Override public String toString(){
+				return "NoBait";
 			}
 		}
 
@@ -102,6 +123,11 @@ public sealed interface BaitModifierCondition permits BaitModifierCondition.Cons
 					return RecordCodecBuilder.<All>create(b -> b.group(
 							BaitModifierCondition.CODEC.listOf().fieldOf("conditions").forGetter(All::conditions)
 					).apply(b, All::new));
+				}
+			},
+			NO_BAIT{
+				@Override protected Codec<? extends RecordCodecCondition> createCodec(){
+					return Codec.<NoBait>unit(() -> BaitModifierCondition.NO_BAIT);
 				}
 			};
 

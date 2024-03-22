@@ -2,6 +2,7 @@ package tictim.tfts.contents;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -42,7 +43,8 @@ public final class TFTSItems{
 
 	@SubscribeEvent
 	public static void registerCreativeModeTab(RegisterEvent event){
-		event.register(Registries.CREATIVE_MODE_TAB, id("main"), () -> CreativeModeTab.builder()
+		ResourceLocation mainTab = id("main");
+		event.register(Registries.CREATIVE_MODE_TAB, mainTab, () -> CreativeModeTab.builder()
 				.title(Component.translatable("item_group."+MODID))
 				.icon(() -> new ItemStack(FISHING_ROD.get()))
 				.displayItems((p, o) -> {
@@ -62,6 +64,7 @@ public final class TFTSItems{
 				.icon(() -> new ItemStack(Fish.BASS)).displayItems((p, o) -> {
 					for(Fish fish : Fish.values()) o.accept(fish);
 				})
+				.withTabsBefore(mainTab)
 				.build());
 	}
 

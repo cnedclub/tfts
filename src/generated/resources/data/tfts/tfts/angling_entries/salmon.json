@@ -1,23 +1,19 @@
 {
   "type": "tfts:angling",
   "bait_consumption_chance": 0.1,
-  "baits": {
+  "bait_modifier": {
     "type": "condition",
     "condition": "meat",
     "modifier": 1.0
   },
+  "base_weight": 50.0,
   "environment": [
-    [
-      "ocean_cold_surface",
-      "ocean_cold_deep"
-    ],
-    [
-      "ocean_frozen_surface",
-      "ocean_frozen_deep"
-    ],
-    "freshwater"
+    "ocean_cold_surface",
+    "ocean_cold_deep",
+    "ocean_frozen_surface",
+    "ocean_frozen_deep",
+    "unknown"
   ],
-  "environment_bonus": 1.0,
   "gives_exp": false,
   "loots": [
     {
@@ -25,9 +21,10 @@
       "id": "minecraft:salmon"
     }
   ],
+  "min_fishing_power": 0.5,
   "nibble_behavior": {
     "type": "nibble",
     "bite_chance": 0.5
   },
-  "weight": 50.0
+  "weight_growth": 1.0
 }

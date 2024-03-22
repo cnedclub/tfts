@@ -1,12 +1,9 @@
 package tictim.tfts.contents.fish.condition;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import tictim.tfts.contents.TFTSRegistries;
-import tictim.tfts.contents.fish.AnglingEnvironment;
+import tictim.tfts.contents.fish.AnglingContext;
 
 import java.util.Locale;
 
@@ -19,9 +16,8 @@ public enum TimeCondition implements FishCondition<TimeCondition>{
 	@Override public FishConditionType<TimeCondition> type(){
 		return this.type;
 	}
-	@Override public boolean matches(@NotNull Player player, @NotNull BlockPos pos, @NotNull AnglingEnvironment environment){
-		Level level = player.level();
-		return level.isDay()==(this==DAY);
+	@Override public boolean matches(@NotNull AnglingContext context){
+		return context.level.isDay()==(this==DAY);
 	}
 
 	private static boolean init;

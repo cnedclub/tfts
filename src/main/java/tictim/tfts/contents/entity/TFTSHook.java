@@ -27,10 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tictim.tfts.TFTSMod;
 import tictim.tfts.contents.TFTSEntities;
-import tictim.tfts.contents.fish.AnglingEntry;
-import tictim.tfts.contents.fish.AnglingEnvironment;
-import tictim.tfts.contents.fish.AnglingUtils;
-import tictim.tfts.contents.fish.NibbleBehavior;
+import tictim.tfts.contents.fish.*;
 import tictim.tfts.contents.item.TFTSFishingRodItem;
 
 import java.util.ArrayList;
@@ -108,9 +105,9 @@ public class TFTSHook extends FishingHook{
 	@Override
 	public int retrieve(@NotNull ItemStack stack){
 		Player player = getPlayerOwner();
-		if(level().isClientSide||player==null||shouldStopFishing(player)) return 0;
+		if(player==null||shouldStopFishing(player)||
+				!(level() instanceof ServerLevel level)) return 0;
 
-		int itemDamage = 0;
 		Entity hookedIn = getHookedIn();
 		if(hookedIn!=null){
 			pullEntity(hookedIn);
@@ -120,9 +117,23 @@ public class TFTSHook extends FishingHook{
 			return hookedIn instanceof ItemEntity ? 3 : 5;
 		}
 		AnglingEntry<?> entry = this.anglingEntry;
-		if(entry!=null&&(isBiting()||(this.fishArrived&&this.random.nextDouble()<.25))){
+		if(entry!=null){
+			AnglingContext ctx = new AnglingContext(level, player, this.blockPosition(),
+					this.environment!=null ? this.environment : NoEnvironment.get());
+			boolean hooked = isBiting()||this.fishArrived&&this.random.nextDouble()<.25;
+
+			if(ctx.hasBait()&&this.random.nextDouble()<entry.getBaitConsumptionChance(ctx)){
+				AnglingUtils.consumeBait(level.getServer(), player);
+			}
+
+			if(!hooked){
+				int itemDamage = onGround() ? 2 : 0;
+				discard();
+				return itemDamage;
+			}
+
 			List<ItemStack> list = new ArrayList<>();
-			entry.getLoot(list);
+			entry.getLoot(ctx, list);
 
 			ItemFishedEvent event = new ItemFishedEvent(list, this.onGround() ? 2 : 1, this);
 			MinecraftForge.EVENT_BUS.post(event);
@@ -141,7 +152,7 @@ public class TFTSHook extends FishingHook{
 				if(this.environment!=null) this.environment.processLoot(entity);
 				this.level().addFreshEntity(entity);
 
-				int exp = entry.getExperience(this.random);
+				int exp = entry.getExperience(ctx, this.random);
 				if(exp>0){
 					ExperienceOrb expOrb = new ExperienceOrb(player.level(), player.getX(), player.getY()+.5, player.getZ()+.5, exp);
 					if(this.environment!=null) this.environment.processExp(expOrb);
@@ -157,7 +168,7 @@ public class TFTSHook extends FishingHook{
 			return event.getRodDamage();
 		}
 
-		if(onGround()) itemDamage = 2;
+		int itemDamage = onGround() ? 2 : 0;
 		discard();
 		return itemDamage;
 	}
@@ -184,41 +195,43 @@ public class TFTSHook extends FishingHook{
 			}
 
 			if(this.counter<=0){
-				//this.counter = Mth.nextInt(this.random, 100, 600)-this.lureSpeed*20*5; TODO test code
-				this.counter = 10;
+				this.counter = Mth.nextInt(this.random, 100, 600)-this.lureSpeed*20*5; // TODO idk???
 			}else{
 				this.counter--;
 				HookEffects.idleSplash(this, level);
 
 				if(this.counter<=0){
-					this.anglingEntry = AnglingUtils.pick(level, owner, pos, this.environment, this.random);
+					this.anglingEntry = AnglingUtils.pick(new AnglingContext(level, owner, pos, this.environment),
+							this.random);
 					TFTSMod.LOGGER.info("AnglingEntry: {}", this.anglingEntry);
 				}
 			}
 		}else if(!isBiting()){ // nibbling state
+			var fish = this.fish;
 			boolean bitTheHook = false;
-			NibbleBehavior b = anglingEntry.nibbleBehavior();
+			NibbleBehavior b = this.anglingEntry.getNibbleBehavior(new AnglingContext(level, owner, pos,
+					this.environment!=null ? this.environment : NoEnvironment.get()));
 			switch(b.type()){
 				case NONE -> bitTheHook = true;
 				case SNATCH -> {
-					if(this.fish==null){
-						this.fish = new ImaginaryFish();
-						this.fish.initPosition(level, this);
+					if(fish==null){
+						this.fish = fish = new ImaginaryFish();
+						fish.initPosition(level, this);
 					}
-					if(this.fish.moveTo(this, level, ImaginaryFish.FAST_SPEED)){
+					if(fish.moveTo(this, level, ImaginaryFish.FAST_SPEED)){
 						// TODO after implementing fishing minigame snatchers should immediately trigger the minigame
 						bitTheHook = true;
 					}
 				}
 				case NIBBLE -> {
-					if(this.fish==null){
-						this.fish = new ImaginaryFish();
-						this.fish.initPosition(level, this);
+					if(fish==null){
+						this.fish = fish = new ImaginaryFish();
+						fish.initPosition(level, this);
 					}
-					if(!this.fishArrived){
-						if(this.fish.moveTo(this, level, ImaginaryFish.NORMAL_SPEED)){
-							this.fish.xRot = 0;
-							this.fish.yRot = Mth.wrapDegrees(this.fish.yRot+180f+
+					if(!fishArrived){
+						if(fish.moveTo(this, level, ImaginaryFish.NORMAL_SPEED)){
+							fish.xRot = 0;
+							fish.yRot = Mth.wrapDegrees(fish.yRot+180f+
 									(float)this.random.triangle(0, 9.188)); // wack ass magic const
 							this.fishArrived = true;
 						}
@@ -244,7 +257,7 @@ public class TFTSHook extends FishingHook{
 								TFTSMod.LOGGER.info("Nibble!");
 							}
 						}
-						if(this.fish!=null) this.fish.setPosition(this.getX(), this.getY(), this.getZ());
+						fish.setPosition(this.getX(), this.getY(), this.getZ());
 					}
 				}
 			}
@@ -255,12 +268,15 @@ public class TFTSHook extends FishingHook{
 				setBiting(true);
 			}
 
-			if(this.fish!=null) this.fish.processDelta(this, level);
+			if(fish!=null) fish.processDelta(this, level);
 		}else{ // biting
-			if(this.fish!=null){
-				this.fish.setPosition(this.getX(), this.getY(), this.getZ());
-				this.fish.processDelta(this, level);
+			var fish = this.fish;
+			if(fish==null){
+				this.fish = fish = new ImaginaryFish();
+				fish.initPosition(level, this);
 			}
+			fish.setPosition(this.getX(), this.getY(), this.getZ());
+			fish.processDelta(this, level);
 			if(--this.counter<=0) resetStates();
 		} // TODO fishing minigame
 	}

@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Locale;
 
 public sealed interface BaitModifierFunction{
 	@NotNull Type type();
-	double getModifier(@NotNull BaitStat baitStat);
+	double getModifier(@Nullable BaitStat baitStat);
 
 	Codec<Type> TYPE_CODEC = StringRepresentable.fromEnum(Type::values);
 	Codec<BaitModifierFunction> CODEC = TYPE_CODEC.dispatch(BaitModifierFunction::type, Type::codec);
@@ -29,7 +30,7 @@ public sealed interface BaitModifierFunction{
 		@Override @NotNull public Type type(){
 			return Type.CONDITION;
 		}
-		@Override public double getModifier(@NotNull BaitStat baitStat){
+		@Override public double getModifier(@Nullable BaitStat baitStat){
 			return this.condition.matches(baitStat) ? this.modifier : NO_RESULT;
 		}
 	}
@@ -40,7 +41,7 @@ public sealed interface BaitModifierFunction{
 		@Override @NotNull public Type type(){
 			return Type.FIRST_MATCH;
 		}
-		@Override public double getModifier(@NotNull BaitStat baitStat){
+		@Override public double getModifier(@Nullable BaitStat baitStat){
 			for(BaitModifierFunction f : functions){
 				double modifier = f.getModifier(baitStat);
 				if(isValidResult(modifier)) return modifier;
@@ -55,7 +56,7 @@ public sealed interface BaitModifierFunction{
 		@Override @NotNull public Type type(){
 			return Type.SUM;
 		}
-		@Override public double getModifier(@NotNull BaitStat baitStat){
+		@Override public double getModifier(@Nullable BaitStat baitStat){
 			double sum = NO_RESULT;
 			for(BaitModifierFunction f : functions){
 				double modifier = f.getModifier(baitStat);
@@ -74,7 +75,7 @@ public sealed interface BaitModifierFunction{
 		@Override @NotNull public Type type(){
 			return Type.MIN;
 		}
-		@Override public double getModifier(@NotNull BaitStat baitStat){
+		@Override public double getModifier(@Nullable BaitStat baitStat){
 			double min = NO_RESULT;
 			for(BaitModifierFunction f : functions){
 				double modifier = f.getModifier(baitStat);
@@ -93,7 +94,7 @@ public sealed interface BaitModifierFunction{
 		@Override @NotNull public Type type(){
 			return Type.MAX;
 		}
-		@Override public double getModifier(@NotNull BaitStat baitStat){
+		@Override public double getModifier(@Nullable BaitStat baitStat){
 			double max = NO_RESULT;
 			for(BaitModifierFunction f : functions){
 				double modifier = f.getModifier(baitStat);

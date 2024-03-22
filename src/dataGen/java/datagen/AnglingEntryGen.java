@@ -9,18 +9,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import tictim.tfts.contents.TFTSRegistries;
-import tictim.tfts.contents.fish.*;
+import tictim.tfts.contents.fish.AnglingEntry;
+import tictim.tfts.contents.fish.SimpleAnglingEntry;
 import tictim.tfts.contents.item.Fish;
 
 import java.util.Map;
 
+import static datagen.fish.BaitTypes.*;
 import static datagen.fish.FishUtils.*;
 import static tictim.tfts.TFTSMod.id;
-import static datagen.fish.BaitTypes.*;
+import static tictim.tfts.contents.fish.FishEnvs.*;
 import static tictim.tfts.contents.fish.NibbleBehavior.nibble;
 import static tictim.tfts.contents.fish.NibbleBehavior.snatch;
 import static tictim.tfts.contents.fish.PrimitiveFishEnv.*;
-import static tictim.tfts.contents.fish.FishEnvs.*;
 
 public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<AnglingEntry<?>>{
 	private final Map<ResourceLocation, AnglingEntryBuilder<?>> map = new Object2ObjectOpenHashMap<>();
@@ -30,28 +31,32 @@ public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<Ang
 
 		simpleFish(id("cod"))
 				.loot(Items.COD)
-				.weight(50)
+				.baseWeight(50)
+				.minFishingPower(0.5)
 				.env(OCEAN, OCEAN_LUKEWARM, OCEAN_COLD)
 				.bait(max(c(ALL_MEATS, 1), c(FISH_MEAT, 1.5)))
 				.nibbleBehavior(snatch());
 
 		simpleFish(id("salmon"))
 				.loot(Items.SALMON)
-				.weight(50)
-				.env(OCEAN_COLD, OCEAN_FROZEN, FRESHWATER)
+				.baseWeight(50)
+				.minFishingPower(0.5)
+				.env(OCEAN_COLD, OCEAN_FROZEN, UNKNOWN)
 				.bait(ALL_MEATS, 1)
 				.nibbleBehavior(nibble(.5));
 
 		simpleFish(id("pufferfish"))
 				.loot(Items.PUFFERFISH)
-				.weight(30)
+				.baseWeight(30)
+				.minFishingPower(0.75)
 				.env(OCEAN_WARM)
 				.bait(max(c(any(ALL_PLANTS, ALL_MUSHROOMS, ALL_MEATS), 1), c(CARROT, 2)))
 				.nibbleBehavior(nibble(.5));
 
 		simpleFish(id("tropical_fish"))
 				.loot(Items.TROPICAL_FISH)
-				.weight(50)
+				.baseWeight(50)
+				.minFishingPower(0.5)
 				.env(OCEAN_WARM, OCEAN_LUKEWARM)
 				.bait(ALL_PLANTS, 1)
 				.nibbleBehavior(nibble(.5));
@@ -59,9 +64,10 @@ public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<Ang
 		// trash
 
 		simpleFish(Fish.BASS)
-				.weight(50)
+				.baseWeight(50)
+				.weightGrowth(0)
+				.minFishingPower(0.1)
 				.env(ALL_WATER)
-				.envBonus(0)
 				.bait(any(ALL_PLANTS, ALL_MUSHROOMS, ALL_MEATS, ALL_FOODS), 1)
 				.nibbleBehavior(nibble(.5));
 
@@ -71,13 +77,15 @@ public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<Ang
 		// uncommon
 
 		simpleFish(Fish.FLYING_FISH)
-				.weight(50)
+				.baseWeight(50)
+				.minFishingPower(0.5)
 				.env(OCEAN)
 				.bait(INSECT_MEAT, 1)
 				.nibbleBehavior(snatch());
 
 		simpleFish(Fish.SEAHORSE)
-				.weight(50)
+				.baseWeight(50)
+				.minFishingPower(0.5)
 				.env(OCEAN_SURFACE, OCEAN_WARM)
 				.bait(max(c(ALL_PLANTS, 0.5), c(INSECT_MEAT, 1)))
 				.nibbleBehavior(nibble(.3));

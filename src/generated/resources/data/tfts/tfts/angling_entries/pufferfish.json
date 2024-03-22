@@ -1,7 +1,7 @@
 {
   "type": "tfts:angling",
   "bait_consumption_chance": 0.1,
-  "baits": {
+  "bait_modifier": {
     "type": "max",
     "functions": [
       {
@@ -23,8 +23,8 @@
       }
     ]
   },
+  "base_weight": 30.0,
   "environment": "ocean_warm",
-  "environment_bonus": 1.0,
   "gives_exp": false,
   "loots": [
     {
@@ -32,9 +32,10 @@
       "id": "minecraft:pufferfish"
     }
   ],
+  "min_fishing_power": 0.75,
   "nibble_behavior": {
     "type": "nibble",
     "bite_chance": 0.5
   },
-  "weight": 30.0
+  "weight_growth": 1.0
 }

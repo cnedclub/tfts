@@ -5,6 +5,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -13,8 +15,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tictim.tfts.TFTSMod;
 import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.TFTSTags;
@@ -168,25 +172,19 @@ public final class AnglingUtils{
 	}
 
 	@Nullable
-	public static AnglingEntry<?> pick(@NotNull ServerLevel serverLevel,
-	                                   @NotNull Player player,
-	                                   @NotNull BlockPos pos,
-	                                   @NotNull AnglingEnvironment environment,
+	public static AnglingEntry<?> pick(@NotNull AnglingContext context,
 	                                   @NotNull RandomSource randomSource){
-		Optional<Registry<AnglingEntry<?>>> optionalEntries = serverLevel.getServer().registryAccess()
+		Optional<Registry<AnglingEntry<?>>> optionalEntries = context.level.getServer().registryAccess()
 				.registry(TFTSRegistries.ANGLING_ENTRY_REGISTRY_KEY);
 		if(optionalEntries.isEmpty()) return null;
 
 		WgtRoll<AnglingEntry<?>> roll = WgtRoll.simple();
 		for(AnglingEntry<?> e : optionalEntries.get()){
-			double weight = e.getWeight(player, pos, environment);
+			double weight = e.getWeight(context);
 			roll.add(e, weight);
 		}
+		TFTSMod.LOGGER.info(roll);
 		return roll.get(randomSource);
-	}
-
-	public static double getFishingPower(@NotNull Player player, double basePower){
-		return basePower; // TODO wtf should i do??? attributes?????
 	}
 
 	@Nullable
@@ -198,5 +196,22 @@ public final class AnglingUtils{
 
 	private static boolean isTFTSFishingRod(@NotNull ItemStack stack){
 		return !stack.isEmpty()&&stack.is(TFTSTags.TFTS_FISHING_RODS);
+	}
+
+	public static boolean consumeBait(@NotNull MinecraftServer server, @NotNull Player player){
+		BaitBoxInventory baitBoxInv = AnglingUtils.getBaitBoxInventory(player);
+		if(baitBoxInv==null) return false;
+		int i = baitBoxInv.selectedIndex();
+		if(i<0||i>=baitBoxInv.getInventory().getSlots()) return false;
+		ItemStack stack = baitBoxInv.getInventory().getStackInSlot(i);
+		if(stack.isEmpty()) return false;
+		ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
+		if(key==null) return false;
+		Optional<Registry<BaitStat>> o = server.registryAccess().registry(TFTSRegistries.BAIT_STAT_REGISTRY_KEY);
+		if(o.isEmpty()) return false;
+		Registry<BaitStat> reg = o.get();
+		if(reg.get(key)==null) return false;
+		stack.shrink(1);
+		return true;
 	}
 }

@@ -1,7 +1,7 @@
 {
   "type": "tfts:angling",
   "bait_consumption_chance": 0.1,
-  "baits": {
+  "bait_modifier": {
     "type": "max",
     "functions": [
       {
@@ -16,21 +16,15 @@
       }
     ]
   },
+  "base_weight": 50.0,
   "environment": [
-    [
-      "ocean_surface",
-      "ocean_deep"
-    ],
-    [
-      "ocean_lukewarm_surface",
-      "ocean_lukewarm_deep"
-    ],
-    [
-      "ocean_cold_surface",
-      "ocean_cold_deep"
-    ]
+    "ocean_surface",
+    "ocean_deep",
+    "ocean_lukewarm_surface",
+    "ocean_lukewarm_deep",
+    "ocean_cold_surface",
+    "ocean_cold_deep"
   ],
-  "environment_bonus": 1.0,
   "gives_exp": false,
   "loots": [
     {
@@ -38,8 +32,9 @@
       "id": "minecraft:cod"
     }
   ],
+  "min_fishing_power": 0.5,
   "nibble_behavior": {
     "type": "snatch"
   },
-  "weight": 50.0
+  "weight_growth": 1.0
 }

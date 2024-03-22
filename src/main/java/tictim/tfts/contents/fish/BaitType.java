@@ -113,8 +113,8 @@ public final class BaitType implements BaitModifierCondition{
 		return this.parent;
 	}
 
-	@Override public boolean matches(@NotNull BaitStat baitStat){
-		return baitStat.has(this);
+	@Override public boolean matches(@Nullable BaitStat baitStat){
+		return baitStat!=null&&baitStat.has(this);
 	}
 
 	private int depth = -1;

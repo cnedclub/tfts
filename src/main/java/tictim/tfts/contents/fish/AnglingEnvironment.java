@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Set;
 
 public interface AnglingEnvironment{
-	boolean matches(@NotNull Fluid fluid);
 	double getBaseFishingPower(@NotNull FishEnv fishEnv);
 
 	default void processLoot(@NotNull ItemEntity itemEntity){}

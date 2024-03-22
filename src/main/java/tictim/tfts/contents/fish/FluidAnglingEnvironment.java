@@ -1,57 +1,58 @@
 package tictim.tfts.contents.fish;
 
+import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
+import it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public final class FluidAnglingEnvironment implements AnglingEnvironment{
 	private final Fluid fluid;
 
-	private final Object2IntMap<ResourceLocation> baseFishingPower = new Object2IntOpenHashMap<>();
+	private final Object2IntMap<Biome> fluidBlockCount = new Object2IntOpenHashMap<>();
+	private final Object2DoubleMap<PrimitiveFishEnv> fishingPowerCache = new Object2DoubleOpenHashMap<>();
 
 	public FluidAnglingEnvironment(@NotNull Fluid fluid){
 		this.fluid = fluid;
 	}
 
 	public void eval(@NotNull ServerLevel level, @NotNull BlockPos origin){
-		this.baseFishingPower.clear();
-		Optional<Registry<Biome>> o = level.getServer().registryAccess().registry(Registries.BIOME);
-		if(o.isEmpty()) return; // ??
-		Registry<Biome> biomes = o.get();
+		this.fluidBlockCount.clear();
+
 		AnglingUtils.traverseFluid(level, origin, this.fluid, pos -> {
 			Biome biome = level.getBiome(pos).get();
-			var id = biomes.getKey(biome);
-			if(id!=null) this.baseFishingPower.put(id, this.baseFishingPower.getInt(id)+1);
+			this.fluidBlockCount.put(biome, this.fluidBlockCount.getInt(biome)+1);
 		});
 	}
 
-	@Override public boolean matches(@NotNull Fluid fluid){
-		return this.fluid.isSame(fluid);
-	}
-
 	@Override public double getBaseFishingPower(@NotNull FishEnv fishEnv){
-		// TODO
-		long sum = 0;
+		double sum = 0;
 
 		for(PrimitiveFishEnv env : fishEnv.asSet()){
-			for(var biome : env.biomes()){
-				sum += baseFishingPower.getInt(biome.location());
+			if(isApplicable(env)){
+				sum += this.fishingPowerCache.computeIfAbsent(env, this::calculateFishingPower);
 			}
 		}
-
 		return sum;
+	}
+
+	private boolean isApplicable(@NotNull PrimitiveFishEnv fishEnv){
+		return this.fluid.isSame(Fluids.WATER); // TODO only water fishing... for now
+	}
+
+	private double calculateFishingPower(@NotNull PrimitiveFishEnv fishEnv){
+		long poolSize = 0;
+		for(var biome : fishEnv.biomes()) poolSize += this.fluidBlockCount.getInt(biome);
+		return fishEnv.calculateFishingPower(poolSize);
 	}
 
 	@Override public void processLoot(@NotNull ItemEntity itemEntity){
@@ -62,7 +63,7 @@ public final class FluidAnglingEnvironment implements AnglingEnvironment{
 	}
 
 	@Override public String toString(){
-		return "FluidAnglingEnvironment { "+baseFishingPower.object2IntEntrySet().stream()
+		return "FluidAnglingEnvironment { "+fluidBlockCount.object2IntEntrySet().stream()
 				.map(e -> e.getKey()+": "+e.getIntValue())
 				.collect(Collectors.joining(", "))+" }";
 	}

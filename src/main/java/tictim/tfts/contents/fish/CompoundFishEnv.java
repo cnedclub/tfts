@@ -1,32 +1,31 @@
 package tictim.tfts.contents.fish;
 
-import com.mojang.serialization.Codec;
-import net.minecraft.util.ExtraCodecs;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public final class CompoundFishEnv implements FishEnv{
-	private final List<FishEnv> rawList;
+	private final EnumSet<PrimitiveFishEnv> delegate = EnumSet.noneOf(PrimitiveFishEnv.class);
 
-	private Set<PrimitiveFishEnv> delegate;
-
-	public CompoundFishEnv(@NotNull List<@NotNull FishEnv> rawList){
-		this.rawList = rawList;
+	@ApiStatus.Internal CompoundFishEnv(@NotNull FishEnv @NotNull ... envs){
+		for(FishEnv env : envs) this.delegate.addAll(env.asSet());
+	}
+	@ApiStatus.Internal CompoundFishEnv(@NotNull List<? extends FishEnv> envs){
+		for(FishEnv env : envs) this.delegate.addAll(env.asSet());
 	}
 
 	@Override @NotNull @Unmodifiable public Set<@NotNull PrimitiveFishEnv> asSet(){
-		if(this.delegate==null){
-			this.delegate = this.rawList.stream()
-					.flatMap(e -> e.asSet().stream())
-					.collect(Collectors.toUnmodifiableSet());
-		}
-		return this.delegate;
+		return Collections.unmodifiableSet(this.delegate);
 	}
 
-	public static final Codec<CompoundFishEnv> CODEC = ExtraCodecs.lazyInitializedCodec(() ->
-			FishEnv.CODEC.listOf().xmap(CompoundFishEnv::new, e -> e.rawList));
+	private static final CompoundFishEnv empty = new CompoundFishEnv(List.of());
+
+	@NotNull public static CompoundFishEnv empty(){
+		return empty;
+	}
 }

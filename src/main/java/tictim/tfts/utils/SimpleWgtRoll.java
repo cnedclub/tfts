@@ -37,5 +37,13 @@ public final class SimpleWgtRoll<T> implements WgtRoll<T>{
 		return this.entries.get(this.entries.size()-1).entry();
 	}
 
+	@Override public String toString(){
+		return "SimpleWgtRoll{"+
+				"entries="+entries+
+				", infinite="+infinite+
+				", weightSum="+weightSum+
+				'}';
+	}
+
 	public record RollEntry<T>(T entry, double weight){}
 }

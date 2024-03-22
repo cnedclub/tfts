@@ -1,16 +1,16 @@
 {
   "type": "tfts:angling",
   "bait_consumption_chance": 0.1,
-  "baits": {
+  "bait_modifier": {
     "type": "condition",
     "condition": "meat/insect",
     "modifier": 1.0
   },
+  "base_weight": 50.0,
   "environment": [
     "ocean_surface",
     "ocean_deep"
   ],
-  "environment_bonus": 1.0,
   "gives_exp": false,
   "loots": [
     {
@@ -18,8 +18,9 @@
       "id": "tfts:flying_fish"
     }
   ],
+  "min_fishing_power": 0.5,
   "nibble_behavior": {
     "type": "snatch"
   },
-  "weight": 50.0
+  "weight_growth": 1.0
 }
