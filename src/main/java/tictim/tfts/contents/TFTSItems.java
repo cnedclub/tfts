@@ -12,10 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
-import tictim.tfts.contents.fish.Fish;
-import tictim.tfts.contents.item.BaitBoxItem;
-import tictim.tfts.contents.item.TFTSFishingRodItem;
-import tictim.tfts.contents.item.TrowelItem;
+import tictim.tfts.contents.item.*;
 
 import static tictim.tfts.TFTSMod.MODID;
 import static tictim.tfts.TFTSMod.id;
@@ -40,6 +37,7 @@ public final class TFTSItems{
 
 	static{
 		Fish.register();
+		Bait.register();
 	}
 
 	@SubscribeEvent

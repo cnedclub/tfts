@@ -1,4 +1,4 @@
-package tictim.tfts.contents.fish;
+package tictim.tfts.contents.item;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;

@@ -1,4 +1,6 @@
-package tictim.tfts.contents.fish;
+package datagen.fish;
+
+import tictim.tfts.contents.fish.BaitType;
 
 public interface BaitTypes{
 	// plant supercategory represents, well, plants
@@ -58,6 +60,9 @@ public interface BaitTypes{
 	BaitType COOKIE = BaitType.of("food/cookie");
 	BaitType HONEY = BaitType.of("food/honey");
 	BaitType SUGAR = BaitType.of("foot/sugar");
+
+	// lol
+	BaitType POISON = BaitType.of("poison");
 
 	// exotic baits, or "otherworldly" baits has its own supercategory
 

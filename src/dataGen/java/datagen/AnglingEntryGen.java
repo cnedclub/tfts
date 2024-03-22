@@ -10,12 +10,13 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.fish.*;
+import tictim.tfts.contents.item.Fish;
 
 import java.util.Map;
 
 import static datagen.fish.FishUtils.*;
 import static tictim.tfts.TFTSMod.id;
-import static tictim.tfts.contents.fish.BaitTypes.*;
+import static datagen.fish.BaitTypes.*;
 import static tictim.tfts.contents.fish.NibbleBehavior.nibble;
 import static tictim.tfts.contents.fish.NibbleBehavior.snatch;
 import static tictim.tfts.contents.fish.PrimitiveFishEnv.*;
@@ -25,51 +26,30 @@ public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<Ang
 	private final Map<ResourceLocation, AnglingEntryBuilder<?>> map = new Object2ObjectOpenHashMap<>();
 
 	protected void registerAll(){
-		/*
-		register(id("test1"), new SimpleAnglingEntry(
-				10,
-				List.of(new ItemStack(Items.COBBLESTONE)),
-				NibbleBehavior.none(),
-				0,
-				false));
-		register(id("test2"), new SimpleAnglingEntry(
-				10,
-				List.of(new ItemStack(Items.ACACIA_SLAB)),
-				NibbleBehavior.snatch(),
-				.1,
-				true));
-		register(id("test3"), new SimpleAnglingEntry(
-				10,
-				List.of(new ItemStack(Items.BEE_SPAWN_EGG)),
-				NibbleBehavior.nibble(0.5),
-				.1,
-				true));
-		 */
-
 		// vanilla fish
 
-		simpleFish(new ResourceLocation("cod"))
+		simpleFish(id("cod"))
 				.loot(Items.COD)
 				.weight(50)
 				.env(OCEAN, OCEAN_LUKEWARM, OCEAN_COLD)
 				.bait(max(c(ALL_MEATS, 1), c(FISH_MEAT, 1.5)))
 				.nibbleBehavior(snatch());
 
-		simpleFish(new ResourceLocation("salmon"))
+		simpleFish(id("salmon"))
 				.loot(Items.SALMON)
 				.weight(50)
 				.env(OCEAN_COLD, OCEAN_FROZEN, FRESHWATER)
 				.bait(ALL_MEATS, 1)
 				.nibbleBehavior(nibble(.5));
 
-		simpleFish(new ResourceLocation("pufferfish"))
+		simpleFish(id("pufferfish"))
 				.loot(Items.PUFFERFISH)
 				.weight(30)
 				.env(OCEAN_WARM)
-				.bait(any(ALL_PLANTS, ALL_MUSHROOMS, ALL_MEATS), 1)
+				.bait(max(c(any(ALL_PLANTS, ALL_MUSHROOMS, ALL_MEATS), 1), c(CARROT, 2)))
 				.nibbleBehavior(nibble(.5));
 
-		simpleFish(new ResourceLocation("tropical_fish"))
+		simpleFish(id("tropical_fish"))
 				.loot(Items.TROPICAL_FISH)
 				.weight(50)
 				.env(OCEAN_WARM, OCEAN_LUKEWARM)

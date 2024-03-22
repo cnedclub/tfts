@@ -6,12 +6,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:dirt",
+          "name": "minecraft:wheat_seeds",
           "weight": 33
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:acacia_boat",
+          "name": "tfts:worm",
           "weight": 33
         },
         {
@@ -20,7 +20,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:gold_nugget"
+          "name": "tfts:golden_worm"
         }
       ],
       "rolls": 1.0
