@@ -2,6 +2,7 @@ package tictim.tfts.contents.fish;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -14,18 +15,23 @@ import org.jetbrains.annotations.Nullable;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.fish.condition.FishCondition;
 import tictim.tfts.contents.item.Thing;
+import tictim.tfts.utils.A;
 
 import java.util.List;
 
 public record TrashAnglingEntry(
 		double baseWeight,
 		double weightGrowth,
+		double minWeight,
+		double maxWeight,
 		@NotNull List<FishCondition<?>> conditions,
 		@NotNull FishEnv environment
 ) implements AnglingEntry<TrashAnglingEntry>{
 	private static final Codec<TrashAnglingEntry> CODEC = RecordCodecBuilder.create(b -> b.group(
-			Codec.DOUBLE.fieldOf("base_weight").forGetter(TrashAnglingEntry::baseWeight),
-			Codec.DOUBLE.fieldOf("weight_growth").forGetter(TrashAnglingEntry::weightGrowth),
+			A.DOUBLE_INFINITE.fieldOf("base_weight").forGetter(TrashAnglingEntry::baseWeight),
+			A.DOUBLE_INFINITE.fieldOf("weight_growth").forGetter(TrashAnglingEntry::weightGrowth),
+			A.DOUBLE_INFINITE.optionalFieldOf("min_weight", 0.0).forGetter(TrashAnglingEntry::minWeight),
+			A.DOUBLE_INFINITE.optionalFieldOf("max_weight", Double.POSITIVE_INFINITY).forGetter(TrashAnglingEntry::maxWeight),
 			TFTSRegistries.FISH_CONDITION_CODEC.listOf().optionalFieldOf("conditions", List.of()).forGetter(TrashAnglingEntry::conditions),
 			FishEnv.CODEC.fieldOf("environment").forGetter(TrashAnglingEntry::environment)
 	).apply(b, TrashAnglingEntry::new));
@@ -42,7 +48,7 @@ public record TrashAnglingEntry(
 		}
 
 		double fp = context.environment.getBaseFishingPower(this.environment)+context.additionalFishingPower();
-		return this.baseWeight+fp*this.weightGrowth;
+		return Mth.clamp(this.baseWeight+fp*this.weightGrowth, this.minWeight, this.maxWeight);
 	}
 
 	@Override public void getLoot(@NotNull AnglingContext context, @Nullable ItemStack retrievingItem,

@@ -23,6 +23,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tictim.tfts.TFTSMod;
@@ -214,27 +215,20 @@ public class TFTSHook extends FishingHook{
 				}
 			}
 		}else if(!isBiting()){ // nibbling state
-			var fish = this.fish;
 			boolean bitTheHook = false;
 			NibbleBehavior b = this.anglingEntry.getNibbleBehavior(new AnglingContext(this, level, owner, pos,
 					this.environment!=null ? this.environment : NoEnvironment.get()));
 			switch(b.type()){
 				case NONE -> bitTheHook = true;
 				case SNATCH -> {
-					if(fish==null){
-						this.fish = fish = new ImaginaryFish();
-						fish.initPosition(level, this);
-					}
+					var fish = getImaginaryFish(true);
 					if(fish.moveTo(this, level, ImaginaryFish.FAST_SPEED)){
 						// TODO after implementing fishing minigame snatchers should immediately trigger the minigame
 						bitTheHook = true;
 					}
 				}
 				case NIBBLE -> {
-					if(fish==null){
-						this.fish = fish = new ImaginaryFish();
-						fish.initPosition(level, this);
-					}
+					var fish = getImaginaryFish(true);
 					if(!fishArrived){
 						if(fish.moveTo(this, level, ImaginaryFish.NORMAL_SPEED)){
 							fish.xRot = 0;
@@ -275,15 +269,14 @@ public class TFTSHook extends FishingHook{
 				setBiting(true);
 			}
 
+			var fish = getImaginaryFish(false);
 			if(fish!=null) fish.processDelta(this, level);
 		}else{ // biting
-			var fish = this.fish;
-			if(fish==null){
-				this.fish = fish = new ImaginaryFish();
-				fish.initPosition(level, this);
+			var fish = getImaginaryFish(false);
+			if(fish!=null){
+				fish.setPosition(this.getX(), this.getY(), this.getZ());
+				fish.processDelta(this, level);
 			}
-			fish.setPosition(this.getX(), this.getY(), this.getZ());
-			fish.processDelta(this, level);
 			if(--this.counter<=0) resetStates();
 		} // TODO fishing minigame
 	}
@@ -293,9 +286,18 @@ public class TFTSHook extends FishingHook{
 		this.environment = null;
 		this.fishArrived = false;
 		this.anglingEntry = null;
-		this.fish = null;
+		if(this.fish!=null) this.fish.active = false;
 
 		setBiting(false);
+	}
+
+	@Contract("true -> !null; false -> _")
+	private ImaginaryFish getImaginaryFish(boolean initialize){
+		if(initialize){
+			if(this.fish==null) this.fish = new ImaginaryFish();
+			if(!this.fish.active) this.fish.initPosition(level(), this);
+		}
+		return this.fish;
 	}
 
 	@Override

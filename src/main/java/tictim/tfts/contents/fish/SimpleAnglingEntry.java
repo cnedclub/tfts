@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.fish.condition.FishCondition;
+import tictim.tfts.utils.A;
 
 import java.util.List;
 
@@ -24,9 +25,9 @@ public record SimpleAnglingEntry(
 		boolean givesExp
 ) implements AnglingEntry<SimpleAnglingEntry>{
 	private static final Codec<SimpleAnglingEntry> CODEC = RecordCodecBuilder.create(b -> b.group(
-			Codec.DOUBLE.fieldOf("base_weight").forGetter(SimpleAnglingEntry::baseWeight),
-			Codec.DOUBLE.fieldOf("weight_growth").forGetter(SimpleAnglingEntry::weightGrowth),
-			Codec.DOUBLE.fieldOf("min_fishing_power").forGetter(SimpleAnglingEntry::minFishingPower),
+			A.DOUBLE_INFINITE.fieldOf("base_weight").forGetter(SimpleAnglingEntry::baseWeight),
+			A.DOUBLE_INFINITE.fieldOf("weight_growth").forGetter(SimpleAnglingEntry::weightGrowth),
+			A.DOUBLE_INFINITE.fieldOf("min_fishing_power").forGetter(SimpleAnglingEntry::minFishingPower),
 			TFTSRegistries.FISH_CONDITION_CODEC.listOf().optionalFieldOf("conditions", List.of()).forGetter(SimpleAnglingEntry::conditions),
 			FishEnv.CODEC.fieldOf("environment").forGetter(SimpleAnglingEntry::environment),
 			BaitModifierFunction.CODEC.fieldOf("bait_modifier").forGetter(SimpleAnglingEntry::baitModifierFunction),

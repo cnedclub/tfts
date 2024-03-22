@@ -3,6 +3,7 @@ package tictim.tfts.contents.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
@@ -10,12 +11,15 @@ import tictim.tfts.TFTSMod;
 import tictim.tfts.contents.fish.AnglingUtils;
 import tictim.tfts.utils.WgtRoll;
 
+
 /**
  * Data of "imaginary fish" - a pseudo-entity tracked by {@link TFTSHook} for making convincing looking particles
  */
 public final class ImaginaryFish{
 	public static final float NORMAL_SPEED = .1f;
 	public static final float FAST_SPEED = .4f;
+
+	public boolean active;
 
 	public double x, y, z;
 	private double prevX, prevY, prevZ;
@@ -25,7 +29,7 @@ public final class ImaginaryFish{
 	private final Vector3d v = new Vector3d();
 	private final Vector3f vf = new Vector3f();
 
-	public void initPosition(@NotNull ServerLevel level, @NotNull TFTSHook hook){
+	public void initPosition(@NotNull Level level, @NotNull TFTSHook hook){
 		var roll = WgtRoll.priorityCutBlockPosRoll(0.5);
 
 		AnglingUtils.traverseFluid(level, hook.blockPosition(), null,
@@ -146,10 +150,6 @@ public final class ImaginaryFish{
 		this.prevX = this.x;
 		this.prevY = this.y;
 		this.prevZ = this.z;
-	}
-
-	public void lookAt(@NotNull TFTSHook hook){
-		lookAt(hook.getX(), hook.getY(), hook.getZ());
 	}
 
 	public void lookAt(double x, double y, double z){

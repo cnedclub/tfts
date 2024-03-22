@@ -31,6 +31,8 @@ public final class AnglingEntryBuilder<T extends AnglingEntry<T>>{
 		return new AnglingEntryBuilder<>(b -> new TrashAnglingEntry(
 				b.baseWeight(),
 				b.weightGrowth(),
+				b.minWeight(),
+				b.maxWeight(),
 				b.conditions(),
 				b.environment()
 		));
@@ -39,10 +41,12 @@ public final class AnglingEntryBuilder<T extends AnglingEntry<T>>{
 	private final Function<AnglingEntryBuilder<T>, T> factory;
 
 	private double baseWeight;
+	private double weightGrowth = 1;
+	private double minFishingPower = Double.NaN;
+	private double minWeight = 0;
+	private double maxWeight = Double.POSITIVE_INFINITY;
 	private final List<FishCondition<?>> conditions = new ArrayList<>();
 	private FishEnv environment;
-	private double minFishingPower = Double.NaN;
-	private double weightGrowth = 1;
 	private final List<ItemStack> loots = new ArrayList<>();
 	private BaitModifierFunction baitModifier;
 	private NibbleBehavior nibbleBehavior;
@@ -70,6 +74,12 @@ public final class AnglingEntryBuilder<T extends AnglingEntry<T>>{
 	}
 	public double weightGrowth(){
 		return weightGrowth;
+	}
+	public double minWeight(){
+		return minWeight;
+	}
+	public double maxWeight(){
+		return maxWeight;
 	}
 	public BaitModifierFunction baitModifier(){
 		if(baitModifier==null) throw new IllegalStateException("Property 'baitModifier' not set");
@@ -100,6 +110,14 @@ public final class AnglingEntryBuilder<T extends AnglingEntry<T>>{
 	}
 	public AnglingEntryBuilder<T> minFishingPower(double minFishingPower){
 		this.minFishingPower = minFishingPower;
+		return this;
+	}
+	public AnglingEntryBuilder<T> minWeight(double minWeight){
+		this.minWeight = minWeight;
+		return this;
+	}
+	public AnglingEntryBuilder<T> maxWeight(double maxWeight){
+		this.maxWeight = maxWeight;
 		return this;
 	}
 	public AnglingEntryBuilder<T> condition(FishCondition<?> condition){

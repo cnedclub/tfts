@@ -1,9 +1,13 @@
 package tictim.tfts.utils;
 
+import com.mojang.datafixers.util.Either;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
@@ -17,9 +21,29 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public final class A{ // fuck every single java naming conventions, also fuck capabilities
 	private A(){}
+
+	public static final Codec<Double> DOUBLE_INFINITE = Codec.either(Codec.DOUBLE, StringRepresentable.fromEnum(() ->
+					new SpecialDoubleValue[]{SpecialDoubleValue.PositiveInfinity, SpecialDoubleValue.NegativeInfinity}))
+			.flatComapMap(e -> e.map(Function.identity(), v -> v.value),
+					d -> {
+						if(Double.isFinite(d)) return DataResult.success(Either.left(d));
+						if(Double.isInfinite(d)) return DataResult.success(Either.right(d>0 ?
+								SpecialDoubleValue.PositiveInfinity : SpecialDoubleValue.NegativeInfinity));
+						return DataResult.error(() -> "Not a number");
+					});
+
+	public static final Codec<Double> DOUBLE_FULL = Codec.either(Codec.DOUBLE, StringRepresentable.fromEnum(SpecialDoubleValue::values))
+			.xmap(e -> e.map(Function.identity(), v -> v.value),
+					d -> {
+						if(Double.isFinite(d)) return Either.left(d);
+						if(Double.isInfinite(d)) return Either.right(d>0 ? SpecialDoubleValue.PositiveInfinity :
+								SpecialDoubleValue.NegativeInfinity);
+						return Either.right(SpecialDoubleValue.NaN);
+					});
 
 	/**
 	 * Fuck lazyoptionals
@@ -116,5 +140,23 @@ public final class A{ // fuck every single java naming conventions, also fuck ca
 	@FunctionalInterface
 	public interface SlotFactory{
 		@NotNull Slot create(int index, int x, int y);
+	}
+
+	public enum SpecialDoubleValue implements StringRepresentable{
+		PositiveInfinity("+Infinity", Double.POSITIVE_INFINITY),
+		NegativeInfinity("-Infinity", Double.NEGATIVE_INFINITY),
+		NaN("NaN", Double.NaN);
+
+		private final String name;
+		private final double value;
+
+		SpecialDoubleValue(String name, double value){
+			this.name = name;
+			this.value = value;
+		}
+
+		@Override @NotNull public String getSerializedName(){
+			return this.name;
+		}
 	}
 }

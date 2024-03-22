@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -172,8 +173,7 @@ public final class AnglingUtils{
 	}
 
 	@Nullable
-	public static AnglingEntry<?> pick(@NotNull AnglingContext context,
-	                                   @NotNull RandomSource randomSource){
+	public static AnglingEntry<?> pick(@NotNull AnglingContext context, @NotNull RandomSource randomSource){
 		Optional<Registry<AnglingEntry<?>>> optionalEntries = context.level.getServer().registryAccess()
 				.registry(TFTSRegistries.ANGLING_ENTRY_REGISTRY_KEY);
 		if(optionalEntries.isEmpty()) return null;
@@ -196,6 +196,22 @@ public final class AnglingUtils{
 
 	private static boolean isTFTSFishingRod(@NotNull ItemStack stack){
 		return !stack.isEmpty()&&stack.is(TFTSTags.TFTS_FISHING_RODS);
+	}
+
+	// this is the reason why kotlin is objectively superior language
+	@Nullable public static BaitStat getBaitStat(@NotNull Player player, @NotNull RegistryAccess registryAccess){
+		BaitBoxInventory baitBoxInv = AnglingUtils.getBaitBoxInventory(player);
+		if(baitBoxInv==null) return null;
+		int i = baitBoxInv.selectedIndex();
+		if(i<0||i>=baitBoxInv.getInventory().getSlots()) return null;
+		ItemStack stack = baitBoxInv.getInventory().getStackInSlot(i);
+		if(stack.isEmpty()) return null;
+		ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
+		if(key==null) return null;
+		Optional<Registry<BaitStat>> o = registryAccess.registry(TFTSRegistries.BAIT_STAT_REGISTRY_KEY);
+		if(o.isEmpty()) return null;
+		Registry<BaitStat> reg = o.get();
+		return reg.get(key);
 	}
 
 	public static boolean consumeBait(@NotNull MinecraftServer server, @NotNull Player player){
