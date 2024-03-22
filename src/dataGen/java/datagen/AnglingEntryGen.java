@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.fish.AnglingEntry;
 import tictim.tfts.contents.fish.SimpleAnglingEntry;
+import tictim.tfts.contents.fish.TrashAnglingEntry;
 import tictim.tfts.contents.item.Fish;
 
 import java.util.Map;
@@ -61,7 +62,7 @@ public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<Ang
 				.bait(ALL_PLANTS, 1)
 				.nibbleBehavior(nibble(.5));
 
-		// trash
+		// bass
 
 		simpleFish(Fish.BASS)
 				.baseWeight(50)
@@ -91,6 +92,10 @@ public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<Ang
 				.nibbleBehavior(nibble(.3));
 
 
+		trash(id("water_trash"))
+				.baseWeight(10)
+				.weightGrowth(-10)
+				.env(ALL_WATER);
 	}
 
 	@Override public void run(@NotNull BootstapContext<AnglingEntry<?>> ctx){
@@ -107,6 +112,10 @@ public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<Ang
 	}
 	protected AnglingEntryBuilder<SimpleAnglingEntry> simpleFish(@NotNull ResourceLocation id){
 		return register(id, AnglingEntryBuilder.simpleFish());
+	}
+
+	protected AnglingEntryBuilder<TrashAnglingEntry> trash(@NotNull ResourceLocation id){
+		return register(id, AnglingEntryBuilder.trash());
 	}
 
 	protected <T extends AnglingEntryBuilder<?>> T register(@NotNull ResourceLocation id, @NotNull T entry){

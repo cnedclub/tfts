@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.fish.condition.FishCondition;
 
@@ -50,7 +51,7 @@ public record SimpleAnglingEntry(
 
 		double fp = context.environment.getBaseFishingPower(this.environment)+context.additionalFishingPower();
 		if(fp>=this.minFishingPower){
-			return baitModifier*(baseWeight+fp*weightGrowth);
+			return baitModifier*(this.baseWeight+fp*this.weightGrowth);
 		}
 		return 0;
 	}
@@ -63,10 +64,11 @@ public record SimpleAnglingEntry(
 		return this.baitConsumptionChance;
 	}
 
-	@Override public void getLoot(@NotNull AnglingContext context, @NotNull List<ItemStack> loots){
+	@Override public void getLoot(@NotNull AnglingContext context, @Nullable ItemStack retrievingItem,
+	                              @NotNull RandomSource random, @NotNull List<ItemStack> loots){
 		for(ItemStack loot : this.loots) loots.add(loot.copy());
 	}
-	@Override public int getExperience(@NotNull AnglingContext context, @NotNull RandomSource randomSource){
-		return this.givesExp ? randomSource.nextInt(6)+1 : 0;
+	@Override public int getExperience(@NotNull AnglingContext context, @NotNull RandomSource random){
+		return this.givesExp ? random.nextInt(6)+1 : 0;
 	}
 }

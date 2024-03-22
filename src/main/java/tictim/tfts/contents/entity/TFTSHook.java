@@ -79,6 +79,13 @@ public class TFTSHook extends FishingHook{
 		this.xRotO = getXRot();
 	}
 
+	public int luck(){
+		return this.luck;
+	}
+	public int lureSpeed(){
+		return this.lureSpeed;
+	}
+
 	@NotNull RandomSource random(){
 		return this.random;
 	}
@@ -118,7 +125,7 @@ public class TFTSHook extends FishingHook{
 		}
 		AnglingEntry<?> entry = this.anglingEntry;
 		if(entry!=null){
-			AnglingContext ctx = new AnglingContext(level, player, this.blockPosition(),
+			AnglingContext ctx = new AnglingContext(this, level, player, this.blockPosition(),
 					this.environment!=null ? this.environment : NoEnvironment.get());
 			boolean hooked = isBiting()||this.fishArrived&&this.random.nextDouble()<.25;
 
@@ -133,7 +140,7 @@ public class TFTSHook extends FishingHook{
 			}
 
 			List<ItemStack> list = new ArrayList<>();
-			entry.getLoot(ctx, list);
+			entry.getLoot(ctx, stack, this.random, list);
 
 			ItemFishedEvent event = new ItemFishedEvent(list, this.onGround() ? 2 : 1, this);
 			MinecraftForge.EVENT_BUS.post(event);
@@ -201,15 +208,15 @@ public class TFTSHook extends FishingHook{
 				HookEffects.idleSplash(this, level);
 
 				if(this.counter<=0){
-					this.anglingEntry = AnglingUtils.pick(new AnglingContext(level, owner, pos, this.environment),
-							this.random);
+					this.anglingEntry = AnglingUtils.pick(
+							new AnglingContext(this, level, owner, pos, this.environment), this.random);
 					TFTSMod.LOGGER.info("AnglingEntry: {}", this.anglingEntry);
 				}
 			}
 		}else if(!isBiting()){ // nibbling state
 			var fish = this.fish;
 			boolean bitTheHook = false;
-			NibbleBehavior b = this.anglingEntry.getNibbleBehavior(new AnglingContext(level, owner, pos,
+			NibbleBehavior b = this.anglingEntry.getNibbleBehavior(new AnglingContext(this, level, owner, pos,
 					this.environment!=null ? this.environment : NoEnvironment.get()));
 			switch(b.type()){
 				case NONE -> bitTheHook = true;

@@ -1,0 +1,19 @@
+{
+  "type": "tfts:trash",
+  "base_weight": 10.0,
+  "environment": [
+    "ocean_surface",
+    "ocean_deep",
+    "ocean_lukewarm_surface",
+    "ocean_lukewarm_deep",
+    "ocean_cold_surface",
+    "ocean_cold_deep",
+    "ocean_frozen_surface",
+    "ocean_frozen_deep",
+    "stony_shore",
+    "unknown_ocean",
+    "unknown_beach",
+    "unknown"
+  ],
+  "weight_growth": -10.0
+}

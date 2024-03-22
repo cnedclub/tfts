@@ -27,6 +27,14 @@ public final class AnglingEntryBuilder<T extends AnglingEntry<T>>{
 				b.givesExp()
 		));
 	}
+	public static AnglingEntryBuilder<TrashAnglingEntry> trash(){
+		return new AnglingEntryBuilder<>(b -> new TrashAnglingEntry(
+				b.baseWeight(),
+				b.weightGrowth(),
+				b.conditions(),
+				b.environment()
+		));
+	}
 
 	private final Function<AnglingEntryBuilder<T>, T> factory;
 

@@ -12,10 +12,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.contents.TFTSRegistries;
+import tictim.tfts.contents.entity.TFTSHook;
 
 import java.util.Optional;
 
 public final class AnglingContext{
+	@NotNull public final TFTSHook hook;
 	@NotNull public final ServerLevel level;
 	@NotNull public final Player player;
 	@NotNull public final BlockPos pos;
@@ -25,11 +27,13 @@ public final class AnglingContext{
 	@Nullable private BaitStat bait;
 
 	public AnglingContext(
+			@NotNull TFTSHook hook,
 			@NotNull ServerLevel level,
 			@NotNull Player player,
 			@NotNull BlockPos pos,
 			@NotNull AnglingEnvironment environment
 	){
+		this.hook = hook;
 		this.level = level;
 		this.player = player;
 		this.pos = pos;

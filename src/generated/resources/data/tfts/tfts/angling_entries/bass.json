@@ -24,6 +24,9 @@
     "ocean_cold_deep",
     "ocean_frozen_surface",
     "ocean_frozen_deep",
+    "stony_shore",
+    "unknown_ocean",
+    "unknown_beach",
     "unknown"
   ],
   "gives_exp": false,

@@ -3,6 +3,7 @@ package tictim.tfts.contents;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import tictim.tfts.contents.fish.AnglingEntryType;
+import tictim.tfts.contents.fish.TrashAnglingEntry;
 import tictim.tfts.contents.fish.condition.FishConditionType;
 import tictim.tfts.contents.fish.SimpleAnglingEntry;
 import tictim.tfts.contents.fish.condition.TimeCondition;
@@ -16,6 +17,7 @@ public final class AnglingEntries{
 	public static void init(){}
 
 	public static final RegistryObject<AnglingEntryType<SimpleAnglingEntry>> SIMPLE = anglingEntry("angling", SimpleAnglingEntry.TYPE);
+	public static final RegistryObject<AnglingEntryType<TrashAnglingEntry>> TRASH = anglingEntry("trash", TrashAnglingEntry.TYPE);
 
 	static{
 		TimeCondition.register();

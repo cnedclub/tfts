@@ -1,15 +1,16 @@
-// 1.20.1	2024-03-23T03:47:43.98442345	Registries
+// 1.20.1	2024-03-23T04:17:47.83224573	Registries
 0815f6b08a1f8c4cbb2e07ef21ea2d9b7e806f66 data/minecraft/tfts/bait_stats/brown_mushroom.json
 a9882436e621b5e6d42e9249781b86fa191cf977 data/minecraft/tfts/bait_stats/fermented_spider_eye.json
 a9e42d9d683017e2a40a7f5a1b3c87ead69a7636 data/minecraft/tfts/bait_stats/red_mushroom.json
 a8d3c55c12dfefa89ef4cad03f531a0dbfcc392e data/minecraft/tfts/bait_stats/spider_eye.json
-b6fc4ce08d7d1a785e6a09f35380968d9d3fefc2 data/tfts/tfts/angling_entries/bass.json
+f7a50d0006a2e5678b1d719e8cb6d46349f64702 data/tfts/tfts/angling_entries/bass.json
 85535da730f04d5da37e5c128828433fffea5bcc data/tfts/tfts/angling_entries/cod.json
 8706b034dd8cf5ad22ac8c8909445ea7bb6349d6 data/tfts/tfts/angling_entries/flying_fish.json
 0544cd1e0c0f22f4519c29055d5059c0595e8065 data/tfts/tfts/angling_entries/pufferfish.json
 54d4957a11489772b14a520351ce84d8e3408531 data/tfts/tfts/angling_entries/salmon.json
 ee23215e13bcd821359dbe29c4715088b26198bb data/tfts/tfts/angling_entries/seahorse.json
 477cdd69726a52e45f4532fba4b5a931524b17c2 data/tfts/tfts/angling_entries/tropical_fish.json
+5accce92ab8867b0d90bbfefa60ba2613c0da851 data/tfts/tfts/angling_entries/water_trash.json
 561bbd467378544ed8828827710583ccc30ce7c1 data/tfts/tfts/bait_stats/apple_bait.json
 08ae64351e29b29f8ad86452255d9be68ad528d7 data/tfts/tfts/bait_stats/apprentice_bait.json
 761b7b5038635359d212c9c958326ecc3164f426 data/tfts/tfts/bait_stats/beetroot_bait.json
