@@ -3,24 +3,22 @@
   "bait_consumption_chance": 0.1,
   "bait_modifier": {
     "type": "condition",
-    "condition": "meat/insect",
+    "condition": "meat/fish",
     "modifier": 1.0
   },
-  "base_weight": 30.0,
-  "environment": [
-    "ocean_surface",
-    "ocean_deep"
-  ],
+  "base_weight": 20.0,
+  "environment": "ocean_lukewarm_deep",
   "gives_exp": false,
   "loots": [
     {
       "Count": 1,
-      "id": "tfts:flying_fish"
+      "id": "tfts:oarfish"
     }
   ],
   "min_fishing_power": 0.5,
   "nibble_behavior": {
-    "type": "snatch"
+    "type": "nibble",
+    "bite_chance": 0.2
   },
   "weight_growth": 1.0
 }

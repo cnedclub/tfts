@@ -6,32 +6,32 @@
     "functions": [
       {
         "type": "condition",
-        "condition": "plant",
+        "condition": "meat/insect/worm",
         "modifier": 0.5
       },
       {
         "type": "condition",
         "condition": "meat/insect",
-        "modifier": 1.0
+        "modifier": 0.5
       }
     ]
   },
-  "base_weight": 30.0,
+  "base_weight": 20.0,
   "environment": [
-    "ocean_surface",
-    "ocean_warm"
+    "ocean_lukewarm_surface",
+    "ocean_lukewarm_deep"
   ],
   "gives_exp": false,
   "loots": [
     {
       "Count": 1,
-      "id": "tfts:seahorse"
+      "id": "tfts:melibe"
     }
   ],
   "min_fishing_power": 0.5,
   "nibble_behavior": {
     "type": "nibble",
-    "bite_chance": 0.3
+    "bite_chance": 0.2
   },
   "weight_growth": 1.0
 }

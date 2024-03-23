@@ -6,26 +6,26 @@
     "functions": [
       {
         "type": "condition",
-        "condition": "plant",
-        "modifier": 0.5
+        "condition": "meat/fish",
+        "modifier": 1.0
       },
       {
         "type": "condition",
-        "condition": "meat/insect",
-        "modifier": 1.0
+        "condition": "food/bread",
+        "modifier": 0.8
       }
     ]
   },
   "base_weight": 30.0,
   "environment": [
     "ocean_surface",
-    "ocean_warm"
+    "ocean_deep"
   ],
   "gives_exp": false,
   "loots": [
     {
       "Count": 1,
-      "id": "tfts:seahorse"
+      "id": "tfts:lobster"
     }
   ],
   "min_fishing_power": 0.5,

@@ -3,22 +3,24 @@
   "bait_consumption_chance": 0.1,
   "bait_modifier": {
     "type": "condition",
-    "condition": "meat/insect",
+    "condition": "meat/fish",
     "modifier": 1.0
   },
-  "base_weight": 30.0,
+  "base_weight": 20.0,
   "environment": [
-    "ocean_surface",
-    "ocean_deep"
+    "ocean_cold_surface",
+    "ocean_cold_deep",
+    "ocean_frozen_surface",
+    "ocean_frozen_deep"
   ],
   "gives_exp": false,
   "loots": [
     {
       "Count": 1,
-      "id": "tfts:flying_fish"
+      "id": "tfts:penguin"
     }
   ],
-  "min_fishing_power": 0.5,
+  "min_fishing_power": 1.0,
   "nibble_behavior": {
     "type": "snatch"
   },

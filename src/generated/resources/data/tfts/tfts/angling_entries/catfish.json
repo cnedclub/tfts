@@ -3,24 +3,27 @@
   "bait_consumption_chance": 0.1,
   "bait_modifier": {
     "type": "condition",
-    "condition": "meat/insect",
+    "condition": {
+      "type": "any",
+      "conditions": [
+        "meat"
+      ]
+    },
     "modifier": 1.0
   },
-  "base_weight": 30.0,
-  "environment": [
-    "ocean_surface",
-    "ocean_deep"
-  ],
+  "base_weight": 40.0,
+  "environment": "unknown",
   "gives_exp": false,
   "loots": [
     {
       "Count": 1,
-      "id": "tfts:flying_fish"
+      "id": "tfts:catfish"
     }
   ],
   "min_fishing_power": 0.5,
   "nibble_behavior": {
-    "type": "snatch"
+    "type": "nibble",
+    "bite_chance": 0.5
   },
   "weight_growth": 1.0
 }

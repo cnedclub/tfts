@@ -1,15 +1,28 @@
-// 1.20.1	2024-03-23T05:58:29.206291222	Registries
+// 1.20.1	2024-03-23T12:00:08.6839315	Registries
 0815f6b08a1f8c4cbb2e07ef21ea2d9b7e806f66 data/minecraft/tfts/bait_stats/brown_mushroom.json
 a9882436e621b5e6d42e9249781b86fa191cf977 data/minecraft/tfts/bait_stats/fermented_spider_eye.json
 a9e42d9d683017e2a40a7f5a1b3c87ead69a7636 data/minecraft/tfts/bait_stats/red_mushroom.json
 a8d3c55c12dfefa89ef4cad03f531a0dbfcc392e data/minecraft/tfts/bait_stats/spider_eye.json
 f7a50d0006a2e5678b1d719e8cb6d46349f64702 data/tfts/tfts/angling_entries/bass.json
+23e0f314db0858f748f6c2cd5da41be0453c6818 data/tfts/tfts/angling_entries/brown_croaker.json
+be07149b945dccadcd6c7c4a1cc0beac7edd738c data/tfts/tfts/angling_entries/carp.json
+86e016820a5258f2f49790889fb690d6f2c027c7 data/tfts/tfts/angling_entries/catfish.json
 85535da730f04d5da37e5c128828433fffea5bcc data/tfts/tfts/angling_entries/cod.json
-8706b034dd8cf5ad22ac8c8909445ea7bb6349d6 data/tfts/tfts/angling_entries/flying_fish.json
+e2afc8b31f57b265de304e2068ad27765673a81c data/tfts/tfts/angling_entries/crab.json
+db220ff1558b88ec475fc002296946cf48522156 data/tfts/tfts/angling_entries/flying_fish.json
+3885f33f681c1695135227a16870c4b50507ffef data/tfts/tfts/angling_entries/garibaldi_damselfish.json
+40c2bae0e76e82636ccc19c41e1648f5002d7c39 data/tfts/tfts/angling_entries/lobster.json
+3377ca1a5cb2b73a388711dd068532763f5a9bd3 data/tfts/tfts/angling_entries/marlin.json
+70ab8641b1445c2f7309265a3a8db967d09ba9e0 data/tfts/tfts/angling_entries/melibe.json
+b1362083bedefa3ceb6eef64d5e56d963766c764 data/tfts/tfts/angling_entries/oarfish.json
+03d7ffb4f975860324779e65bb4fb75708d0d6a0 data/tfts/tfts/angling_entries/penguin.json
 0544cd1e0c0f22f4519c29055d5059c0595e8065 data/tfts/tfts/angling_entries/pufferfish.json
+e6bef3dd56050afc6cd49a4a741be341e0229425 data/tfts/tfts/angling_entries/rockfish.json
 54d4957a11489772b14a520351ce84d8e3408531 data/tfts/tfts/angling_entries/salmon.json
-ee23215e13bcd821359dbe29c4715088b26198bb data/tfts/tfts/angling_entries/seahorse.json
+df6e13621fa06988a0781b06f153095e1cd5577d data/tfts/tfts/angling_entries/seahorse.json
+8e972f72881d620d4532f2041607f2630310ad2c data/tfts/tfts/angling_entries/shrimp.json
 477cdd69726a52e45f4532fba4b5a931524b17c2 data/tfts/tfts/angling_entries/tropical_fish.json
+fcf4746f48633240cdb76dda345af29bfce69f6d data/tfts/tfts/angling_entries/tuna.json
 5accce92ab8867b0d90bbfefa60ba2613c0da851 data/tfts/tfts/angling_entries/water_trash.json
 561bbd467378544ed8828827710583ccc30ce7c1 data/tfts/tfts/bait_stats/apple_bait.json
 08ae64351e29b29f8ad86452255d9be68ad528d7 data/tfts/tfts/bait_stats/apprentice_bait.json

@@ -27,11 +27,19 @@ public enum Fish implements ItemLike{
 
 	FLYING_FISH,
 	TUNA,
-	MARLIN,
+
 	GARIBALDI_DAMSELFISH,
 	SEAHORSE,
 
 	// rare fish
+
+	OARFISH,
+
+	MELIBE,
+
+	MARLIN,
+
+	PENGUIN,
 
 	// rare rare fish
 

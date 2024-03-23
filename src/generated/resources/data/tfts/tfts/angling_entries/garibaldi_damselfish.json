@@ -6,32 +6,32 @@
     "functions": [
       {
         "type": "condition",
-        "condition": "plant",
-        "modifier": 0.5
+        "condition": "food/bread",
+        "modifier": 1.2
       },
       {
         "type": "condition",
-        "condition": "meat/insect",
+        "condition": "meat/insect/worm",
         "modifier": 1.0
       }
     ]
   },
   "base_weight": 30.0,
   "environment": [
-    "ocean_surface",
-    "ocean_warm"
+    "ocean_warm",
+    "ocean_lukewarm_surface",
+    "ocean_lukewarm_deep"
   ],
   "gives_exp": false,
   "loots": [
     {
       "Count": 1,
-      "id": "tfts:seahorse"
+      "id": "tfts:garibaldi_damselfish"
     }
   ],
   "min_fishing_power": 0.5,
   "nibble_behavior": {
-    "type": "nibble",
-    "bite_chance": 0.3
+    "type": "snatch"
   },
   "weight_growth": 1.0
 }
