@@ -16,9 +16,9 @@ import java.util.function.Supplier;
 
 public enum Thing implements ItemLike{
 	SMALL_FISH_FILLET,
-	COOLED_SMALL_FISH_FILLET,
+	COOKED_SMALL_FISH_FILLET,
 	FISH_FILLET,
-	COOLED_FISH_FILLET,
+	COOKED_FISH_FILLET,
 
 	JAJO_COLA(() -> new Item.Properties().food(new FoodProperties.Builder()
 			.nutrition(1)
