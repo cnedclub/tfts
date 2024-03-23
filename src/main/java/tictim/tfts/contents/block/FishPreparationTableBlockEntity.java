@@ -72,7 +72,7 @@ public class FishPreparationTableBlockEntity extends BlockEntity implements Menu
 
 	@Override public void load(@NotNull CompoundTag tag){
 		super.load(tag);
-		tag.merge(A.writeWithoutSize(this.inventory));
+		A.readWithoutSize(this.inventory, tag);
 		if(tag.contains("CustomName", Tag.TAG_STRING)){
 			this.customName = Component.Serializer.fromJson(tag.getString("CustomName"));
 		}
@@ -80,7 +80,7 @@ public class FishPreparationTableBlockEntity extends BlockEntity implements Menu
 
 	@Override protected void saveAdditional(@NotNull CompoundTag tag){
 		super.saveAdditional(tag);
-		A.readWithoutSize(this.inventory, tag);
+		tag.merge(A.writeWithoutSize(this.inventory));
 		if(this.customName!=null){
 			tag.putString("CustomName", Component.Serializer.toJson(this.customName));
 		}
