@@ -15,10 +15,10 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public enum Thing implements ItemLike{
-	SMALL_FISH_FILLET(simpleFood(2, 0.3F)),
-	COOLED_SMALL_FISH_FILLET(simpleFood(2, 0.5F)),
-	FISH_FILLET(simpleFood(3, 0.3F)),
-	COOLED_FISH_FILLET(simpleFood(3, 0.5F)),
+	SMALL_FISH_FILLET(simpleFood(2)),
+	COOKED_SMALL_FISH_FILLET(simpleFood(4)),
+	FISH_FILLET(simpleFood(3)),
+	COOKED_FISH_FILLET(simpleFood(5)),
 
 	JAJO_COLA(() -> new Item.Properties().food(new FoodProperties.Builder()
 			.nutrition(1)
@@ -49,12 +49,12 @@ public enum Thing implements ItemLike{
 		this.itemFactory = itemFactory;
 	}
 
-	private static Supplier<Item.Properties> simpleFood(int nutrition, float saturation) {
-		return (() -> new Item.Properties().food(f(nutrition, saturation)));
+	private static Supplier<Item.Properties> simpleFood(int nutrition) {
+		return (() -> new Item.Properties().food(f(nutrition)));
 	}
 
-	private static FoodProperties f(int nutrition, float saturation) {
-		return (new FoodProperties.Builder()).nutrition(nutrition).saturationMod(saturation).build();
+	private static FoodProperties f(int nutrition) {
+		return (new FoodProperties.Builder()).nutrition(nutrition).build();
 	}
 
 	private Item createItem(){

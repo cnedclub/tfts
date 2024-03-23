@@ -26,17 +26,14 @@ public class BaitStatGen implements RegistrySetBuilder.RegistryBootstrap<BaitSta
 	protected void registerAll(){
 		register(Bait.APPRENTICE_BAIT)
 				.stat(ALL_PLANTS, .5)
-				.stat(ALL_MUSHROOMS, .5)
 				.stat(ALL_MEATS, .5);
 
 		register(Bait.JOURNEYMAN_BAIT)
 				.stat(ALL_PLANTS, 1)
-				.stat(ALL_MUSHROOMS, 1)
 				.stat(ALL_MEATS, 1);
 
 		register(Bait.MASTER_BAIT)
 				.stat(ALL_PLANTS, 1.5)
-				.stat(ALL_MUSHROOMS, 1.5)
 				.stat(ALL_MEATS, 1.5);
 
 		register(Bait.APPLE_BAIT).stat(APPLE, 1).stat(SUGAR, .5);
