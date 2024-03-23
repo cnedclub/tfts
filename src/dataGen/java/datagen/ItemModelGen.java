@@ -28,6 +28,7 @@ public class ItemModelGen extends ItemModelProvider{
 		basicItem(Fish.ROCKFISH.asItem());
 		basicItem(Fish.TUNA.asItem());
 		basicItem(Fish.ZOMFISH.asItem());
+		basicItem(Fish.SEAHORSE.asItem());
 		basicItem(Thing.STARCH.asItem());
 		basicItem(Thing.JAJO_COLA.asItem());
 	}
