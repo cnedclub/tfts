@@ -3,10 +3,7 @@ package tictim.tfts.contents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,8 +22,6 @@ public final class TFTSItems{
 
 	public static void init(){}
 
-	public static final RegistryObject<TFTSFishingRodItem> FISHING_ROD = ITEMS.register("fishing_rod",
-			() -> new TFTSFishingRodItem(p()));
 	public static final RegistryObject<BaitBoxItem> BAIT_BOX = ITEMS.register("bait_box",
 			() -> new BaitBoxItem(3, TFTSMenus.BAIT_BOX, p()));
 
@@ -41,14 +36,17 @@ public final class TFTSItems{
 		Thing.register();
 	}
 
+	private static final ResourceLocation mainTab = id("main");
+
 	@SubscribeEvent
-	public static void registerCreativeModeTab(RegisterEvent event){
-		ResourceLocation mainTab = id("main");
+	public static void register(RegisterEvent event){
+		event.register(Registries.ITEM, new ResourceLocation("fishing_rod"), () -> new TFTSFishingRodItem(p()));
+
 		event.register(Registries.CREATIVE_MODE_TAB, mainTab, () -> CreativeModeTab.builder()
 				.title(Component.translatable("item_group."+MODID))
-				.icon(() -> new ItemStack(FISHING_ROD.get()))
+				.icon(() -> new ItemStack(Items.FISHING_ROD))
 				.displayItems((p, o) -> {
-					o.accept(FISHING_ROD.get());
+					o.accept(Items.FISHING_ROD);
 					o.accept(BAIT_BOX.get());
 					o.accept(TROWEL.get());
 

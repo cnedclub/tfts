@@ -3,6 +3,7 @@ package datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,7 @@ public class ItemTagGen extends ItemTagsProvider{
 	}
 
 	@Override protected void addTags(@NotNull HolderLookup.Provider p){
-		tag(TFTSTags.TFTS_FISHING_RODS).add(TFTSItems.FISHING_ROD.get());
+		tag(TFTSTags.TFTS_FISHING_RODS).add(Items.FISHING_ROD);
 		tag(TFTSTags.CURIO_BAIT_BOX).add(TFTSItems.BAIT_BOX.get());
 	}
 }

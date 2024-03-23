@@ -3,6 +3,7 @@ package tictim.tfts;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
@@ -17,7 +18,6 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.client.TFTSOverlay;
-import tictim.tfts.contents.TFTSItems;
 import tictim.tfts.contents.TFTSMenus;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.entity.TFTSHook;
@@ -40,7 +40,7 @@ public class TFTSMod{
 	@OnlyIn(Dist.CLIENT)
 	public static void clientSetup(FMLClientSetupEvent event){
 		event.enqueueWork(() -> {
-			ItemProperties.register(TFTSItems.FISHING_ROD.get(), new ResourceLocation("cast"),
+			ItemProperties.register(Items.FISHING_ROD, new ResourceLocation("cast"),
 					(stack, level, e, i) -> e instanceof Player p&&
 							p.fishing instanceof TFTSHook hook&&
 							hook.isItemPointingToThisHook(stack) ? 1 : 0);
