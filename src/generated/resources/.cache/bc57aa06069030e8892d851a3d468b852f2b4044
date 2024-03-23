@@ -1,4 +1,4 @@
-// 1.20.1	2024-03-24T02:38:15.538115	Item Models: tfts
+// 1.20.1	2024-03-24T03:09:01.0678114	Item Models: tfts
 ae2134ee93c21b8acc02387ec9f51e07b1d93883 assets/tfts/models/item/bass.json
 bcbf49056d068b76874a059af4944de4ca535d26 assets/tfts/models/item/carp.json
 1c0047d67d83072d0ccb436747e0b281d7617c5f assets/tfts/models/item/catfish.json
@@ -7,6 +7,8 @@ bcbf49056d068b76874a059af4944de4ca535d26 assets/tfts/models/item/carp.json
 24641ed4e2e66aed5924c00e166dc4663dd9ae88 assets/tfts/models/item/flying_fish.json
 7f902d4746ec2cee080239dbdd0b8f68c7da5b8d assets/tfts/models/item/garibaldi_damselfish.json
 cd0ad8c385fbd5829c5b757a5f17249680da4683 assets/tfts/models/item/jajo_cola.json
+cad75c577a1b5fd5681f25ffb064e8429d0a1ffe assets/tfts/models/item/marlin.json
+6fa0af0b03437c83a51e9b462f340cd5d7fcccc2 assets/tfts/models/item/oarfish.json
 528d112ae2b6c29dcbba3b0932046805ffb4af28 assets/tfts/models/item/rockfish.json
 ad1cf8091efb8dc3384f0ff30a8d4c474e1e9c16 assets/tfts/models/item/seahorse.json
 16a9106d76efed67f4ec2a31b36b4e7ebc1468c9 assets/tfts/models/item/starch.json
