@@ -1,2 +1,11 @@
-// 1.20.1	2024-03-24T01:14:09.743916866	Item Models: tfts
+// 1.20.1	2024-03-24T01:26:01.4692278	Item Models: tfts
+ae2134ee93c21b8acc02387ec9f51e07b1d93883 assets/tfts/models/item/bass.json
+bcbf49056d068b76874a059af4944de4ca535d26 assets/tfts/models/item/carp.json
+1c0047d67d83072d0ccb436747e0b281d7617c5f assets/tfts/models/item/catfish.json
 611ffa51b1cbfff8d3809a1e294848b429d4a9a5 assets/tfts/models/item/cooking_mortar.json
+2cb1b5b90d3eaee9862865a8a6cdbd0d955be42c assets/tfts/models/item/creeper_fish.json
+24641ed4e2e66aed5924c00e166dc4663dd9ae88 assets/tfts/models/item/flying_fish.json
+7f902d4746ec2cee080239dbdd0b8f68c7da5b8d assets/tfts/models/item/garibaldi_damselfish.json
+528d112ae2b6c29dcbba3b0932046805ffb4af28 assets/tfts/models/item/rockfish.json
+2a5eaadd67f0c04798e4bf139a1e51f99d83f5ee assets/tfts/models/item/tuna.json
+02e524c0ebed3a79e77effe7a26f495681b78767 assets/tfts/models/item/zomfish.json
