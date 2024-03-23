@@ -1,5 +1,6 @@
 package tictim.tfts.contents.item;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -9,6 +10,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tictim.tfts.TFTSMod;
 import tictim.tfts.contents.TFTSBlocks;
 import tictim.tfts.contents.TFTSMenus;
 import tictim.tfts.contents.TFTSRegistries;
@@ -83,6 +85,10 @@ public enum Thing implements ItemLike{
 
 	@NotNull public String registryName(){
 		return registryName;
+	}
+
+	@NotNull public ResourceLocation registryID(){
+		return TFTSMod.id(registryName());
 	}
 
 	@Override @NotNull public Item asItem(){
