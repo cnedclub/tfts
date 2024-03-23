@@ -1,0 +1,22 @@
+{
+  "type": "tfts:preparation",
+  "ingredient": {
+    "item": "tfts:melibe"
+  },
+  "result": [
+    {
+      "count": 1,
+      "item": "tfts:small_fish_fillet"
+    },
+    {
+      "chance": 0.8,
+      "count": 1,
+      "item": "minecraft:bone_meal"
+    },
+    {
+      "chance": 0.4,
+      "count": 1,
+      "item": "minecraft:slime_ball"
+    }
+  ]
+}

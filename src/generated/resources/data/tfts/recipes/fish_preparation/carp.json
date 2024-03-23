@@ -1,0 +1,17 @@
+{
+  "type": "tfts:preparation",
+  "ingredient": {
+    "item": "tfts:carp"
+  },
+  "result": [
+    {
+      "count": 1,
+      "item": "tfts:small_fish_fillet"
+    },
+    {
+      "chance": 0.8,
+      "count": 2,
+      "item": "minecraft:bone_meal"
+    }
+  ]
+}

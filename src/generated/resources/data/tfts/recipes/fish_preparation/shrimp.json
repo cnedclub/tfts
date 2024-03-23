@@ -1,0 +1,10 @@
+{
+  "type": "tfts:preparation",
+  "ingredient": {
+    "item": "tfts:shrimp"
+  },
+  "result": {
+    "count": 1,
+    "item": "tfts:small_fish_fillet"
+  }
+}

@@ -15,10 +15,10 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public enum Thing implements ItemLike{
-	SMALL_FISH_FILLET(simpleFood(2)),
+	SMALL_FISH_FILLET(simpleFood(1)),
 	COOKED_SMALL_FISH_FILLET(simpleFood(4)),
 	FISH_FILLET(simpleFood(3)),
-	COOKED_FISH_FILLET(simpleFood(5)),
+	COOKED_FISH_FILLET(simpleFood(6)),
 
 	JAJO_COLA(() -> new Item.Properties().food(new FoodProperties.Builder()
 			.nutrition(1)
@@ -28,6 +28,11 @@ public enum Thing implements ItemLike{
 			.effect(() -> new MobEffectInstance(MobEffects.POISON, 100), 1)
 			.effect(() -> new MobEffectInstance(MobEffects.WEAKNESS, 200), 1)
 			.effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200), 1)
+			.build())),
+
+	BARRELEYE_EYE(() -> new Item.Properties().food(new FoodProperties.Builder()
+			.nutrition(1)
+			.effect(() -> new MobEffectInstance(MobEffects.NIGHT_VISION, 100), 1)
 			.build()));
 
 	private final String registryName = name().toLowerCase(Locale.ROOT);
@@ -49,11 +54,11 @@ public enum Thing implements ItemLike{
 		this.itemFactory = itemFactory;
 	}
 
-	private static Supplier<Item.Properties> simpleFood(int nutrition) {
+	private static Supplier<Item.Properties> simpleFood(int nutrition){
 		return (() -> new Item.Properties().food(f(nutrition)));
 	}
 
-	private static FoodProperties f(int nutrition) {
+	private static FoodProperties f(int nutrition){
 		return (new FoodProperties.Builder()).nutrition(nutrition).build();
 	}
 

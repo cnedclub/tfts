@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "tfts:smelting/small_fish_fillet"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "small_fish_fillet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "tfts:small_fish_fillet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "small_fish_fillet",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tfts:smelting/small_fish_fillet"
+    ]
+  },
+  "sends_telemetry_event": false
+}

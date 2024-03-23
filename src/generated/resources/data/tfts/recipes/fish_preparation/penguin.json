@@ -1,0 +1,17 @@
+{
+  "type": "tfts:preparation",
+  "ingredient": {
+    "item": "tfts:penguin"
+  },
+  "result": [
+    {
+      "count": 1,
+      "item": "tfts:fish_fillet"
+    },
+    {
+      "chance": 0.8,
+      "count": 3,
+      "item": "minecraft:bone_meal"
+    }
+  ]
+}

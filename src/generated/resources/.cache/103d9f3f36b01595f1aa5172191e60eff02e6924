@@ -1,4 +1,4 @@
-// 1.20.1	2024-03-23T12:00:08.6839315	Registries
+// 1.20.1	2024-03-23T14:46:29.3605198	Registries
 0815f6b08a1f8c4cbb2e07ef21ea2d9b7e806f66 data/minecraft/tfts/bait_stats/brown_mushroom.json
 a9882436e621b5e6d42e9249781b86fa191cf977 data/minecraft/tfts/bait_stats/fermented_spider_eye.json
 a9e42d9d683017e2a40a7f5a1b3c87ead69a7636 data/minecraft/tfts/bait_stats/red_mushroom.json
@@ -25,7 +25,7 @@ df6e13621fa06988a0781b06f153095e1cd5577d data/tfts/tfts/angling_entries/seahorse
 fcf4746f48633240cdb76dda345af29bfce69f6d data/tfts/tfts/angling_entries/tuna.json
 5accce92ab8867b0d90bbfefa60ba2613c0da851 data/tfts/tfts/angling_entries/water_trash.json
 561bbd467378544ed8828827710583ccc30ce7c1 data/tfts/tfts/bait_stats/apple_bait.json
-08ae64351e29b29f8ad86452255d9be68ad528d7 data/tfts/tfts/bait_stats/apprentice_bait.json
+47500a874197322ac1644976e0e30d1ca03d0578 data/tfts/tfts/bait_stats/apprentice_bait.json
 761b7b5038635359d212c9c958326ecc3164f426 data/tfts/tfts/bait_stats/beetroot_bait.json
 e74bf912caae378663ca88807b23270cc7e8a9bd data/tfts/tfts/bait_stats/bone_meal_bait.json
 d863663b5465dfb357dc499b5c4b533cc6054dc0 data/tfts/tfts/bait_stats/carrot_bait.json
@@ -36,8 +36,8 @@ b2039e895640786f5008dfd458c7ce93bfda43b8 data/tfts/tfts/bait_stats/glistering_me
 9d0da838373388c634e4e8a41c367a4c92a0b136 data/tfts/tfts/bait_stats/golden_apple_bait.json
 191baedc8d997fc448b9d20f4fdb7feecaddef06 data/tfts/tfts/bait_stats/golden_carrot_bait.json
 4381d8a4740f0ae9c185e663789de7b742ba85c2 data/tfts/tfts/bait_stats/golden_worm.json
-fdbb6cb31d9c6bfc9840965e5273882fd106acf6 data/tfts/tfts/bait_stats/journeyman_bait.json
-9cfdc12607196afbd1e2e008cf973e95782cbd11 data/tfts/tfts/bait_stats/master_bait.json
+f5705386ee7242368c1d3e8074fbf90c12618991 data/tfts/tfts/bait_stats/journeyman_bait.json
+33be48a09ebc8e2a3aca85f14c8c3b63c5d61a8a data/tfts/tfts/bait_stats/master_bait.json
 38162cf4ea6f5bec08d8d38a4500679b9cb70f1d data/tfts/tfts/bait_stats/melon_bait.json
 571d276b8706213e71856be44d20ab7108967013 data/tfts/tfts/bait_stats/poisonous_potato_bait.json
 5e35c2041565cab16b456c48e9957e85f6c30190 data/tfts/tfts/bait_stats/potato_bait.json
