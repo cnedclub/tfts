@@ -3,11 +3,17 @@ package datagen;
 import datagen.recipe.FishPreparationRecipeBuilder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
+import tictim.tfts.contents.item.Thing;
 
 import java.util.function.Consumer;
 
@@ -30,6 +36,19 @@ public class RecipeGen extends RecipeProvider{
 		fishPreparation().fish(Items.BEE_SPAWN_EGG)
 				.chanced(Items.ITEM_FRAME, 0.5)
 				.finish(writer, fishPreparationId("bee_spawn_egg"));
+
+		cooking(writer, Thing.SMALL_FISH_FILLET, Thing.COOKED_SMALL_FISH_FILLET);
+		cooking(writer, Thing.FISH_FILLET, Thing.COOKED_FISH_FILLET);
+	}
+
+	private static void cooking(@NotNull Consumer<FinishedRecipe> writer, ItemLike input, ItemLike output){
+		SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, output, 0.35f, 200)
+				.unlockedBy(getHasName(input), has(input))
+				.save(writer);
+		simpleCookingRecipe(writer, "smoking", RecipeSerializer.SMOKING_RECIPE, 100,
+				input, output, 0.35f);
+		simpleCookingRecipe(writer, "campfire_cooking", RecipeSerializer.CAMPFIRE_COOKING_RECIPE, 600,
+				input, output, 0.35f);
 	}
 
 	private static FishPreparationRecipeBuilder fishPreparation(){
