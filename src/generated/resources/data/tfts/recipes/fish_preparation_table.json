@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "1": {
+      "item": "minecraft:smooth_stone_slab"
+    },
+    "2": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "111",
+    "2 2"
+  ],
+  "result": {
+    "item": "tfts:fish_preparation_table"
+  },
+  "show_notification": true
+}

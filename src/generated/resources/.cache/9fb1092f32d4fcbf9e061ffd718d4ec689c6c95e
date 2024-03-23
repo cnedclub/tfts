@@ -1,4 +1,4 @@
-// 1.20.1	2024-03-23T15:25:04.7588717	Recipes
+// 1.20.1	2024-03-24T01:42:06.508374562	Recipes
 bf60de619e1c29c5cf2653771d8bf88d2f0aedf2 data/minecraft/advancements/recipes/food/cooked_fish_fillet_from_campfire_cooking.json
 83aac1f8c27e186da15a3c34663b847d52b9b0d1 data/minecraft/advancements/recipes/food/cooked_fish_fillet_from_smoking.json
 0ac0669052c77407dfc5804cce038b3abf4102a7 data/minecraft/advancements/recipes/food/cooked_small_fish_fillet_from_campfire_cooking.json
@@ -9,8 +9,11 @@ d431b69d0c4ef91c10d77dab720d88d3d80620e8 data/minecraft/recipes/cooked_small_fis
 7a5ea976695ee64e9b1898f40d55c6b6241340e0 data/minecraft/recipes/cooked_small_fish_fillet_from_smoking.json
 db4e76d4f61b6d245e6f231d60e3af78573d5e39 data/tfts/advancements/recipes/food/cooked_fish_fillet.json
 9f5297e797c16e9a9db31c965280c475bd8cb5cd data/tfts/advancements/recipes/food/cooked_small_fish_fillet.json
+f2b184b2d882bd2bc04062a95719dcc2ecab1ab2 data/tfts/advancements/recipes/tools/cooking_mortar.json
+841cf9ca3c05e4161d2d3df13783387e37559c88 data/tfts/advancements/recipes/tools/fish_preparation_table.json
 1685fde577f5f26f09c934026e29ab59ac86ded4 data/tfts/recipes/cooked_fish_fillet.json
 b0aa40b172d54450afdeed0decddd3b7fd4fd1a6 data/tfts/recipes/cooked_small_fish_fillet.json
+ceca6dadb8132c91aa2715261bb4ea4b43223550 data/tfts/recipes/cooking_mortar.json
 f3d96a72dae0c0661723a27b722803ea7d24ee15 data/tfts/recipes/fish_preparation/barreleye.json
 de47b95607f370f7a382c496180525600223d837 data/tfts/recipes/fish_preparation/brown_croaker.json
 83256896845fc60b911544d872ef356f7279006e data/tfts/recipes/fish_preparation/carp.json
@@ -26,3 +29,4 @@ cc67e9d86dcc902647e0d6902211133ea5a074ee data/tfts/recipes/fish_preparation/peng
 609fef986d7adbeaedaaa0529efdddbe86991305 data/tfts/recipes/fish_preparation/rockfish.json
 b23a4fe3ee12a2eea1396f3dbfef237106224bea data/tfts/recipes/fish_preparation/shrimp.json
 0962794c9ada89e82ec6acd5e320b89ef1ca20bb data/tfts/recipes/fish_preparation/tuna.json
+b1878f85fb853e684c5e47fa3afb6a3da8199117 data/tfts/recipes/fish_preparation_table.json

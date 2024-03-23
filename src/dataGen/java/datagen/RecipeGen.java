@@ -2,11 +2,9 @@ package datagen;
 
 import datagen.recipe.FishPreparationRecipeBuilder;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -26,6 +24,22 @@ public class RecipeGen extends RecipeProvider{
 	}
 
 	@Override protected void buildRecipes(@NotNull Consumer<FinishedRecipe> writer){
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Thing.COOKING_MORTAR)
+				.pattern("1")
+				.pattern("2")
+				.define('1', Tags.Items.RODS_WOODEN)
+				.define('2', Items.BOWL)
+				.unlockedBy(getHasName(Items.STICK), has(Items.STICK))
+				.save(writer);
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Thing.FISH_PREPARATION_TABLE)
+				.pattern("111")
+				.pattern("2 2")
+				.define('1', Items.SMOOTH_STONE_SLAB)
+				.define('2', ItemTags.PLANKS)
+				.unlockedBy("has_fish", has(ItemTags.FISHES))
+				.save(writer);
+
 		/*
 		  Fish fillets
 
