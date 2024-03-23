@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "fish_fillet": {
+    "has_fish_fillet": {
       "conditions": {
         "items": [
           {
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "tfts:smoking/fish_fillet"
+        "recipe": "tfts:cooked_fish_fillet"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "fish_fillet",
+      "has_fish_fillet",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "tfts:smoking/fish_fillet"
+      "tfts:cooked_fish_fillet"
     ]
   },
   "sends_telemetry_event": false

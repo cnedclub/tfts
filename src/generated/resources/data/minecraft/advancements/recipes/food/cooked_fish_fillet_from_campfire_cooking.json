@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "fish_fillet": {
+    "has_fish_fillet": {
       "conditions": {
         "items": [
           {
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "tfts:campfirecooking/fish_fillet"
+        "recipe": "minecraft:cooked_fish_fillet_from_campfire_cooking"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "fish_fillet",
+      "has_fish_fillet",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "tfts:campfirecooking/fish_fillet"
+      "minecraft:cooked_fish_fillet_from_campfire_cooking"
     ]
   },
   "sends_telemetry_event": false

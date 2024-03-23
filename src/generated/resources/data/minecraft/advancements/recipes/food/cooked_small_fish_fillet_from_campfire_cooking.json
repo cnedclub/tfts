@@ -1,13 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "tfts:smoking/small_fish_fillet"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "small_fish_fillet": {
+    "has_small_fish_fillet": {
       "conditions": {
         "items": [
           {
@@ -18,17 +12,23 @@
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:cooked_small_fish_fillet_from_campfire_cooking"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "small_fish_fillet",
+      "has_small_fish_fillet",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "tfts:smoking/small_fish_fillet"
+      "minecraft:cooked_small_fish_fillet_from_campfire_cooking"
     ]
   },
   "sends_telemetry_event": false

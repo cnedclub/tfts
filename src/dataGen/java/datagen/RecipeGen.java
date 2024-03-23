@@ -1,15 +1,17 @@
 package datagen;
 
 import datagen.recipe.FishPreparationRecipeBuilder;
-import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.*;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import tictim.tfts.contents.item.Fish;
 import tictim.tfts.contents.item.Thing;
@@ -23,11 +25,7 @@ public class RecipeGen extends RecipeProvider{
 		super(output);
 	}
 
-	@Override
-	protected void buildRecipes(@NotNull Consumer<FinishedRecipe> writer){
-		cooking(Thing.FISH_FILLET, Thing.COOKED_FISH_FILLET, "fish_fillet", writer);
-		cooking(Thing.SMALL_FISH_FILLET, Thing.COOKED_SMALL_FISH_FILLET, "small_fish_fillet", writer);
-
+	@Override protected void buildRecipes(@NotNull Consumer<FinishedRecipe> writer){
 		/*
 		  Fish fillets
 
@@ -131,7 +129,18 @@ public class RecipeGen extends RecipeProvider{
 				.chanced(Items.BONE_MEAL, 4, .8)
 				.finish(writer, fishPreparationId("ocean_sunfish"));
 
+		cooking(writer, Thing.SMALL_FISH_FILLET, Thing.COOKED_SMALL_FISH_FILLET);
+		cooking(writer, Thing.FISH_FILLET, Thing.COOKED_FISH_FILLET);
+	}
 
+	private static void cooking(@NotNull Consumer<FinishedRecipe> writer, ItemLike input, ItemLike output){
+		SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, output, 0.35f, 200)
+				.unlockedBy(getHasName(input), has(input))
+				.save(writer);
+		simpleCookingRecipe(writer, "smoking", RecipeSerializer.SMOKING_RECIPE, 100,
+				input, output, 0.35f);
+		simpleCookingRecipe(writer, "campfire_cooking", RecipeSerializer.CAMPFIRE_COOKING_RECIPE, 600,
+				input, output, 0.35f);
 	}
 
 	private static FishPreparationRecipeBuilder fishPreparation(){
@@ -140,19 +149,5 @@ public class RecipeGen extends RecipeProvider{
 
 	private static ResourceLocation fishPreparationId(String path){
 		return id("fish_preparation/"+path);
-	}
-
-	private static void cooking(ItemLike ingredient, ItemLike output, String path, @NotNull Consumer<FinishedRecipe> writer){
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(ingredient), RecipeCategory.FOOD, output, 0.35F, 200).unlockedBy(path, has(ingredient)).save(writer, cookingId(path, "smelting"));
-		SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(ingredient), RecipeCategory.FOOD, output, 0.35F, 600).unlockedBy(path, has(ingredient)).save(writer, cookingId(path, "campfirecooking"));
-		SimpleCookingRecipeBuilder.smoking(Ingredient.of(ingredient), RecipeCategory.FOOD, output, 0.35F, 100).unlockedBy(path, has(ingredient)).save(writer, cookingId(path, "smoking"));
-	}
-
-	private static ResourceLocation cookingId(String path, String method){
-		return id(method+"/"+path);
-	}
-
-	private static String getHasName(String name){
-		return "has_"+name;
 	}
 }
