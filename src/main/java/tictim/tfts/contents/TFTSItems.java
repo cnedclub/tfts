@@ -22,14 +22,6 @@ public final class TFTSItems{
 
 	public static void init(){}
 
-	public static final RegistryObject<BaitBoxItem> BAIT_BOX = ITEMS.register("bait_box",
-			() -> new BaitBoxItem(3, TFTSMenus.BAIT_BOX, p()));
-
-	public static final RegistryObject<BlockItem> FISH_PREPARATION_TABLE = ITEMS.register("fish_preparation_table",
-			() -> new BlockItem(TFTSBlocks.FISH_PREPARATION_TABLE.get(), p()));
-
-	public static final RegistryObject<TrowelItem> TROWEL = ITEMS.register("trowel", () -> new TrowelItem(p()));
-
 	static{
 		Fish.register();
 		Bait.register();
@@ -47,13 +39,9 @@ public final class TFTSItems{
 				.icon(() -> new ItemStack(Items.FISHING_ROD))
 				.displayItems((p, o) -> {
 					o.accept(Items.FISHING_ROD);
-					o.accept(BAIT_BOX.get());
-					o.accept(TROWEL.get());
 
-					o.accept(FISH_PREPARATION_TABLE.get());
-
-					for(Bait bait : Bait.values()) o.accept(bait);
 					for(Thing thing : Thing.values()) o.accept(thing);
+					for(Bait bait : Bait.values()) o.accept(bait);
 				})
 				.build());
 

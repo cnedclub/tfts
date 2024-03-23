@@ -22,6 +22,7 @@ public class Datagen{
 	@SubscribeEvent
 	public static void generate(GatherDataEvent event){
 		boolean server = event.includeServer();
+		boolean client = event.includeClient();
 		DataGenerator gen = event.getGenerator();
 		var lookup = event.getLookupProvider();
 		ExistingFileHelper efh = event.getExistingFileHelper();
@@ -40,5 +41,7 @@ public class Datagen{
 						new LootTableProvider.SubProviderEntry(TrowelLootGen::new, LootContextParamSets.EMPTY))));
 
 		gen.addProvider(server, new RecipeGen(gen.getPackOutput()));
+
+		gen.addProvider(client, new ItemModelGen(gen.getPackOutput(), efh));
 	}
 }

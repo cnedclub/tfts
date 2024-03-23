@@ -86,6 +86,9 @@
   "item.tfts.tuna": "Tuna",
   "item.tfts.worm": "Worm",
   "item.tfts.zomfish": "Zomfish",
+  "item.tfts.cooking_mortar": "Cooking Mortar",
+  "item.tfts.cooking_mortar.tooltip.0": "§7Not just any mortar, it's a Cooking Mortar!",
+  "item.tfts.cooking_mortar.tooltip.1": "§7Use while holding a §ePotato§7 or a §eWheat§7 on the other hand",
 
   "item_group.tfts": "Tales from the Sea",
   "item_group.tfts.fish": "Tales from the Sea: Fish"

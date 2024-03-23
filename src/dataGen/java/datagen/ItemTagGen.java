@@ -8,8 +8,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tictim.tfts.contents.TFTSItems;
 import tictim.tfts.contents.TFTSTags;
+import tictim.tfts.contents.item.Thing;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -24,6 +24,6 @@ public class ItemTagGen extends ItemTagsProvider{
 
 	@Override protected void addTags(@NotNull HolderLookup.Provider p){
 		tag(TFTSTags.TFTS_FISHING_RODS).add(Items.FISHING_ROD);
-		tag(TFTSTags.CURIO_BAIT_BOX).add(TFTSItems.BAIT_BOX.get());
+		tag(TFTSTags.CURIO_BAIT_BOX).add(Thing.BAIT_BOX.asItem());
 	}
 }
