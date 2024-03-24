@@ -1,6 +1,6 @@
 package datagen;
 
-import datagen.recipe.FishPreparationRecipeBuilder;
+import datagen.recipe.FilletRecipeBuilder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
@@ -32,7 +32,7 @@ public class RecipeGen extends RecipeProvider{
 				.unlockedBy(getHasName(Items.STICK), has(Items.STICK))
 				.save(writer);
 
-		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Thing.FISH_PREPARATION_TABLE)
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Thing.FILLET_TABLE)
 				.pattern("111")
 				.pattern("2 2")
 				.define('1', Items.SMOOTH_STONE_SLAB)
@@ -60,88 +60,88 @@ public class RecipeGen extends RecipeProvider{
 		 */
 		//common fish
 
-		fishPreparation().fish(Fish.CATFISH)
+		fillet().fish(Fish.CATFISH)
 				.out(Thing.FISH_FILLET, 2)
 				.chanced(Items.BONE_MEAL, 4, .8)
-				.finish(writer, fishPreparationId("catfish"));
+				.finish(writer, filletId("catfish"));
 
-		fishPreparation().fish(Fish.BROWN_CROAKER)
+		fillet().fish(Fish.BROWN_CROAKER)
 				.out(Thing.SMALL_FISH_FILLET, 2)
 				.chanced(Items.BONE_MEAL, 2, .8)
-				.finish(writer, fishPreparationId("brown_croaker"));
+				.finish(writer, filletId("brown_croaker"));
 
-		fishPreparation().fish(Fish.SHRIMP)
+		fillet().fish(Fish.SHRIMP)
 				.out(Thing.SMALL_FISH_FILLET, 1)
-				.finish(writer, fishPreparationId("shrimp"));
+				.finish(writer, filletId("shrimp"));
 
-		fishPreparation().fish(Fish.ROCKFISH)
+		fillet().fish(Fish.ROCKFISH)
 				.out(Thing.SMALL_FISH_FILLET, 2)
 				.chanced(Items.BONE_MEAL, 3, .8)
 				.chanced(Items.COBBLESTONE, 2, .1)
-				.finish(writer, fishPreparationId("rockfish"));
+				.finish(writer, filletId("rockfish"));
 
-		fishPreparation().fish(Fish.CARP)
+		fillet().fish(Fish.CARP)
 				.out(Thing.SMALL_FISH_FILLET, 1)
 				.chanced(Items.BONE_MEAL, 2, .8)
-				.finish(writer, fishPreparationId("carp"));
+				.finish(writer, filletId("carp"));
 		//Creeperfish, Barreleye TODO
-		fishPreparation().fish(Fish.CREEPER_FISH)
+		fillet().fish(Fish.CREEPER_FISH)
 				.out(Items.ROTTEN_FLESH)
 				.out(Items.GUNPOWDER)
 				.chanced(Items.GUNPOWDER, .5)
-				.finish(writer, fishPreparationId("creeper_fish"));
+				.finish(writer, filletId("creeper_fish"));
 
-		fishPreparation().fish(Fish.BARRELEYE)
+		fillet().fish(Fish.BARRELEYE)
 				.out(Thing.SMALL_FISH_FILLET, 1)
 				.chanced(Thing.BARRELEYE_EYE, .4)
-				.finish(writer, fishPreparationId("barreleye"));
+				.finish(writer, filletId("barreleye"));
 
 		//uncommon fish
 
-		fishPreparation().fish(Fish.GARIBALDI_DAMSELFISH)
+		fillet().fish(Fish.GARIBALDI_DAMSELFISH)
 				.out(Thing.SMALL_FISH_FILLET)
 				.chanced(Items.BONE_MEAL, .8)
-				.finish(writer, fishPreparationId("garibaldi_damselfish"));
+				.finish(writer, filletId("garibaldi_damselfish"));
 
-		fishPreparation().fish(Fish.FLYING_FISH)
+		fillet().fish(Fish.FLYING_FISH)
 				.out(Thing.SMALL_FISH_FILLET)
 				.chanced(Items.BONE_MEAL, .8)
-				.finish(writer, fishPreparationId("flying_fish"));
+				.finish(writer, filletId("flying_fish"));
 
-		fishPreparation().fish(Fish.TUNA)
+		fillet().fish(Fish.TUNA)
 				.out(Thing.FISH_FILLET)
 				.chanced(Items.BONE_MEAL, 4, .8)
-				.finish(writer, fishPreparationId("tuna"));
+				.finish(writer, filletId("tuna"));
 
 		//Rare fish
 
-		fishPreparation().fish(Fish.OARFISH)
+		fillet().fish(Fish.OARFISH)
 				.out(Thing.FISH_FILLET, 2)
 				.chanced(Items.BONE_MEAL, 4, .8)
-				.finish(writer, fishPreparationId("oarfish"));
+				.finish(writer, filletId("oarfish"));
 
-		fishPreparation().fish(Fish.MELIBE)
+		fillet().fish(Fish.MELIBE)
 				.out(Thing.SMALL_FISH_FILLET)
 				.chanced(Items.BONE_MEAL, .8)
 				.chanced(Items.SLIME_BALL, .4)
-				.finish(writer, fishPreparationId("melibe"));
+				.finish(writer, filletId("melibe"));
 
-		fishPreparation().fish(Fish.MARLIN)
+		fillet().fish(Fish.MARLIN)
 				.out(Thing.FISH_FILLET, 2)
 				.chanced(Items.BONE_MEAL, 4, .8)
-				.finish(writer, fishPreparationId("marlin"));
+				.finish(writer, filletId("marlin"));
 
-		fishPreparation().fish(Fish.PENGUIN)
+		fillet().fish(Fish.PENGUIN)
 				.out(Thing.FISH_FILLET, 1)
 				.chanced(Items.BONE_MEAL, 3, .8)
-				.finish(writer, fishPreparationId("penguin"));
+				.finish(writer, filletId("penguin"));
 
 		//SR
 
-		fishPreparation().fish(Fish.OCEAN_SUNFISH)
+		fillet().fish(Fish.OCEAN_SUNFISH)
 				.out(Thing.FISH_FILLET, 2)
 				.chanced(Items.BONE_MEAL, 4, .8)
-				.finish(writer, fishPreparationId("ocean_sunfish"));
+				.finish(writer, filletId("ocean_sunfish"));
 
 		cooking(writer, Thing.SMALL_FISH_FILLET, Thing.COOKED_SMALL_FISH_FILLET);
 		cooking(writer, Thing.FISH_FILLET, Thing.COOKED_FISH_FILLET);
@@ -157,11 +157,11 @@ public class RecipeGen extends RecipeProvider{
 				input, output, 0.35f);
 	}
 
-	private static FishPreparationRecipeBuilder fishPreparation(){
-		return new FishPreparationRecipeBuilder();
+	private static FilletRecipeBuilder fillet(){
+		return new FilletRecipeBuilder();
 	}
 
-	private static ResourceLocation fishPreparationId(String path){
-		return id("fish_preparation/"+path);
+	private static ResourceLocation filletId(String path){
+		return id("fillet/"+path);
 	}
 }

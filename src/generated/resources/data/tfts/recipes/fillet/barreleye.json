@@ -1,0 +1,17 @@
+{
+  "type": "tfts:fillet",
+  "ingredient": {
+    "item": "tfts:barreleye"
+  },
+  "result": [
+    {
+      "count": 1,
+      "item": "tfts:small_fish_fillet"
+    },
+    {
+      "chance": 0.4,
+      "count": 1,
+      "item": "tfts:barreleye_eye"
+    }
+  ]
+}

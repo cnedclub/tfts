@@ -9,10 +9,10 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import org.jetbrains.annotations.ApiStatus;
 import tictim.tfts.contents.fish.AnglingUtils;
 import tictim.tfts.caps.BaitBoxInventory;
-import tictim.tfts.contents.inventory.FishPreparationTableMenu;
+import tictim.tfts.contents.inventory.FilletTableMenu;
 import tictim.tfts.contents.item.IBaitBoxItem;
 import tictim.tfts.net.messages.OpenCurioBaitBoxScreenMsg;
-import tictim.tfts.net.messages.PrepareFishMsg;
+import tictim.tfts.net.messages.FilletMsg;
 import tictim.tfts.net.messages.SelectBaitBoxSlotMsg;
 import tictim.tfts.utils.A;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -46,10 +46,10 @@ public final class TFTSNet{
 				buf -> OpenCurioBaitBoxScreenMsg.get(),
 				TFTSNet::handleOpenCurioBaitBoxScreen,
 				Optional.of(NetworkDirection.PLAY_TO_SERVER));
-		NET.registerMessage(2, PrepareFishMsg.class,
-				PrepareFishMsg::write,
-				buf -> PrepareFishMsg.get(),
-				TFTSNet::handlePrepareFishMsg,
+		NET.registerMessage(2, FilletMsg.class,
+				FilletMsg::write,
+				buf -> FilletMsg.get(),
+				TFTSNet::handleFillet,
 				Optional.of(NetworkDirection.PLAY_TO_SERVER));
 	}
 
@@ -90,16 +90,16 @@ public final class TFTSNet{
 		});
 	}
 
-	private static void handlePrepareFishMsg(PrepareFishMsg msg, Supplier<NetworkEvent.Context> contextSupplier){
+	private static void handleFillet(FilletMsg msg, Supplier<NetworkEvent.Context> contextSupplier){
 		NetworkEvent.Context ctx = contextSupplier.get();
 		ctx.setPacketHandled(true);
 		ctx.enqueueWork(() -> {
 			ServerPlayer sender = ctx.getSender();
 			if(sender==null||sender.isSpectator()) return;
 
-			if(!(sender.containerMenu instanceof FishPreparationTableMenu menu)) return;
+			if(!(sender.containerMenu instanceof FilletTableMenu menu)) return;
 
-			menu.prepareFish(sender);
+			menu.doFillet(sender);
 		});
 	}
 }

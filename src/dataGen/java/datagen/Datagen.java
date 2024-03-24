@@ -42,6 +42,7 @@ public class Datagen{
 
 		gen.addProvider(server, new RecipeGen(gen.getPackOutput()));
 
+		gen.addProvider(client, new BlockStateGen(gen.getPackOutput(), efh));
 		gen.addProvider(client, new ItemModelGen(gen.getPackOutput(), efh));
 	}
 }

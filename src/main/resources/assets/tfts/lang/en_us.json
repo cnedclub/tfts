@@ -30,9 +30,9 @@
   "bait_type.tfts.poison": "Poison",
   "bait_type.tfts.sugar": "Sugar",
 
-  "block.tfts.fish_preparation_table": "Preparation Table",
+  "block.tfts.fillet_table": "Fillet Table",
 
-  "container.tfts.fish_preparation_table": "Preparation Table",
+  "container.tfts.fillet_table": "Fillet Table",
 
   "curios.identifier.tfts_bait_box": "Bait Box",
 
@@ -99,6 +99,6 @@
   "item_group.tfts": "Tales from the Sea",
   "item_group.tfts.fish": "Tales from the Sea: Fish",
 
-  "jei.tfts.fish_preparation": "Fish Preparation",
+  "jei.tfts.fillet": "Filleting",
   "jei.tfts.tooltip.chanced": "Chance: %s%%"
 }

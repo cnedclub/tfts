@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,source=false": {
+      "model": "tfts:block/fillet_table_b",
+      "y": 90
+    },
+    "facing=east,source=true": {
+      "model": "tfts:block/fillet_table_a",
+      "y": 90
+    },
+    "facing=north,source=false": {
+      "model": "tfts:block/fillet_table_b"
+    },
+    "facing=north,source=true": {
+      "model": "tfts:block/fillet_table_a"
+    },
+    "facing=south,source=false": {
+      "model": "tfts:block/fillet_table_b",
+      "y": 180
+    },
+    "facing=south,source=true": {
+      "model": "tfts:block/fillet_table_a",
+      "y": 180
+    },
+    "facing=west,source=false": {
+      "model": "tfts:block/fillet_table_b",
+      "y": 270
+    },
+    "facing=west,source=true": {
+      "model": "tfts:block/fillet_table_a",
+      "y": 270
+    }
+  }
+}

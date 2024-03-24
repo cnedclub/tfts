@@ -12,10 +12,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import tictim.tfts.TFTSMod;
-import tictim.tfts.client.screen.FishPreparationTableScreen;
+import tictim.tfts.client.screen.FilletTableScreen;
 import tictim.tfts.contents.TFTSMenus;
 import tictim.tfts.contents.TFTSRecipes;
-import tictim.tfts.contents.inventory.FishPreparationTableMenu;
+import tictim.tfts.contents.inventory.FilletTableMenu;
 import tictim.tfts.contents.item.Thing;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -34,7 +34,7 @@ public class TFTSJeiPlugin implements IModPlugin{
 		IJeiHelpers jeiHelpers = registration.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 		registration.addRecipeCategories(
-				new FishPreparationRecipeCategory(guiHelper)
+				new FilletRecipeCategory(guiHelper)
 		);
 	}
 
@@ -44,18 +44,18 @@ public class TFTSJeiPlugin implements IModPlugin{
 		if(world==null) return;
 		RecipeManager recipeManager = world.getRecipeManager();
 
-		registration.addRecipes(FishPreparationRecipeCategory.RECIPE_TYPE, new ArrayList<>(recipeManager.getAllRecipesFor(TFTSRecipes.PREPARATION.get())));
+		registration.addRecipes(FilletRecipeCategory.RECIPE_TYPE, new ArrayList<>(recipeManager.getAllRecipesFor(TFTSRecipes.FILLET.get())));
 	}
 
 	@Override public void registerRecipeCatalysts(IRecipeCatalystRegistration registration){
-		registration.addRecipeCatalyst(new ItemStack(Thing.FISH_PREPARATION_TABLE.asItem()), FishPreparationRecipeCategory.RECIPE_TYPE);
+		registration.addRecipeCatalyst(new ItemStack(Thing.FILLET_TABLE.asItem()), FilletRecipeCategory.RECIPE_TYPE);
 	}
 
 	@Override public void registerGuiHandlers(IGuiHandlerRegistration registration){
-		registration.addRecipeClickArea(FishPreparationTableScreen.class, 1, 1, 16, 16, FishPreparationRecipeCategory.RECIPE_TYPE);
+		registration.addRecipeClickArea(FilletTableScreen.class, 1, 1, 16, 16, FilletRecipeCategory.RECIPE_TYPE);
 	}
 
 	@Override public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration){
-		registration.addRecipeTransferHandler(FishPreparationTableMenu.class, TFTSMenus.FISH_PREPARATION_TABLE.get(), FishPreparationRecipeCategory.RECIPE_TYPE, 0, 1, 1, 36);
+		registration.addRecipeTransferHandler(FilletTableMenu.class, TFTSMenus.FILLET_TABLE.get(), FilletRecipeCategory.RECIPE_TYPE, 0, 1, 1, 36);
 	}
 }
