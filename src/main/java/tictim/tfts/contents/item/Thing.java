@@ -42,8 +42,8 @@ public enum Thing implements ItemLike{
 			.effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200), 1)
 	)),
 
-	BARRELEYE_EYE(food(b -> b.nutrition(1)
-			.effect(() -> new MobEffectInstance(MobEffects.NIGHT_VISION, 100), 1)
+	EYEBARREL(food(b -> b.nutrition(1)
+			.effect(() -> new MobEffectInstance(MobEffects.NIGHT_VISION, 600), 1)
 			.alwaysEat()
 	));
 

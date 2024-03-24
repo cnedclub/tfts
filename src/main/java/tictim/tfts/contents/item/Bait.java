@@ -47,8 +47,7 @@ public enum Bait implements ItemLike{
 
 	// weird shit
 
-	ROTTEN_FLESH_BAIT,
-	BONE_MEAL_BAIT;
+	ROTTEN_FLESH_BAIT;
 
 	private final String registryName = name().toLowerCase(Locale.ROOT);
 	private final Supplier<Item.Properties> propertyFactory;

@@ -1,4 +1,4 @@
-// 1.20.1	2024-03-24T16:49:09.075993	Registries
+// 1.20.1	2024-03-24T22:52:47.6915021	Registries
 0815f6b08a1f8c4cbb2e07ef21ea2d9b7e806f66 data/minecraft/tfts/bait_stats/brown_mushroom.json
 a9882436e621b5e6d42e9249781b86fa191cf977 data/minecraft/tfts/bait_stats/fermented_spider_eye.json
 a9e42d9d683017e2a40a7f5a1b3c87ead69a7636 data/minecraft/tfts/bait_stats/red_mushroom.json
@@ -27,7 +27,6 @@ fcf4746f48633240cdb76dda345af29bfce69f6d data/tfts/tfts/angling_entries/tuna.jso
 561bbd467378544ed8828827710583ccc30ce7c1 data/tfts/tfts/bait_stats/apple_bait.json
 47500a874197322ac1644976e0e30d1ca03d0578 data/tfts/tfts/bait_stats/apprentice_bait.json
 761b7b5038635359d212c9c958326ecc3164f426 data/tfts/tfts/bait_stats/beetroot_bait.json
-e74bf912caae378663ca88807b23270cc7e8a9bd data/tfts/tfts/bait_stats/bone_meal_bait.json
 d863663b5465dfb357dc499b5c4b533cc6054dc0 data/tfts/tfts/bait_stats/carrot_bait.json
 f80b55ab50e697c7096e5f261b13501a33e70d34 data/tfts/tfts/bait_stats/enchanted_golden_apple_bait.json
 fc818fb793aa8fb544223d18ba2d7961f1a42a74 data/tfts/tfts/bait_stats/flower_bait.json

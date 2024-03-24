@@ -4,14 +4,11 @@ import datagen.recipe.FilletRecipeBuilder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.Containers;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import tictim.tfts.contents.item.Bait;
@@ -163,13 +160,6 @@ public class RecipeGen extends RecipeProvider{
 				.unlockedBy(getHasName(Thing.STARCH), has(Thing.STARCH))
 				.save(writer);
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Bait.BONE_MEAL_BAIT, 3)
-				.requires(Items.BONE_MEAL)
-				.requires(Items.WATER_BUCKET)
-				.requires(Thing.STARCH)
-				.unlockedBy(getHasName(Thing.STARCH), has(Thing.STARCH))
-				.save(writer);
-
 		/*
 		  Fish fillets
 
@@ -224,7 +214,7 @@ public class RecipeGen extends RecipeProvider{
 
 		fillet().fish(Fish.BARRELEYE)
 				.out(Thing.SMALL_FISH_FILLET, 1)
-				.chanced(Thing.BARRELEYE_EYE, .4)
+				.chanced(Thing.EYEBARREL, .4)
 				.finish(writer, filletId("barreleye"));
 
 		fillet().fish(Fish.ZOMFISH)

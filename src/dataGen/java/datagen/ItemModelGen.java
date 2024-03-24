@@ -29,6 +29,7 @@ public class ItemModelGen extends ItemModelProvider{
 		basicItem(Thing.COOKED_FISH_FILLET);
 		basicItem(Thing.STARCH);
 		basicItem(Thing.JAJO_COLA);
+		basicItem(Thing.EYEBARREL);
 
 		basicItem(Fish.BASS);
 		basicItem(Fish.CARP);
@@ -43,6 +44,10 @@ public class ItemModelGen extends ItemModelProvider{
 		basicItem(Fish.MARLIN);
 		basicItem(Fish.OARFISH);
 		basicItem(Fish.OCEAN_SUNFISH);
+		basicItem(Fish.SHRIMP);
+		basicItem(Fish.BROWN_CROAKER);
+		basicItem(Fish.LOBSTER);
+		basicItem(Fish.CRAB);
 
 		for(var bait : Bait.values()) {
 			basicItem(bait);

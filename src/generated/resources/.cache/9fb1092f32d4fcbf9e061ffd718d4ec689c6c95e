@@ -1,4 +1,4 @@
-// 1.20.1	2024-03-24T17:58:05.9746898	Recipes
+// 1.20.1	2024-03-24T22:52:47.6925029	Recipes
 bf60de619e1c29c5cf2653771d8bf88d2f0aedf2 data/minecraft/advancements/recipes/food/cooked_fish_fillet_from_campfire_cooking.json
 83aac1f8c27e186da15a3c34663b847d52b9b0d1 data/minecraft/advancements/recipes/food/cooked_fish_fillet_from_smoking.json
 0ac0669052c77407dfc5804cce038b3abf4102a7 data/minecraft/advancements/recipes/food/cooked_small_fish_fillet_from_campfire_cooking.json
@@ -11,7 +11,6 @@ db4e76d4f61b6d245e6f231d60e3af78573d5e39 data/tfts/advancements/recipes/food/coo
 9f5297e797c16e9a9db31c965280c475bd8cb5cd data/tfts/advancements/recipes/food/cooked_small_fish_fillet.json
 481a595ca0c872e12d02a57913d321d0d49cf5aa data/tfts/advancements/recipes/misc/apple_bait.json
 76488377861ede6f3fb8cf38b4ec0e6905142203 data/tfts/advancements/recipes/misc/beetroot_bait.json
-9fe56c64804820988e6ef3acdb0fd656c1b72544 data/tfts/advancements/recipes/misc/bone_meal_bait.json
 5daa9f32e3a16d3a328c2b7f5a5dd8710a8931dc data/tfts/advancements/recipes/misc/carrot_bait.json
 cfa4f27c36a5a78c0f59e3a55ae93106b4e27c84 data/tfts/advancements/recipes/misc/enchanted_golden_apple_bait.json
 861ec10ff867d039df88f16729e0b01ec50f60a1 data/tfts/advancements/recipes/misc/flower_bait.json
@@ -31,13 +30,12 @@ f2b184b2d882bd2bc04062a95719dcc2ecab1ab2 data/tfts/advancements/recipes/tools/co
 9f747fecd3c62bbd94b66eff478221d12f26a145 data/tfts/recipes/apple_bait.json
 20b66a40ecdf322442403f5e02a7030393b6c3aa data/tfts/recipes/bait_box.json
 c860e541618496ba79ce7180ee13caaf23315557 data/tfts/recipes/beetroot_bait.json
-295cc75a2b5416360f288ebef89e92ed23a7784c data/tfts/recipes/bone_meal_bait.json
 afd2177a383d647a8c2f5d1abf52febc1c2dc11d data/tfts/recipes/carrot_bait.json
 1685fde577f5f26f09c934026e29ab59ac86ded4 data/tfts/recipes/cooked_fish_fillet.json
 b0aa40b172d54450afdeed0decddd3b7fd4fd1a6 data/tfts/recipes/cooked_small_fish_fillet.json
 ceca6dadb8132c91aa2715261bb4ea4b43223550 data/tfts/recipes/cooking_mortar.json
 b48f2913a9db55697571b4804ce79cc90dfe9dd5 data/tfts/recipes/enchanted_golden_apple_bait.json
-04bc02edd507859f5ce01b13f45237dd0e4925d2 data/tfts/recipes/fillet/barreleye.json
+e543dfb83e1b1b5f75c9398622c8e254412ae5c6 data/tfts/recipes/fillet/barreleye.json
 8ad4eb5baf6786f8a13b22d928c5e10c9a8df3bd data/tfts/recipes/fillet/bass.json
 072192547bad7ad9e9b69bf59547dac6d6d16586 data/tfts/recipes/fillet/brown_croaker.json
 ea6a57c6cf86f071720e29223cabbec9dd4d5ed8 data/tfts/recipes/fillet/carp.json

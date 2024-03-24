@@ -57,7 +57,6 @@ public class BaitStatGen implements RegistrySetBuilder.RegistryBootstrap<BaitSta
 		register(Bait.GOLDEN_WORM).stat(WORM_MEAT, 2.5).stat(GOLD, 2.5);
 
 		register(Bait.ROTTEN_FLESH_BAIT).stat(ZOMBIE, 1).stat(POISON, .1);
-		register(Bait.BONE_MEAL_BAIT).stat(BONE, 1);
 
 		register(Fish.SHRIMP).stat(FISH_MEAT, 1.5);
 

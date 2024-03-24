@@ -1,17 +1,19 @@
-// 1.20.1	2024-03-24T16:49:09.0739915	Item Models: tfts
+// 1.20.1	2024-03-24T22:52:47.6905023	Item Models: tfts
 231acdfd23d520bd234b08a908ed2b5e5fa68c20 assets/tfts/models/item/apple_bait.json
 d6c6ccfa08cdc37d37b2a1124fabe5020a78692e assets/tfts/models/item/apprentice_bait.json
 ae2134ee93c21b8acc02387ec9f51e07b1d93883 assets/tfts/models/item/bass.json
 c97efa3ebfe8c811cc67e927ea736b90834c3cea assets/tfts/models/item/beetroot_bait.json
-a001d1d61f597ceb9fa113476c20de0c3514022f assets/tfts/models/item/bone_meal_bait.json
+1316a408252cdb13fd7d288eb4ba074336845f4c assets/tfts/models/item/brown_croaker.json
 bcbf49056d068b76874a059af4944de4ca535d26 assets/tfts/models/item/carp.json
 03aabd5135a7035d36ac55e9f40b1b5911f62e42 assets/tfts/models/item/carrot_bait.json
 1c0047d67d83072d0ccb436747e0b281d7617c5f assets/tfts/models/item/catfish.json
 93d6c15eda50456623b3a6e60c03ef4e5004ec2c assets/tfts/models/item/cooked_fish_fillet.json
 1df53e64eb10b2e49541f02991b386be5ccbd9e6 assets/tfts/models/item/cooked_small_fish_fillet.json
 611ffa51b1cbfff8d3809a1e294848b429d4a9a5 assets/tfts/models/item/cooking_mortar.json
+4467ed6dfa963713ba50a88ae94d5a5730ae7b4b assets/tfts/models/item/crab.json
 2cb1b5b90d3eaee9862865a8a6cdbd0d955be42c assets/tfts/models/item/creeper_fish.json
 5f152fcff7bcf51da9d176f5f83c48c33e41cce9 assets/tfts/models/item/enchanted_golden_apple_bait.json
+7ddeecdb2f7c5d08c720eaafe23ffc9c527a455c assets/tfts/models/item/eyebarrel.json
 cea4a1499470a246ba6df7d1b34d99f6bda78177 assets/tfts/models/item/fish_fillet.json
 630cab1732e14ada671c45a5ae1d8add61300bc7 assets/tfts/models/item/flower_bait.json
 24641ed4e2e66aed5924c00e166dc4663dd9ae88 assets/tfts/models/item/flying_fish.json
@@ -23,6 +25,7 @@ d449dbd72ff32c3c73cc919f594e5956121859bf assets/tfts/models/item/golden_carrot_b
 760b48c71b3433e62112cd6aa7fe989627348aaa assets/tfts/models/item/golden_worm.json
 cd0ad8c385fbd5829c5b757a5f17249680da4683 assets/tfts/models/item/jajo_cola.json
 e26fedbb5798b704594a983f3eeaf0b7e9a78334 assets/tfts/models/item/journeyman_bait.json
+a5b44cbf1fdaef21636ba0148c9160eb31d26216 assets/tfts/models/item/lobster.json
 cad75c577a1b5fd5681f25ffb064e8429d0a1ffe assets/tfts/models/item/marlin.json
 8b2cdf3a0f96bcb5fc809b6016b89a08799f7e19 assets/tfts/models/item/master_bait.json
 f9a243291c44a06a12f68193a4b3e8247c893d00 assets/tfts/models/item/melon_bait.json
@@ -33,6 +36,7 @@ edf96a617980c25e468214d62059e77f4e962f02 assets/tfts/models/item/pumpkin_bait.js
 92c2d68e7dd6c36be6b6cb645c5945409aba5b7f assets/tfts/models/item/rotten_flesh_bait.json
 ad1cf8091efb8dc3384f0ff30a8d4c474e1e9c16 assets/tfts/models/item/seahorse.json
 e937b3e8144154ab6c2d19b692a9705366e3586b assets/tfts/models/item/seed_bait.json
+2db927b3021e571f1f75d206a4f448fc0f4d8e28 assets/tfts/models/item/shrimp.json
 2c4e6fc5e82a84b68e65e74fd0ac2a0d1f95ed62 assets/tfts/models/item/small_fish_fillet.json
 16a9106d76efed67f4ec2a31b36b4e7ebc1468c9 assets/tfts/models/item/starch.json
 669db2cae6a6f900a45c53967eb300adae11c7c9 assets/tfts/models/item/sweet_berry_bait.json
