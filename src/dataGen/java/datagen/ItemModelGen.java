@@ -29,7 +29,7 @@ public class ItemModelGen extends ItemModelProvider{
 		basicItem(Thing.COOKED_FISH_FILLET);
 		basicItem(Thing.STARCH);
 		basicItem(Thing.JAJO_COLA);
-		basicItem(Thing.EYEBARREL);
+		basicItem(Thing.BARRELEYE_EYEBALL);
 		basicItem(Thing.BAIT_BOX);
 
 		basicItem(Fish.BASS);

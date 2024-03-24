@@ -207,7 +207,7 @@ public class RecipeGen extends RecipeProvider{
 
 		fillet().fish(Fish.BARRELEYE)
 				.out(Thing.SMALL_FISH_FILLET, 1)
-				.out(Thing.EYEBARREL, 2)
+				.out(Thing.BARRELEYE_EYEBALL, 2)
 				.finish(writer, filletId("barreleye"));
 
 		fillet().fish(Fish.ZOMFISH)
