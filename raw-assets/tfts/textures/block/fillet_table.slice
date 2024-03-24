@@ -1,0 +1,11 @@
+0 0 block/fillet_table/front_1
+1 0 block/fillet_table/front_2
+2 0 block/fillet_table/side
+3 0 block/fillet_table/side_inner
+0 1 block/fillet_table/top_1
+1 1 block/fillet_table/top_2
+2 1 block/fillet_table/bottom_1
+3 1 block/fillet_table/bottom_2
+0 2 block/fillet_table/knife_1
+1 2 block/fillet_table/knife_2
+2 2 block/fillet_table/apron

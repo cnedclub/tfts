@@ -25,7 +25,7 @@ public enum Thing implements ItemLike{
 	TROWEL(TrowelItem::new),
 	COOKING_MORTAR(() -> new Item.Properties().defaultDurability(64), CookingMortarItem::new),
 
-	FISH_PREPARATION_TABLE(p -> new BlockItem(TFTSBlocks.FISH_PREPARATION_TABLE.get(), p)),
+	FILLET_TABLE(p -> new BlockItem(TFTSBlocks.FILLET_TABLE.get(), p)),
 
 	SMALL_FISH_FILLET(simpleFood(1)),
 	COOKED_SMALL_FISH_FILLET(simpleFood(4)),

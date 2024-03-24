@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "tfts:item/cooked_small_fish_fillet"
+  }
+}

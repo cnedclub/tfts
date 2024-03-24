@@ -1,9 +1,12 @@
-// 1.20.1	2024-03-24T03:23:23.5008269	Item Models: tfts
+// 1.20.1	2024-03-24T14:44:59.605379121	Item Models: tfts
 ae2134ee93c21b8acc02387ec9f51e07b1d93883 assets/tfts/models/item/bass.json
 bcbf49056d068b76874a059af4944de4ca535d26 assets/tfts/models/item/carp.json
 1c0047d67d83072d0ccb436747e0b281d7617c5f assets/tfts/models/item/catfish.json
+93d6c15eda50456623b3a6e60c03ef4e5004ec2c assets/tfts/models/item/cooked_fish_fillet.json
+1df53e64eb10b2e49541f02991b386be5ccbd9e6 assets/tfts/models/item/cooked_small_fish_fillet.json
 611ffa51b1cbfff8d3809a1e294848b429d4a9a5 assets/tfts/models/item/cooking_mortar.json
 2cb1b5b90d3eaee9862865a8a6cdbd0d955be42c assets/tfts/models/item/creeper_fish.json
+cea4a1499470a246ba6df7d1b34d99f6bda78177 assets/tfts/models/item/fish_fillet.json
 24641ed4e2e66aed5924c00e166dc4663dd9ae88 assets/tfts/models/item/flying_fish.json
 7f902d4746ec2cee080239dbdd0b8f68c7da5b8d assets/tfts/models/item/garibaldi_damselfish.json
 cd0ad8c385fbd5829c5b757a5f17249680da4683 assets/tfts/models/item/jajo_cola.json
@@ -12,6 +15,7 @@ cad75c577a1b5fd5681f25ffb064e8429d0a1ffe assets/tfts/models/item/marlin.json
 b5121556b6dee0d82006dec621790c0fcbb091b4 assets/tfts/models/item/ocean_sunfish.json
 528d112ae2b6c29dcbba3b0932046805ffb4af28 assets/tfts/models/item/rockfish.json
 ad1cf8091efb8dc3384f0ff30a8d4c474e1e9c16 assets/tfts/models/item/seahorse.json
+2c4e6fc5e82a84b68e65e74fd0ac2a0d1f95ed62 assets/tfts/models/item/small_fish_fillet.json
 16a9106d76efed67f4ec2a31b36b4e7ebc1468c9 assets/tfts/models/item/starch.json
 d32fb8ab17e89be378e21e9168d551182fd4d988 assets/tfts/models/item/trowel.json
 2a5eaadd67f0c04798e4bf139a1e51f99d83f5ee assets/tfts/models/item/tuna.json

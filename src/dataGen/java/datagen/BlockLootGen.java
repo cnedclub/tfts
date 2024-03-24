@@ -9,7 +9,7 @@ import tictim.tfts.contents.TFTSRegistries;
 
 public class BlockLootGen extends VanillaBlockLoot{
 	@Override protected void generate(){
-		add(TFTSBlocks.FISH_PREPARATION_TABLE.get(), this::createNameableBlockEntityTable);
+		add(TFTSBlocks.FILLET_TABLE.get(), this::createNameableBlockEntityTable);
 	}
 
 	@Override @NotNull protected Iterable<Block> getKnownBlocks(){

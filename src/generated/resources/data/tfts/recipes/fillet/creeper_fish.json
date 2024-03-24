@@ -1,0 +1,21 @@
+{
+  "type": "tfts:fillet",
+  "ingredient": {
+    "item": "tfts:creeper_fish"
+  },
+  "result": [
+    {
+      "count": 1,
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "chance": 0.5,
+      "count": 1,
+      "item": "minecraft:gunpowder"
+    }
+  ]
+}
