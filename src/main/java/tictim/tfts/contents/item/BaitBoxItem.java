@@ -19,9 +19,9 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tictim.tfts.utils.A;
 import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.contents.inventory.BaitBoxMenu;
+import tictim.tfts.utils.A;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
@@ -49,21 +49,11 @@ public class BaitBoxItem extends Item implements ICurioItem, IBaitBoxItem{
 	}
 
 	@Override @Nullable public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, @Nullable CompoundTag tag){
-		return new BaitBoxInventory(this.inventorySize);
+		return new BaitBoxInventory(stack, this.inventorySize);
 	}
 
 	@Override public boolean canSync(SlotContext slotContext, ItemStack stack){
 		return true;
-	}
-
-	@Override @NotNull public CompoundTag writeSyncData(SlotContext ctx, ItemStack stack){
-		BaitBoxInventory inv = A.get(stack, BaitBoxInventory.CAP);
-		return inv!=null ? inv.serializeNBT() : new CompoundTag();
-	}
-
-	@Override public void readSyncData(SlotContext ctx, CompoundTag tag, ItemStack stack){
-		BaitBoxInventory inv = A.get(stack, BaitBoxInventory.CAP);
-		if(inv!=null) inv.deserializeNBT(tag);
 	}
 
 	@Override public void openCurioScreen(@NotNull ServerPlayer player, @NotNull ItemStack stack){

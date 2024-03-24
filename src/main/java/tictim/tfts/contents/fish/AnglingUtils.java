@@ -201,8 +201,8 @@ public final class AnglingUtils{
 		BaitBoxInventory baitBoxInv = AnglingUtils.getBaitBoxInventory(player);
 		if(baitBoxInv==null) return null;
 		int i = baitBoxInv.selectedIndex();
-		if(i<0||i>=baitBoxInv.getInventory().getSlots()) return null;
-		ItemStack stack = baitBoxInv.getInventory().getStackInSlot(i);
+		if(i<0||i>=baitBoxInv.inventory().getSlots()) return null;
+		ItemStack stack = baitBoxInv.inventory().getStackInSlot(i);
 		if(stack.isEmpty()) return null;
 		ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
 		if(key==null) return null;
@@ -216,8 +216,8 @@ public final class AnglingUtils{
 		BaitBoxInventory baitBoxInv = AnglingUtils.getBaitBoxInventory(player);
 		if(baitBoxInv==null) return false;
 		int i = baitBoxInv.selectedIndex();
-		if(i<0||i>=baitBoxInv.getInventory().getSlots()) return false;
-		ItemStack stack = baitBoxInv.getInventory().getStackInSlot(i);
+		if(i<0||i>=baitBoxInv.inventory().getSlots()) return false;
+		ItemStack stack = baitBoxInv.inventory().getStackInSlot(i);
 		if(stack.isEmpty()) return false;
 		ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
 		if(key==null) return false;

@@ -6,9 +6,9 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import tictim.tfts.contents.fish.AnglingUtils;
 import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.contents.entity.TFTSHook;
+import tictim.tfts.contents.fish.AnglingUtils;
 
 public final class TFTSOverlay implements IGuiOverlay{
 	@Override public void render(ForgeGui gui, GuiGraphics graphics, float partialTick, int screenWidth, int screenHeight){
@@ -20,7 +20,7 @@ public final class TFTSOverlay implements IGuiOverlay{
 
 		BaitBoxInventory inv = AnglingUtils.getBaitBoxInventory(player);
 		if(inv!=null){
-			int slots = inv.getInventory().getSlots();
+			int slots = inv.inventory().getSlots();
 			int xStart = screenWidth*4/6;
 			int height = 16+slots*18;
 			int yStart = (screenHeight-height)/2;
@@ -44,7 +44,7 @@ public final class TFTSOverlay implements IGuiOverlay{
 						34, 34);
 			}
 			for(int i = 0; i<slots; i++){
-				ItemStack stack = inv.getInventory().getStackInSlot(i);
+				ItemStack stack = inv.inventory().getStackInSlot(i);
 				if(stack.isEmpty()) continue;
 				graphics.renderItem(stack, xStart+9, yStart+9+18*i);
 				graphics.renderItemDecorations(gui.getFont(), stack, xStart+9, yStart+9+18*i);

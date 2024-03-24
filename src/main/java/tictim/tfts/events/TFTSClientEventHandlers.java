@@ -6,8 +6,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import tictim.tfts.contents.fish.AnglingUtils;
 import tictim.tfts.caps.BaitBoxInventory;
+import tictim.tfts.contents.fish.AnglingUtils;
 import tictim.tfts.net.TFTSNet;
 import tictim.tfts.net.messages.SelectBaitBoxSlotMsg;
 
@@ -30,7 +30,7 @@ public final class TFTSClientEventHandlers{
 
 		BaitBoxInventory baitBox = AnglingUtils.getBaitBoxInventory(player);
 		if(baitBox==null) return;
-		int size = baitBox.getInventory().getSlots();
+		int size = baitBox.inventory().getSlots();
 		if(size<=0) return;
 
 		int selectedIndex = baitBox.selectedIndex()-(int)Math.signum(event.getScrollDelta());
