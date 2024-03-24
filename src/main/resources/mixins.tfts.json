@@ -8,5 +8,6 @@
     "ItemStackMixin"
   ],
   "required": true,
-  "refmap": "mixins.tfts.refmap.json"
+  "refmap": "mixins.tfts.refmap.json",
+  "minVersion": "0.8"
 }
