@@ -1,4 +1,4 @@
-// 1.20.1	2024-03-24T16:49:09.075993	Recipes
+// 1.20.1	2024-03-24T17:58:05.9746898	Recipes
 bf60de619e1c29c5cf2653771d8bf88d2f0aedf2 data/minecraft/advancements/recipes/food/cooked_fish_fillet_from_campfire_cooking.json
 83aac1f8c27e186da15a3c34663b847d52b9b0d1 data/minecraft/advancements/recipes/food/cooked_fish_fillet_from_smoking.json
 0ac0669052c77407dfc5804cce038b3abf4102a7 data/minecraft/advancements/recipes/food/cooked_small_fish_fillet_from_campfire_cooking.json
@@ -38,21 +38,22 @@ b0aa40b172d54450afdeed0decddd3b7fd4fd1a6 data/tfts/recipes/cooked_small_fish_fil
 ceca6dadb8132c91aa2715261bb4ea4b43223550 data/tfts/recipes/cooking_mortar.json
 b48f2913a9db55697571b4804ce79cc90dfe9dd5 data/tfts/recipes/enchanted_golden_apple_bait.json
 04bc02edd507859f5ce01b13f45237dd0e4925d2 data/tfts/recipes/fillet/barreleye.json
+8ad4eb5baf6786f8a13b22d928c5e10c9a8df3bd data/tfts/recipes/fillet/bass.json
 072192547bad7ad9e9b69bf59547dac6d6d16586 data/tfts/recipes/fillet/brown_croaker.json
 ea6a57c6cf86f071720e29223cabbec9dd4d5ed8 data/tfts/recipes/fillet/carp.json
 fca1073c520023d09b48b9b1fd1dd7a0575c9ded data/tfts/recipes/fillet/catfish.json
-7c987bb9e9b7aaf347d95da232d255e06d549005 data/tfts/recipes/fillet/creeper_fish.json
+3be774421f3f7758904232c4aee9929a9d811eda data/tfts/recipes/fillet/creeper_fish.json
 c20b8beb1bb3edfeb45888e188e660ff3c8100bb data/tfts/recipes/fillet/flying_fish.json
 cb856ed25a52d1662612b58bf821f303cbab6cc1 data/tfts/recipes/fillet/garibaldi_damselfish.json
 308734bf6c69d7f9734b5724e1fb3492aaf66e2f data/tfts/recipes/fillet/marlin.json
 d5c98a6a5e351a931fb8925f10844acf53d93a06 data/tfts/recipes/fillet/melibe.json
 a4ca26a02503b526a47fb1267ac12d81bc186583 data/tfts/recipes/fillet/oarfish.json
 680c6f52120293324cdcda18b1630e060f2d00e2 data/tfts/recipes/fillet/ocean_sunfish.json
-cebad25dcead4ad30d6d044566b24959c8776c0e data/tfts/recipes/fillet/penguin.json
+a70c9d81ab8f01d04b630ff79d63f0d471249ef2 data/tfts/recipes/fillet/penguin.json
 6ab21ebbf547a4789cf67a10ecf5a8e4ec73b29f data/tfts/recipes/fillet/rockfish.json
-1b6de3347ceeb966579e9573b80bb9ad777e6030 data/tfts/recipes/fillet/shrimp.json
 c803accbc26b91d20aa5f3697554d9fc98789bab data/tfts/recipes/fillet/tuna.json
-d453472a6917da1835a71693ac259d02f217be48 data/tfts/recipes/fillet_table.json
+19df9930e2c1b5f508cc08c89b2cffb27ecc5515 data/tfts/recipes/fillet/zomfish.json
+d27d1d5ade177da9c983c72cb4ac5aa64e8e5080 data/tfts/recipes/fillet_table.json
 2ddbe1b30c41e88857ce9ff4b6bbfc52a6db54ee data/tfts/recipes/flower_bait.json
 5389e8a6b30478929946861ac99de57fccb40b8b data/tfts/recipes/glistering_melon_bait.json
 8c21f104d74f36527f6473f64fc7eca6bf1bbd9d data/tfts/recipes/glow_berry_bait.json

@@ -211,7 +211,6 @@ public class TFTSHook extends FishingHook{
 				if(this.counter<=0){
 					this.anglingEntry = AnglingUtils.pick(
 							new AnglingContext(this, level, owner, pos, this.environment), this.random);
-					TFTSMod.LOGGER.info("AnglingEntry: {}", this.anglingEntry);
 				}
 			}
 		}else if(!isBiting()){ // nibbling state
@@ -255,7 +254,6 @@ public class TFTSHook extends FishingHook{
 								setDeltaMovement(d.x+Mth.nextFloat(this.syncronizedRandom, -0.2f, 0.2f),
 										-0.2f*Mth.nextFloat(this.syncronizedRandom, 0.6f, 1),
 										d.z+Mth.nextFloat(this.syncronizedRandom, -0.2f, 0.2f));
-								TFTSMod.LOGGER.info("Nibble!");
 							}
 						}
 						fish.setPosition(this.getX(), this.getY(), this.getZ());
@@ -322,7 +320,6 @@ public class TFTSHook extends FishingHook{
 	}
 
 	private void setBiting(boolean biting){
-		this.getEntityData().set(DATA_BITING, biting);
-		TFTSMod.LOGGER.info("Biting: {}", biting);
+		this.getEntityData().set(DATA_BITING, biting);;
 	}
 }

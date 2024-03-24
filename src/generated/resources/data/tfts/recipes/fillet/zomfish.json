@@ -1,0 +1,33 @@
+{
+  "type": "tfts:fillet",
+  "ingredient": {
+    "item": "tfts:zomfish"
+  },
+  "result": [
+    {
+      "chance": 0.5,
+      "count": 1,
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "chance": 0.5,
+      "count": 1,
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "chance": 0.08,
+      "count": 1,
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "chance": 0.08,
+      "count": 1,
+      "item": "minecraft:carrot"
+    },
+    {
+      "chance": 0.08,
+      "count": 1,
+      "item": "minecraft:potato"
+    }
+  ]
+}

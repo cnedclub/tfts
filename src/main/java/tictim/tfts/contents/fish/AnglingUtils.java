@@ -183,7 +183,6 @@ public final class AnglingUtils{
 			double weight = e.getWeight(context);
 			roll.add(e, weight);
 		}
-		TFTSMod.LOGGER.info(roll);
 		return roll.get(randomSource);
 	}
 

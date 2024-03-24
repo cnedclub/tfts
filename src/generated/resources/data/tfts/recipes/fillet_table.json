@@ -3,15 +3,22 @@
   "category": "equipment",
   "key": {
     "1": {
-      "item": "minecraft:smooth_stone_slab"
+      "tag": "minecraft:wooden_slabs"
     },
     "2": {
+      "item": "minecraft:iron_sword"
+    },
+    "3": {
+      "tag": "forge:stone"
+    },
+    "4": {
       "tag": "minecraft:planks"
     }
   },
   "pattern": [
-    "111",
-    "2 2"
+    " 12",
+    "333",
+    "4 4"
   ],
   "result": {
     "item": "tfts:fillet_table"

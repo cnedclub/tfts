@@ -4,6 +4,7 @@ import datagen.recipe.FilletRecipeBuilder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Containers;
 import net.minecraft.world.item.Items;
@@ -36,10 +37,13 @@ public class RecipeGen extends RecipeProvider{
 				.save(writer);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Thing.FILLET_TABLE)
-				.pattern("111")
-				.pattern("2 2")
-				.define('1', Items.SMOOTH_STONE_SLAB)
-				.define('2', ItemTags.PLANKS)
+				.pattern(" 12")
+				.pattern("333")
+				.pattern("4 4")
+				.define('1', ItemTags.WOODEN_SLABS)
+				.define('2', Items.IRON_SWORD)
+				.define('3', Tags.Items.STONE)
+				.define('4', ItemTags.PLANKS)
 				.unlockedBy("has_fish", has(ItemTags.FISHES))
 				.save(writer);
 
@@ -184,6 +188,12 @@ public class RecipeGen extends RecipeProvider{
 		  Super big: Fish fillet 2
 
 		 */
+
+		//Trashes
+		fillet().fish(Fish.BASS)
+				.out(Thing.SMALL_FISH_FILLET)
+				.finish(writer, filletId("bass"));
+
 		//common fish
 
 		fillet().fish(Fish.CATFISH)
@@ -196,10 +206,6 @@ public class RecipeGen extends RecipeProvider{
 				.chanced(Items.BONE_MEAL, 2, .8)
 				.finish(writer, filletId("brown_croaker"));
 
-		fillet().fish(Fish.SHRIMP)
-				.out(Thing.SMALL_FISH_FILLET, 1)
-				.finish(writer, filletId("shrimp"));
-
 		fillet().fish(Fish.ROCKFISH)
 				.out(Thing.SMALL_FISH_FILLET, 2)
 				.chanced(Items.BONE_MEAL, 3, .8)
@@ -210,10 +216,9 @@ public class RecipeGen extends RecipeProvider{
 				.out(Thing.SMALL_FISH_FILLET, 1)
 				.chanced(Items.BONE_MEAL, 2, .8)
 				.finish(writer, filletId("carp"));
-		//Creeperfish, Barreleye TODO
+
 		fillet().fish(Fish.CREEPER_FISH)
-				.out(Items.ROTTEN_FLESH)
-				.out(Items.GUNPOWDER)
+				.chanced(Items.GUNPOWDER, .5)
 				.chanced(Items.GUNPOWDER, .5)
 				.finish(writer, filletId("creeper_fish"));
 
@@ -221,6 +226,14 @@ public class RecipeGen extends RecipeProvider{
 				.out(Thing.SMALL_FISH_FILLET, 1)
 				.chanced(Thing.BARRELEYE_EYE, .4)
 				.finish(writer, filletId("barreleye"));
+
+		fillet().fish(Fish.ZOMFISH)
+				.chanced(Items.ROTTEN_FLESH, .5)
+				.chanced(Items.ROTTEN_FLESH, .5)
+				.chanced(Items.IRON_INGOT, 0.08)
+				.chanced(Items.CARROT, 0.08)
+				.chanced(Items.POTATO, 0.08)
+				.finish(writer, filletId("zomfish"));
 
 		//uncommon fish
 
@@ -258,7 +271,8 @@ public class RecipeGen extends RecipeProvider{
 				.finish(writer, filletId("marlin"));
 
 		fillet().fish(Fish.PENGUIN)
-				.out(Thing.FISH_FILLET, 1)
+				.out(Items.CHICKEN, 1)
+				.chanced(Items.LEATHER, .5)
 				.chanced(Items.BONE_MEAL, 3, .8)
 				.finish(writer, filletId("penguin"));
 

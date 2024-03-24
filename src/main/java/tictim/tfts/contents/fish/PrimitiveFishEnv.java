@@ -120,11 +120,5 @@ public enum PrimitiveFishEnv implements FishEnv, StringRepresentable{
 				}
 			}
 		}
-
-		for(PrimitiveFishEnv e : values()){
-			TFTSMod.LOGGER.info("{} : [{}]", e, e.biomes.stream()
-					.map(b -> registry.getKey(b)+"")
-					.collect(Collectors.joining(", ")));
-		}
 	}
 }

@@ -1,7 +1,7 @@
 {
   "type": "tfts:fillet",
   "ingredient": {
-    "item": "tfts:shrimp"
+    "item": "tfts:bass"
   },
   "result": {
     "count": 1,

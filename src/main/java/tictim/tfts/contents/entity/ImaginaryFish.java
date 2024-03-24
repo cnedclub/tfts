@@ -46,10 +46,6 @@ public final class ImaginaryFish{
 			lookAt(hook.getX(), hook.getY(), hook.getZ());
 		}
 
-		TFTSMod.LOGGER.info("Spawned ''''fish'''' at [{} {} {}] ({}m away)",
-				this.x, this.y, this.z,
-				hook.distanceToSqr(this.x, this.y, this.z));
-
 		this.active = true;
 	}
 
