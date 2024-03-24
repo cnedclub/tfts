@@ -9,8 +9,7 @@
       "item": "tfts:small_fish_fillet"
     },
     {
-      "chance": 0.4,
-      "count": 1,
+      "count": 2,
       "item": "tfts:eyebarrel"
     }
   ]

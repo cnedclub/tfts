@@ -17,8 +17,6 @@ public enum Bait implements ItemLike{
 	JOURNEYMAN_BAIT,
 	MASTER_BAIT,
 
-	// apple
-
 	APPLE_BAIT,
 	SWEET_BERRY_BAIT,
 	GLOW_BERRY_BAIT,
@@ -40,14 +38,8 @@ public enum Bait implements ItemLike{
 		}
 	}),
 
-	// insects
-
 	WORM,
-	GOLDEN_WORM,
-
-	// weird shit
-
-	ROTTEN_FLESH_BAIT;
+	GOLDEN_WORM;
 
 	private final String registryName = name().toLowerCase(Locale.ROOT);
 	private final Supplier<Item.Properties> propertyFactory;

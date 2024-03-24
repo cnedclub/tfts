@@ -153,13 +153,6 @@ public class RecipeGen extends RecipeProvider{
 				.unlockedBy(getHasName(Thing.STARCH), has(Thing.STARCH))
 				.save(writer);
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Bait.ROTTEN_FLESH_BAIT, 3)
-				.requires(Items.ROTTEN_FLESH)
-				.requires(Items.WATER_BUCKET)
-				.requires(Thing.STARCH)
-				.unlockedBy(getHasName(Thing.STARCH), has(Thing.STARCH))
-				.save(writer);
-
 		/*
 		  Fish fillets
 
@@ -214,7 +207,7 @@ public class RecipeGen extends RecipeProvider{
 
 		fillet().fish(Fish.BARRELEYE)
 				.out(Thing.SMALL_FISH_FILLET, 1)
-				.chanced(Thing.EYEBARREL, .4)
+				.out(Thing.EYEBARREL, 2)
 				.finish(writer, filletId("barreleye"));
 
 		fillet().fish(Fish.ZOMFISH)
