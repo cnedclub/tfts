@@ -30,9 +30,9 @@
   "bait_type.tfts.poison": "독",
   "bait_type.tfts.sugar": "설탕",
 
-  "block.tfts.fish_preparation_table": "필레 테이블",
+  "block.tfts.fillet_table": "필레 테이블",
 
-  "container.tfts.fish_preparation_table": "필레 테이블",
+  "container.tfts.fillet_table": "필레 테이블",
 
   "curios.identifier.tfts_bait_box": "미끼 상자",
 
@@ -91,7 +91,7 @@
   "item.tfts.starch": "녹말",
   "item.tfts.sweet_berry_bait": "달콤한 열매 미끼",
   "item.tfts.trowel": "모종삽",
-  "item.tfts.trowel.tooltip": "Digs up grass",
+  "item.tfts.trowel.tooltip": "잔디 블럭을 헤쳐 미끼 재료를 찾아낼 수 있습니다",
   "item.tfts.tuna": "참치",
   "item.tfts.worm": "지렁이",
   "item.tfts.zomfish": "좀비 물고기",
@@ -99,6 +99,6 @@
   "item_group.tfts": "바다테일즈",
   "item_group.tfts.fish": "바다테일즈: 물고기",
 
-  "jei.tfts.fish_preparation": "필레 제작",
+  "jei.tfts.fillet": "필레 제작",
   "jei.tfts.tooltip.chanced": "확률: %s%%"
 }
