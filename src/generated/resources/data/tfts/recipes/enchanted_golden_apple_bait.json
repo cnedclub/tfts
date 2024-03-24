@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:enchanted_golden_apple"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    },
+    {
+      "item": "tfts:starch"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "tfts:enchanted_golden_apple_bait"
+  }
+}

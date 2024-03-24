@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "minecraft:flowers"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    },
+    {
+      "item": "tfts:starch"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "tfts:flower_bait"
+  }
+}

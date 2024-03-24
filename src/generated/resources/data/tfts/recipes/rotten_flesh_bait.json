@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    },
+    {
+      "item": "tfts:starch"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "tfts:rotten_flesh_bait"
+  }
+}

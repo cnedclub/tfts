@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    },
+    {
+      "item": "tfts:starch"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "tfts:potato_bait"
+  }
+}

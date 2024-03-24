@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "1": {
+      "tag": "forge:ingots/iron"
+    },
+    "2": {
+      "tag": "forge:dyes/red"
+    }
+  },
+  "pattern": [
+    " 1 ",
+    "121",
+    "111"
+  ],
+  "result": {
+    "item": "tfts:bait_box"
+  },
+  "show_notification": true
+}
