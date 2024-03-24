@@ -1,6 +1,7 @@
-// 1.20.1	2024-03-24T23:06:37.9577258	Item Models: tfts
+// 1.20.1	2024-03-24T23:35:44.4594239	Item Models: tfts
 231acdfd23d520bd234b08a908ed2b5e5fa68c20 assets/tfts/models/item/apple_bait.json
 d6c6ccfa08cdc37d37b2a1124fabe5020a78692e assets/tfts/models/item/apprentice_bait.json
+af87069cde67ab75102cdb6a6186a383050dc489 assets/tfts/models/item/bait_box.json
 ae2134ee93c21b8acc02387ec9f51e07b1d93883 assets/tfts/models/item/bass.json
 c97efa3ebfe8c811cc67e927ea736b90834c3cea assets/tfts/models/item/beetroot_bait.json
 1316a408252cdb13fd7d288eb4ba074336845f4c assets/tfts/models/item/brown_croaker.json
