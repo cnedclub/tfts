@@ -13,7 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import tictim.tfts.TFTSMod;
-import tictim.tfts.client.Textures;
 import tictim.tfts.contents.item.Thing;
 import tictim.tfts.contents.recipe.ChancedOutput;
 import tictim.tfts.contents.recipe.FilletRecipe;
@@ -30,7 +29,7 @@ public class FilletRecipeCategory implements IRecipeCategory<FilletRecipe>{
 	private final IDrawable icon;
 
 	public FilletRecipeCategory(IGuiHelper helper){
-		background = helper.createDrawable(Textures.INVENTORY, 0, 0, 176, 90);
+		background = helper.createBlankDrawable(176, 18);
 		icon = helper.createDrawableItemStack(new ItemStack(Thing.FILLET_TABLE));
 	}
 
@@ -53,13 +52,13 @@ public class FilletRecipeCategory implements IRecipeCategory<FilletRecipe>{
 		List<ChancedOutput> results = recipe.previewResults();
 		if(ingredient==null||results==null) return;
 
-		builder.addSlot(RecipeIngredientRole.INPUT, 1, 9)
+		builder.addSlot(RecipeIngredientRole.INPUT, 1, 0)
 				.addIngredients(ingredient);
 		int i = 0;
 		for(ChancedOutput result : results){
 			ItemStack stack = result.stack();
 			double chance = result.chance();
-			builder.addSlot(RecipeIngredientRole.OUTPUT, 61+18*i, 9)
+			builder.addSlot(RecipeIngredientRole.OUTPUT, 61+18*i, 0)
 					.addItemStack(stack).addTooltipCallback(((recipeSlotView, tooltip) -> {
 						if(chance==1.0) return;
 						tooltip.add(Component.translatable("jei.tfts.tooltip.chanced", chance*100).withStyle(ChatFormatting.GRAY));
