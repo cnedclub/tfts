@@ -48,6 +48,7 @@ public class ItemModelGen extends ItemModelProvider{
 		basicItem(Fish.BROWN_CROAKER);
 		basicItem(Fish.LOBSTER);
 		basicItem(Fish.CRAB);
+		basicItem(Fish.MELIBE);
 
 		for(var bait : Bait.values()) {
 			basicItem(bait);
