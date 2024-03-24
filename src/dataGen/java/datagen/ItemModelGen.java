@@ -34,6 +34,7 @@ public class ItemModelGen extends ItemModelProvider{
 
 		basicItem(Fish.BASS);
 		basicItem(Fish.CARP);
+		basicItem(Fish.BARRELEYE);
 		basicItem(Fish.CATFISH);
 		basicItem(Fish.CREEPER_FISH);
 		basicItem(Fish.FLYING_FISH);
