@@ -92,5 +92,8 @@
   "item.tfts.zomfish": "Zomfish",
 
   "item_group.tfts": "Tales from the Sea",
-  "item_group.tfts.fish": "Tales from the Sea: Fish"
+  "item_group.tfts.fish": "Tales from the Sea: Fish",
+
+  "jei.tfts.fish_preparation": "Fish Preparation",
+  "jei.tfts.tooltip.chanced": "Chance: %d %"
 }

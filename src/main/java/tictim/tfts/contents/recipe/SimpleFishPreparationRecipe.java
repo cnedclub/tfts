@@ -59,6 +59,13 @@ public class SimpleFishPreparationRecipe extends FishPreparationRecipe{
 		return this.results;
 	}
 
+	public Ingredient getFish(){
+		return fish;
+	}
+
+	public List<ChancedOutput> getResults(){
+		return results;
+	}
 	public static class Serializer implements RecipeSerializer<SimpleFishPreparationRecipe>{
 		@Override @NotNull public SimpleFishPreparationRecipe fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json){
 			Ingredient fish = CraftingHelper.getIngredient(GsonHelper.getNonNull(json, "ingredient"), false);
