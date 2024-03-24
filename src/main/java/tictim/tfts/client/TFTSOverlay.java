@@ -79,5 +79,15 @@ public final class TFTSOverlay implements IGuiOverlay{
 			graphics.renderComponentTooltip(mc.font, text, xStart+40,
 					inv!=null ? yStart+8+18*inv.selectedIndex()+4 : screenHeight/2-5);
 		}
+
+		if(inv!=null&&mc.options.keyShift.isDown()){
+			var component = Component.translatable("overlay.tfts.help.open_bait_box",
+							mc.options.keyShift.getTranslatedKeyMessage(),
+							mc.options.keyInventory.getTranslatedKeyMessage())
+					.getVisualOrderText();
+
+			graphics.renderTooltip(mc.font, List.of(component), CenterTooltipPositioner.centerX(),
+					0, screenHeight*3/4);
+		}
 	}
 }

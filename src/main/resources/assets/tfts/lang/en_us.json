@@ -99,5 +99,6 @@
   "jei.tfts.fillet": "Filleting",
   "jei.tfts.tooltip.chanced": "Chance: %s%%",
 
-  "overlay.tfts.no_bait": "No Bait Used"
+  "overlay.tfts.no_bait": "No Bait Used",
+  "overlay.tfts.help.open_bait_box": "§7Press %s + %s§7 to open Bait Box"
 }
