@@ -10,8 +10,6 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.NotNull;
 import tictim.tfts.contents.item.Bait;
 import tictim.tfts.contents.item.Fish;
 import tictim.tfts.contents.item.TFTSFishingRodItem;
@@ -19,7 +17,6 @@ import tictim.tfts.contents.item.Thing;
 
 import static tictim.tfts.TFTSMod.MODID;
 import static tictim.tfts.TFTSMod.id;
-import static tictim.tfts.contents.TFTSRegistries.ITEMS;
 
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class TFTSItems{
@@ -38,7 +35,8 @@ public final class TFTSItems{
 
 	@SubscribeEvent
 	public static void register(RegisterEvent event){
-		event.register(Registries.ITEM, new ResourceLocation("fishing_rod"), () -> new TFTSFishingRodItem(p()));
+		event.register(Registries.ITEM, new ResourceLocation("fishing_rod"),
+				() -> new TFTSFishingRodItem(new Item.Properties()));
 
 		event.register(Registries.CREATIVE_MODE_TAB, mainTab, () -> CreativeModeTab.builder()
 				.title(Component.translatable("item_group."+MODID))
@@ -58,12 +56,5 @@ public final class TFTSItems{
 				})
 				.withTabsBefore(mainTab)
 				.build());
-	}
-
-	@NotNull private static Item.Properties p(){
-		return new Item.Properties();
-	}
-	@NotNull private static RegistryObject<Item> simple(@NotNull String path){
-		return ITEMS.register(path, () -> new Item(p()));
 	}
 }
