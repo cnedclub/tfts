@@ -15,6 +15,7 @@ import tictim.tfts.contents.fish.BaitStat;
 import tictim.tfts.contents.fish.BaitStatBuilder;
 import tictim.tfts.contents.item.Bait;
 import tictim.tfts.contents.item.Fish;
+import tictim.tfts.contents.item.Thing;
 
 import java.util.Map;
 
@@ -56,7 +57,13 @@ public class BaitStatGen implements RegistrySetBuilder.RegistryBootstrap<BaitSta
 		register(Bait.WORM).stat(WORM_MEAT, 1);
 		register(Bait.GOLDEN_WORM).stat(WORM_MEAT, 2.5).stat(GOLD, 2.5);
 
-		register(Fish.SHRIMP).stat(FISH_MEAT, 1.5);
+		register(Fish.SHRIMP).stat(FISH_MEAT, 1.75);
+
+		register(Thing.SMALL_FISH_FILLET).stat(FISH_MEAT, 1).stat(ALL_FOODS, 0.25);
+		register(Thing.COOKED_SMALL_FISH_FILLET).stat(FISH_MEAT, 0.75).stat(ALL_FOODS, 1);
+
+		register(Thing.FISH_FILLET).stat(FISH_MEAT, 1.5).stat(ALL_FOODS, 1);
+		register(Thing.COOKED_FISH_FILLET).stat(FISH_MEAT, 1.25).stat(ALL_FOODS, 1.5);
 
 		register(Items.BROWN_MUSHROOM).stat(BROWN_MUSHROOM, 1).stat(ALL_PLANTS, .25);
 		register(Items.RED_MUSHROOM).stat(RED_MUSHROOM, 1).stat(ALL_PLANTS, .25);
