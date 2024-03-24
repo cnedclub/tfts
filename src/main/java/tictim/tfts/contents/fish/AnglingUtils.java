@@ -19,7 +19,6 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tictim.tfts.TFTSMod;
 import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.TFTSTags;

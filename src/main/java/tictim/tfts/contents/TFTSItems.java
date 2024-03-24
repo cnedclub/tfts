@@ -3,20 +3,25 @@ package tictim.tfts.contents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.*;
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
-import tictim.tfts.contents.item.*;
+import tictim.tfts.contents.item.Bait;
+import tictim.tfts.contents.item.Fish;
+import tictim.tfts.contents.item.TFTSFishingRodItem;
+import tictim.tfts.contents.item.Thing;
 
 import static tictim.tfts.TFTSMod.MODID;
 import static tictim.tfts.TFTSMod.id;
 import static tictim.tfts.contents.TFTSRegistries.ITEMS;
 
-@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class TFTSItems{
 	private TFTSItems(){}
 
@@ -29,6 +34,7 @@ public final class TFTSItems{
 	}
 
 	private static final ResourceLocation mainTab = id("main");
+	private static final ResourceLocation fishTab = id("fish");
 
 	@SubscribeEvent
 	public static void register(RegisterEvent event){
@@ -45,7 +51,7 @@ public final class TFTSItems{
 				})
 				.build());
 
-		event.register(Registries.CREATIVE_MODE_TAB, id("fish"), () -> CreativeModeTab.builder()
+		event.register(Registries.CREATIVE_MODE_TAB, fishTab, () -> CreativeModeTab.builder()
 				.title(Component.translatable("item_group."+MODID+".fish"))
 				.icon(() -> new ItemStack(Fish.BASS)).displayItems((p, o) -> {
 					for(Fish fish : Fish.values()) o.accept(fish);
