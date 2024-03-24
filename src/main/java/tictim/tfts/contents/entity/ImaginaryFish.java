@@ -49,6 +49,8 @@ public final class ImaginaryFish{
 		TFTSMod.LOGGER.info("Spawned ''''fish'''' at [{} {} {}] ({}m away)",
 				this.x, this.y, this.z,
 				hook.distanceToSqr(this.x, this.y, this.z));
+
+		this.active = true;
 	}
 
 	public void initPositionWithAngle(@NotNull TFTSHook hook, double angle){
