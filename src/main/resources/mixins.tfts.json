@@ -7,5 +7,6 @@
     "MinecraftMixin",
     "ItemStackMixin"
   ],
-  "required": true
+  "required": true,
+  "refmap": "mixins.tfts.refmap.json"
 }
