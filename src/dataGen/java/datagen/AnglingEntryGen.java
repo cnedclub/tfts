@@ -214,6 +214,7 @@ public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<Ang
 		trash(id("water_trash"))
 				.baseWeight(10)
 				.weightGrowth(-10)
+				.minWeight(1)
 				.env(ALL_WATER);
 	}
 

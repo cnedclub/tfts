@@ -15,5 +15,6 @@
     "unknown_beach",
     "unknown"
   ],
+  "min_weight": 1.0,
   "weight_growth": -10.0
 }

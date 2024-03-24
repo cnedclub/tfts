@@ -26,7 +26,6 @@ import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tictim.tfts.TFTSMod;
 import tictim.tfts.contents.TFTSEntities;
 import tictim.tfts.contents.fish.*;
 import tictim.tfts.contents.item.TFTSFishingRodItem;
@@ -320,6 +319,6 @@ public class TFTSHook extends FishingHook{
 	}
 
 	private void setBiting(boolean biting){
-		this.getEntityData().set(DATA_BITING, biting);;
+		this.getEntityData().set(DATA_BITING, biting);
 	}
 }
