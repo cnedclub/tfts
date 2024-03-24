@@ -7,6 +7,7 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import tictim.tfts.TFTSMod;
+import tictim.tfts.contents.item.Bait;
 import tictim.tfts.contents.item.Fish;
 import tictim.tfts.contents.item.Thing;
 
@@ -42,6 +43,10 @@ public class ItemModelGen extends ItemModelProvider{
 		basicItem(Fish.MARLIN);
 		basicItem(Fish.OARFISH);
 		basicItem(Fish.OCEAN_SUNFISH);
+
+		for(var bait : Bait.values()) {
+			basicItem(bait);
+		}
 	}
 
 	// fuck you forge

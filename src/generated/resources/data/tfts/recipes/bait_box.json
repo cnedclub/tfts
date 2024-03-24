@@ -3,16 +3,16 @@
   "category": "equipment",
   "key": {
     "1": {
-      "tag": "forge:ingots/iron"
+      "tag": "forge:string"
     },
     "2": {
-      "tag": "forge:dyes/red"
+      "item": "minecraft:chest"
     }
   },
   "pattern": [
-    " 1 ",
-    "121",
-    "111"
+    "1",
+    "2",
+    "1"
   ],
   "result": {
     "item": "tfts:bait_box"

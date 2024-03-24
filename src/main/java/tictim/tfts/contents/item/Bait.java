@@ -25,8 +25,6 @@ public enum Bait implements ItemLike{
 	MELON_BAIT,
 	PUMPKIN_BAIT,
 
-	POTATO_BAIT,
-	POISONOUS_POTATO_BAIT,
 	BEETROOT_BAIT,
 	CARROT_BAIT,
 

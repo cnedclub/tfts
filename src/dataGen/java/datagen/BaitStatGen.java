@@ -42,8 +42,6 @@ public class BaitStatGen implements RegistrySetBuilder.RegistryBootstrap<BaitSta
 		register(Bait.MELON_BAIT).stat(MELON, 1).stat(SUGAR, .1).stat(ALL_PLANTS, .5);
 		register(Bait.PUMPKIN_BAIT).stat(PUMPKIN, 1).stat(SUGAR, .2);
 
-		register(Bait.POTATO_BAIT).stat(POTATO, 1);
-		register(Bait.POISONOUS_POTATO_BAIT).stat(POTATO, .1).stat(POISON, 1);
 		register(Bait.BEETROOT_BAIT).stat(BEETROOT, 1);
 		register(Bait.CARROT_BAIT).stat(CARROT, 1);
 

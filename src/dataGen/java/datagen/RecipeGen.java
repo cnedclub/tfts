@@ -52,11 +52,11 @@ public class RecipeGen extends RecipeProvider{
 				.save(writer);
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Thing.BAIT_BOX)
-				.pattern(" 1 ")
-				.pattern("121")
-				.pattern("111")
-				.define('1', Tags.Items.INGOTS_IRON)
-				.define('2', Tags.Items.DYES_RED)
+				.pattern("1")
+				.pattern("2")
+				.pattern("1")
+				.define('1', Tags.Items.STRING)
+				.define('2', Items.CHEST)
 				.unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
 				.save(writer);
 
@@ -91,20 +91,6 @@ public class RecipeGen extends RecipeProvider{
 
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Bait.PUMPKIN_BAIT, 3)
 				.requires(Items.PUMPKIN)
-				.requires(Items.WATER_BUCKET)
-				.requires(Thing.STARCH)
-				.unlockedBy(getHasName(Thing.STARCH), has(Thing.STARCH))
-				.save(writer);
-
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Bait.POTATO_BAIT, 3)
-				.requires(Items.POTATO)
-				.requires(Items.WATER_BUCKET)
-				.requires(Thing.STARCH)
-				.unlockedBy(getHasName(Thing.STARCH), has(Thing.STARCH))
-				.save(writer);
-
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Bait.POISONOUS_POTATO_BAIT, 3)
-				.requires(Items.POISONOUS_POTATO)
 				.requires(Items.WATER_BUCKET)
 				.requires(Thing.STARCH)
 				.unlockedBy(getHasName(Thing.STARCH), has(Thing.STARCH))

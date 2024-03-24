@@ -1,4 +1,4 @@
-// 1.20.1	2024-03-23T14:46:29.3605198	Registries
+// 1.20.1	2024-03-24T16:49:09.075993	Registries
 0815f6b08a1f8c4cbb2e07ef21ea2d9b7e806f66 data/minecraft/tfts/bait_stats/brown_mushroom.json
 a9882436e621b5e6d42e9249781b86fa191cf977 data/minecraft/tfts/bait_stats/fermented_spider_eye.json
 a9e42d9d683017e2a40a7f5a1b3c87ead69a7636 data/minecraft/tfts/bait_stats/red_mushroom.json
@@ -39,8 +39,6 @@ b2039e895640786f5008dfd458c7ce93bfda43b8 data/tfts/tfts/bait_stats/glistering_me
 f5705386ee7242368c1d3e8074fbf90c12618991 data/tfts/tfts/bait_stats/journeyman_bait.json
 33be48a09ebc8e2a3aca85f14c8c3b63c5d61a8a data/tfts/tfts/bait_stats/master_bait.json
 38162cf4ea6f5bec08d8d38a4500679b9cb70f1d data/tfts/tfts/bait_stats/melon_bait.json
-571d276b8706213e71856be44d20ab7108967013 data/tfts/tfts/bait_stats/poisonous_potato_bait.json
-5e35c2041565cab16b456c48e9957e85f6c30190 data/tfts/tfts/bait_stats/potato_bait.json
 ddf030f6f81bb6c871edfdbc9ed391961f83efae data/tfts/tfts/bait_stats/pumpkin_bait.json
 9883c1b0f81e4600c6c201180721c4b1e93b0c94 data/tfts/tfts/bait_stats/rotten_flesh_bait.json
 e4c6f679ceae3c460fd9913a62ee178fbcca28b3 data/tfts/tfts/bait_stats/seed_bait.json
