@@ -44,6 +44,7 @@ public class ItemModelGen extends ItemModelProvider{
 		basicItem(Fish.SEAHORSE);
 		basicItem(Fish.MARLIN);
 		basicItem(Fish.OARFISH);
+		basicItem(Fish.PENGUIN);
 		basicItem(Fish.OCEAN_SUNFISH);
 		basicItem(Fish.SHRIMP);
 		basicItem(Fish.BROWN_CROAKER);

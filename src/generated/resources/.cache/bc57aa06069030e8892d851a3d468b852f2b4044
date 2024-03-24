@@ -1,7 +1,6 @@
-// 1.20.1	2024-03-24T23:35:44.4594239	Item Models: tfts
+// 1.20.1	2024-03-24T23:19:13.522437723	Item Models: tfts
 231acdfd23d520bd234b08a908ed2b5e5fa68c20 assets/tfts/models/item/apple_bait.json
 d6c6ccfa08cdc37d37b2a1124fabe5020a78692e assets/tfts/models/item/apprentice_bait.json
-af87069cde67ab75102cdb6a6186a383050dc489 assets/tfts/models/item/bait_box.json
 ae2134ee93c21b8acc02387ec9f51e07b1d93883 assets/tfts/models/item/bass.json
 c97efa3ebfe8c811cc67e927ea736b90834c3cea assets/tfts/models/item/beetroot_bait.json
 1316a408252cdb13fd7d288eb4ba074336845f4c assets/tfts/models/item/brown_croaker.json
@@ -33,6 +32,7 @@ e8a0151ae8c029e51baa47356fb5c5d7cc337df9 assets/tfts/models/item/melibe.json
 f9a243291c44a06a12f68193a4b3e8247c893d00 assets/tfts/models/item/melon_bait.json
 6fa0af0b03437c83a51e9b462f340cd5d7fcccc2 assets/tfts/models/item/oarfish.json
 b5121556b6dee0d82006dec621790c0fcbb091b4 assets/tfts/models/item/ocean_sunfish.json
+5a311ce6ecc1945dfbf400e0af2f9baa554996b6 assets/tfts/models/item/penguin.json
 edf96a617980c25e468214d62059e77f4e962f02 assets/tfts/models/item/pumpkin_bait.json
 528d112ae2b6c29dcbba3b0932046805ffb4af28 assets/tfts/models/item/rockfish.json
 92c2d68e7dd6c36be6b6cb645c5945409aba5b7f assets/tfts/models/item/rotten_flesh_bait.json

@@ -2,6 +2,8 @@
 1 0 item/cooked_fish_fillet
 2 0 item/small_fish_fillet
 3 0 item/cooked_small_fish_fillet
-1 1 item/starch
-2 1 item/template_bait
-3 1 item/template_bait_2
+0 1 item/starch
+1 1 item/template_bait
+2 1 item/template_bait_2
+3 1 item/penguin
+0 2 item/barreleye
