@@ -40,6 +40,7 @@
   "item.tfts.apprentice_bait": "Apprentice Bait",
   "item.tfts.bait_box": "Bait Box",
   "item.tfts.barreleye": "Barreleye",
+  "item.tfts.barreleye_eye": "Barreleye's eye",
   "item.tfts.bass": "Bass",
   "item.tfts.beetroot_bait": "Beetroot Bait",
   "item.tfts.bone_meal_bait": "Bone Meal Bait",
@@ -57,6 +58,7 @@
   "item.tfts.enchanted_golden_apple_bait": "Enchanted Golden Apple Bait",
   "item.tfts.fish_fillet": "Fish Fillet",
   "item.tfts.flower_bait": "Flower Bait",
+  "item.tfts.flying_fish": "Flying Fish",
   "item.tfts.garibaldi_damselfish": "Garibaldi Damselfish",
   "item.tfts.generic.tooltip.bait_stat": " %s§7:§8 %s",
   "item.tfts.generic.tooltip.bait_stat.debug": " %s§8(§r%s§8)§r§7:§8 %s",
@@ -72,8 +74,11 @@
   "item.tfts.lobster": "Lobster",
   "item.tfts.marlin": "Marlin",
   "item.tfts.master_bait": "Master Bait",
+  "item.tfts.melibe": "Melibe",
   "item.tfts.melon_bait": "Melon Bait",
+  "item.tfts.oarfish": "Oarfish",
   "item.tfts.ocean_sunfish": "Ocean Sunfish",
+  "item.tfts.penguin": "Penguin",
   "item.tfts.poisonous_potato_bait": "Poisonous Potato Bait",
   "item.tfts.potato_bait": "Potato Bait",
   "item.tfts.pumpkin_bait": "Pumpkin Bait",
@@ -95,5 +100,5 @@
   "item_group.tfts.fish": "Tales from the Sea: Fish",
 
   "jei.tfts.fish_preparation": "Fish Preparation",
-  "jei.tfts.tooltip.chanced": "Chance: %d %"
+  "jei.tfts.tooltip.chanced": "Chance: %s%%"
 }
