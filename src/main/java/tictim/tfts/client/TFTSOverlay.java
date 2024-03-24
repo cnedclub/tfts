@@ -1,14 +1,20 @@
 package tictim.tfts.client;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import tictim.tfts.caps.BaitBoxInventory;
-import tictim.tfts.contents.entity.TFTSHook;
 import tictim.tfts.contents.fish.AnglingUtils;
+import tictim.tfts.contents.fish.BaitStat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class TFTSOverlay implements IGuiOverlay{
 	@Override public void render(ForgeGui gui, GuiGraphics graphics, float partialTick, int screenWidth, int screenHeight){
@@ -18,12 +24,13 @@ public final class TFTSOverlay implements IGuiOverlay{
 		if(player==null) return;
 		if(AnglingUtils.getFishingHand(player)==null) return;
 
+		int xStart = screenWidth*4/6, yStart;
+
 		BaitBoxInventory inv = AnglingUtils.getBaitBoxInventory(player);
 		if(inv!=null){
 			int slots = inv.inventory().getSlots();
-			int xStart = screenWidth*4/6;
-			int height = 16+slots*18;
-			int yStart = (screenHeight-height)/2;
+			int widgetHeight = 16+slots*18;
+			yStart = (screenHeight-widgetHeight)/2;
 
 			graphics.blit(Textures.BAIT_OVERLAY,
 					xStart, yStart,
@@ -31,7 +38,7 @@ public final class TFTSOverlay implements IGuiOverlay{
 					34, 8,
 					34, 34);
 			graphics.blit(Textures.BAIT_OVERLAY,
-					xStart, yStart+height-8,
+					xStart, yStart+widgetHeight-8,
 					0, 26,
 					34, 8,
 					34, 34);
@@ -49,10 +56,28 @@ public final class TFTSOverlay implements IGuiOverlay{
 				graphics.renderItem(stack, xStart+9, yStart+9+18*i);
 				graphics.renderItemDecorations(gui.getFont(), stack, xStart+9, yStart+9+18*i);
 			}
+		}else{
+			yStart = screenHeight/2;
 		}
 
-		if(player.fishing instanceof TFTSHook hook){
-			// TODO
+		if(player.fishing==null){
+			ItemStack bait = inv!=null ? inv.inventory().getStackInSlot(inv.selectedIndex()) : ItemStack.EMPTY;
+			List<Component> text;
+
+			BaitStat stat = AnglingUtils.getBaitStat(bait, player.connection.registryAccess());
+			if(stat!=null){
+				text = new ArrayList<>();
+				MutableComponent itemName = Component.empty()
+						.append(bait.getHoverName())
+						.withStyle(bait.getRarity().getStyleModifier());
+				if(bait.hasCustomHoverName()) itemName.withStyle(ChatFormatting.ITALIC);
+				text.add(itemName);
+				AnglingUtils.addBaitStatText(text, stat, false);
+			}else{
+				text = List.of(Component.translatable("overlay.tfts.no_bait"));
+			}
+			graphics.renderComponentTooltip(mc.font, text, xStart+40,
+					inv!=null ? yStart+8+18*inv.selectedIndex()+4 : screenHeight/2-5);
 		}
 	}
 }

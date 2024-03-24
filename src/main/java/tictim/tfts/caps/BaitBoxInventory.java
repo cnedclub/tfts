@@ -2,14 +2,10 @@ package tictim.tfts.caps;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.LazyOptional;
@@ -18,12 +14,10 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tictim.tfts.contents.TFTSRegistries;
-import tictim.tfts.contents.fish.BaitStat;
+import tictim.tfts.contents.fish.AnglingUtils;
 import tictim.tfts.utils.A;
 
 import java.util.Objects;
-import java.util.Optional;
 
 public class BaitBoxInventory implements ICapabilityProvider{
 	public static final Capability<BaitBoxInventory> CAP = CapabilityManager.get(new CapabilityToken<>(){});
@@ -138,13 +132,7 @@ public class BaitBoxInventory implements ICapabilityProvider{
 		@Override public boolean isItemValid(int slot, @NotNull ItemStack stack){
 			RegistryAccess registryAccess = A.getRegistryAccess();
 			if(registryAccess==null) return false;
-			Optional<Registry<Item>> oItemReg = registryAccess.registry(Registries.ITEM);
-			Optional<Registry<BaitStat>> oReg = registryAccess.registry(TFTSRegistries.BAIT_STAT_REGISTRY_KEY);
-			if(oItemReg.isEmpty()||oReg.isEmpty()) return false;
-			Registry<Item> items = oItemReg.get();
-			Registry<BaitStat> baitStats = oReg.get();
-			ResourceLocation id = items.getKey(stack.getItem());
-			return id!=null&&baitStats.containsKey(id);
+			return AnglingUtils.getBaitStat(stack, registryAccess)!=null;
 		}
 	}
 }

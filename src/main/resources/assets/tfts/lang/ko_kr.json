@@ -97,5 +97,7 @@
   "item_group.tfts.fish": "바다테일즈: 물고기",
 
   "jei.tfts.fillet": "필레 제작",
-  "jei.tfts.tooltip.chanced": "확률: %s%%"
+  "jei.tfts.tooltip.chanced": "확률: %s%%",
+
+  "overlay.tfts.no_bait": "사용된 미끼 없음"
 }

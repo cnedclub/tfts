@@ -1,22 +1,29 @@
 package tictim.tfts.contents.fish;
 
 import it.unimi.dsi.fastutil.longs.*;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tictim.tfts.caps.BaitBoxInventory;
@@ -28,6 +35,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -196,20 +204,25 @@ public final class AnglingUtils{
 		return !stack.isEmpty()&&stack.is(TFTSTags.TFTS_FISHING_RODS);
 	}
 
-	// this is the reason why kotlin is objectively superior language
 	@Nullable public static BaitStat getBaitStat(@NotNull Player player, @NotNull RegistryAccess registryAccess){
 		BaitBoxInventory baitBoxInv = AnglingUtils.getBaitBoxInventory(player);
 		if(baitBoxInv==null) return null;
 		int i = baitBoxInv.selectedIndex();
 		if(i<0||i>=baitBoxInv.inventory().getSlots()) return null;
-		ItemStack stack = baitBoxInv.inventory().getStackInSlot(i);
-		if(stack.isEmpty()) return null;
-		ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
-		if(key==null) return null;
-		Optional<Registry<BaitStat>> o = registryAccess.registry(TFTSRegistries.BAIT_STAT_REGISTRY_KEY);
-		if(o.isEmpty()) return null;
-		Registry<BaitStat> reg = o.get();
-		return reg.get(key);
+		return getBaitStat(baitBoxInv.inventory().getStackInSlot(i), registryAccess);
+	}
+
+	@Nullable public static BaitStat getBaitStat(@NotNull ItemStack stack, @NotNull RegistryAccess registryAccess){
+		Item item = stack.getItem();
+		return item==Items.AIR ? null : getBaitStat(item, registryAccess);
+	}
+
+	@Nullable public static BaitStat getBaitStat(@NotNull Item item, @NotNull RegistryAccess registryAccess){
+		Optional<Registry<Item>> oItemReg = registryAccess.registry(Registries.ITEM);
+		Optional<Registry<BaitStat>> oReg = registryAccess.registry(TFTSRegistries.BAIT_STAT_REGISTRY_KEY);
+		if(oItemReg.isEmpty()||oReg.isEmpty()) return null;
+		ResourceLocation id = oItemReg.get().getKey(item);
+		return id!=null ? oReg.get().get(id) : null;
 	}
 
 	public static boolean consumeBait(@NotNull MinecraftServer server, @NotNull Player player){
@@ -218,14 +231,32 @@ public final class AnglingUtils{
 		int i = baitBoxInv.selectedIndex();
 		if(i<0||i>=baitBoxInv.inventory().getSlots()) return false;
 		ItemStack stack = baitBoxInv.inventory().getStackInSlot(i);
-		if(stack.isEmpty()) return false;
-		ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
-		if(key==null) return false;
-		Optional<Registry<BaitStat>> o = server.registryAccess().registry(TFTSRegistries.BAIT_STAT_REGISTRY_KEY);
-		if(o.isEmpty()) return false;
-		Registry<BaitStat> reg = o.get();
-		if(reg.get(key)==null) return false;
+		BaitStat baitStat = getBaitStat(stack, server.registryAccess());
+		if(baitStat==null) return false;
 		stack.shrink(1);
 		return true;
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static void addBaitStatText(@NotNull List<Component> text, @NotNull BaitStat stat, boolean debug){
+		for(var e : (debug ? stat.allStats() : stat.allStatsSorted()).object2DoubleEntrySet()){
+			String key = e.getKey().getTranslationKey();
+			if(I18n.exists(key)){
+				if(debug){
+					text.add(Component.translatable("item.tfts.generic.tooltip.bait_stat.debug",
+							Component.translatable(key).withStyle(ChatFormatting.YELLOW),
+							e.getKey().toString(),
+							ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(e.getDoubleValue())));
+				}else{
+					text.add(Component.translatable("item.tfts.generic.tooltip.bait_stat",
+							Component.translatable(key).withStyle(ChatFormatting.YELLOW),
+							ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(e.getDoubleValue())));
+				}
+			}else if(debug){
+				text.add(Component.translatable("item.tfts.generic.tooltip.bait_stat.debug_no_translation",
+						e.getKey().toString(),
+						ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(e.getDoubleValue())));
+			}
+		}
 	}
 }
