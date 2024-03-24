@@ -1,4 +1,5 @@
 {
+  "render_type": "cutout",
   "textures": {
     "0": "tfts:block/fillet_table/apron",
     "1": "tfts:block/fillet_table/bottom_1",
