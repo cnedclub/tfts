@@ -99,6 +99,12 @@ public class BaitBoxInventory implements ICapabilityProvider{
 		}else return LazyOptional.empty();
 	}
 
+	public static boolean isValid(@NotNull ItemStack stack){
+		RegistryAccess registryAccess = A.getRegistryAccess();
+		if(registryAccess==null) return false;
+		return AnglingUtils.getBaitStat(stack, registryAccess)!=null;
+	}
+
 	private final class Inv extends ItemStackHandler{
 		private boolean skipUpdate;
 
@@ -130,9 +136,7 @@ public class BaitBoxInventory implements ICapabilityProvider{
 		}
 
 		@Override public boolean isItemValid(int slot, @NotNull ItemStack stack){
-			RegistryAccess registryAccess = A.getRegistryAccess();
-			if(registryAccess==null) return false;
-			return AnglingUtils.getBaitStat(stack, registryAccess)!=null;
+			return isValid(stack);
 		}
 	}
 }

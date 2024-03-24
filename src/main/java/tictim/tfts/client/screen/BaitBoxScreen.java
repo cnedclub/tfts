@@ -34,19 +34,35 @@ public class BaitBoxScreen extends TFTSScreen<BaitBoxMenu>{
 	@Override protected void renderLabels(GuiGraphics graphics, int mx, int my){
 		super.renderLabels(graphics, mx, my);
 
-		@Nullable Slot baitBoxSlot = this.menu.baitBoxSlot();
-		if(baitBoxSlot!=null){
-			RenderSystem.disableDepthTest();
-			RenderSystem.enableBlend();
-			RenderSystem.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
-			// idk if this works
-			graphics.blit(Textures.LOCKED_SLOT,
-					baitBoxSlot.x, baitBoxSlot.y,
-					0, 0,
-					16, 16,
-					16, 16);
+		@Nullable Slot baitBoxSlot = this.menu.baitBoxInventorySlot();
+		if(baitBoxSlot!=null) renderSlotLock(graphics, baitBoxSlot);
+
+		if(this.menu.isInventoryLocked()){
+			for(int i = 0; i<this.menu.baitBoxSize(); i++)
+				renderSlotLock(graphics, this.menu.slots.get(i));
+		}
+
+		if(this.slotLockRendered){
+			this.slotLockRendered = false;
+
 			RenderSystem.enableDepthTest();
 			RenderSystem.disableBlend();
 		}
+	}
+
+	private boolean slotLockRendered;
+
+	private void renderSlotLock(GuiGraphics graphics, Slot slot){
+		if(!this.slotLockRendered){
+			this.slotLockRendered = true;
+			RenderSystem.disableDepthTest();
+			RenderSystem.enableBlend();
+			RenderSystem.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+		}
+		graphics.blit(Textures.LOCKED_SLOT,
+				slot.x, slot.y,
+				0, 0,
+				16, 16,
+				16, 16);
 	}
 }
