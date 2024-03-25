@@ -21,11 +21,10 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.*;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import tictim.tfts.contents.fish.AnglingEntry;
-import tictim.tfts.contents.fish.AnglingEntryType;
-import tictim.tfts.contents.fish.BaitStat;
+import tictim.tfts.contents.fish.*;
 import tictim.tfts.contents.fish.condition.FishCondition;
 import tictim.tfts.contents.fish.condition.FishConditionType;
+import tictim.tfts.contents.fish.condition.TimeCondition;
 import tictim.tfts.contents.item.Bait;
 import tictim.tfts.contents.item.Fish;
 import tictim.tfts.contents.item.TFTSFishingRodItem;
@@ -35,6 +34,7 @@ import tictim.tfts.contents.recipe.GrindingRecipe;
 import tictim.tfts.contents.recipe.SimpleFilletRecipe;
 import tictim.tfts.contents.recipe.SimpleGrindingRecipe;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static tictim.tfts.TFTSMod.MODID;
@@ -49,8 +49,8 @@ public final class TFTSRegistries{
 	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
 	public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, MODID);
 
-	public static final DeferredRegister<AnglingEntryType<?>> ANGLING_ENTRY_TYPES = DeferredRegister.create(id("angling_entry_types"), MODID);
-	public static final DeferredRegister<FishConditionType<?>> FISH_CONDITION_TYPES = DeferredRegister.create(id("fish_condition_types"), MODID);
+	public static final ResourceKey<Registry<AnglingEntryType<?>>> ANGLING_ENTRY_TYPES = ResourceKey.createRegistryKey(id("angling_entry_types"));
+	public static final ResourceKey<Registry<FishConditionType<?>>> FISH_CONDITION_TYPES = ResourceKey.createRegistryKey(id("fish_condition_types"));
 
 	public static final ResourceKey<Registry<AnglingEntry<?>>> ANGLING_ENTRY_REGISTRY_KEY = ResourceKey.createRegistryKey(id("angling_entries"));
 	public static final ResourceKey<Registry<FishCondition<?>>> FISH_CONDITION_REGISTRY_KEY = ResourceKey.createRegistryKey(id("fish_conditions"));
@@ -72,17 +72,16 @@ public final class TFTSRegistries{
 		BLOCK_ENTITIES.register(bus);
 		ENTITIES.register(bus);
 		MENUS.register(bus);
-		ANGLING_ENTRY_TYPES.register(bus);
 
 		bus.addListener((NewRegistryEvent event) -> {
 			anglingEntryTypeRegistry = event.create(
 					new RegistryBuilder<AnglingEntryType<?>>()
-							.setName(ANGLING_ENTRY_TYPES.getRegistryName())
+							.setName(ANGLING_ENTRY_TYPES.location())
 							.disableSaving()
 							.disableSync());
 			fishConditionTypeRegistry = event.create(
 					new RegistryBuilder<FishConditionType<?>>()
-							.setName(FISH_CONDITION_TYPES.getRegistryName())
+							.setName(FISH_CONDITION_TYPES.location())
 							.disableSaving()
 							.disableSync());
 		});
@@ -94,7 +93,6 @@ public final class TFTSRegistries{
 
 		TFTSBlocks.init();
 		TFTSEntities.init();
-		AnglingEntries.init();
 
 		Fish.init();
 		Bait.init();
@@ -122,6 +120,9 @@ public final class TFTSRegistries{
 		event.register(Registries.CREATIVE_MODE_TAB, TFTSRegistries::registerTabs);
 		event.register(Registries.RECIPE_TYPE, TFTSRegistries::registerRecipeTypes);
 		event.register(Registries.RECIPE_SERIALIZER, TFTSRegistries::registerRecipeSerializers);
+
+		event.register(ANGLING_ENTRY_TYPES, h -> registerAnglingEntries(e -> h.register(e.id(), e)));
+		event.register(FISH_CONDITION_TYPES, h -> registerFishConditions(e -> h.register(e.id(), e)));
 	}
 
 	private static void registerTabs(RegisterEvent.RegisterHelper<CreativeModeTab> h){
@@ -155,5 +156,14 @@ public final class TFTSRegistries{
 	private static void registerRecipeSerializers(RegisterEvent.RegisterHelper<RecipeSerializer<?>> h){
 		h.register(id("fillet"), SimpleFilletRecipe.SERIALIZER);
 		h.register(id("grinding"), SimpleGrindingRecipe.SERIALIZER);
+	}
+
+	private static void registerAnglingEntries(Consumer<@NotNull AnglingEntryType<?>> register){
+		register.accept(SimpleAnglingEntry.TYPE);
+		register.accept(TrashAnglingEntry.TYPE);
+	}
+
+	private static void registerFishConditions(Consumer<@NotNull FishConditionType<?>> register){
+		TimeCondition.init(register);
 	}
 }

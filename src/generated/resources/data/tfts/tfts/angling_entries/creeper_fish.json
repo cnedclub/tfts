@@ -1,0 +1,50 @@
+{
+  "type": "tfts:angling",
+  "bait_consumption_chance": 0.1,
+  "bait_modifier": {
+    "type": "condition",
+    "condition": {
+      "type": "any",
+      "conditions": [
+        "meat",
+        "food",
+        "mushroom",
+        "plant"
+      ]
+    },
+    "modifier": 1.0
+  },
+  "base_weight": 40.0,
+  "conditions": [
+    {
+      "type": "tfts:night"
+    }
+  ],
+  "environment": [
+    "ocean_surface",
+    "ocean_deep",
+    "ocean_lukewarm_surface",
+    "ocean_lukewarm_deep",
+    "ocean_cold_surface",
+    "ocean_cold_deep",
+    "ocean_frozen_surface",
+    "ocean_frozen_deep",
+    "stony_shore",
+    "unknown_ocean",
+    "unknown_beach",
+    "unknown"
+  ],
+  "gives_exp": false,
+  "loots": [
+    {
+      "Count": 1,
+      "id": "tfts:creeper_fish"
+    }
+  ],
+  "min_fishing_power": 0.5,
+  "nibble_behavior": {
+    "type": "nibble",
+    "bite_chance": 0.3
+  },
+  "weight_growth": 1.0
+}

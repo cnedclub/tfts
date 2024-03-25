@@ -2,16 +2,21 @@ package tictim.tfts.contents.fish.condition;
 
 import com.mojang.serialization.Codec;
 import org.jetbrains.annotations.NotNull;
-import tictim.tfts.contents.TFTSRegistries;
+import tictim.tfts.TFTSMod;
 import tictim.tfts.contents.fish.AnglingContext;
 
 import java.util.Locale;
+import java.util.function.Consumer;
 
 public enum TimeCondition implements FishCondition<TimeCondition>{
 	DAY,
 	NIGHT;
 
-	private final FishConditionType<TimeCondition> type = new FishConditionType<>(Codec.unit(this));
+	private final FishConditionType<TimeCondition> type;
+
+	TimeCondition(){
+		this.type = new FishConditionType<>(TFTSMod.id(name().toLowerCase(Locale.ROOT)), Codec.unit(this));
+	}
 
 	@Override public FishConditionType<TimeCondition> type(){
 		return this.type;
@@ -20,14 +25,9 @@ public enum TimeCondition implements FishCondition<TimeCondition>{
 		return context.level.isDay()==(this==DAY);
 	}
 
-	private static boolean init;
-
-	public static void register(){
-		if(init) throw new IllegalStateException("fuck you");
-		else init = true;
-
+	public static void init(Consumer<@NotNull FishConditionType<?>> register){
 		for(TimeCondition c : values()){
-			TFTSRegistries.FISH_CONDITION_TYPES.register(c.name().toLowerCase(Locale.ROOT), c::type);
+			register.accept(c.type);
 		}
 	}
 }

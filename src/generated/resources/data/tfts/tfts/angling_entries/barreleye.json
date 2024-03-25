@@ -1,0 +1,32 @@
+{
+  "type": "tfts:angling",
+  "bait_consumption_chance": 0.1,
+  "bait_modifier": {
+    "type": "condition",
+    "condition": "meat/fish",
+    "modifier": 1.0
+  },
+  "base_weight": 40.0,
+  "conditions": [
+    {
+      "type": "tfts:night"
+    }
+  ],
+  "environment": [
+    "ocean_deep",
+    "ocean_cold_deep"
+  ],
+  "gives_exp": false,
+  "loots": [
+    {
+      "Count": 1,
+      "id": "tfts:barreleye"
+    }
+  ],
+  "min_fishing_power": 0.5,
+  "nibble_behavior": {
+    "type": "nibble",
+    "bite_chance": 0.3
+  },
+  "weight_growth": 1.0
+}

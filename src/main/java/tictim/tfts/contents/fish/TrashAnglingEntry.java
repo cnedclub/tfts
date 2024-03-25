@@ -12,6 +12,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tictim.tfts.TFTSMod;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.fish.condition.FishCondition;
 import tictim.tfts.contents.item.Thing;
@@ -36,7 +37,7 @@ public record TrashAnglingEntry(
 			FishEnv.CODEC.fieldOf("environment").forGetter(TrashAnglingEntry::environment)
 	).apply(b, TrashAnglingEntry::new));
 
-	public static final AnglingEntryType<TrashAnglingEntry> TYPE = new AnglingEntryType<>(CODEC);
+	public static final AnglingEntryType<TrashAnglingEntry> TYPE = new AnglingEntryType<>(TFTSMod.id("trash"), CODEC);
 
 	@Override @NotNull public AnglingEntryType<TrashAnglingEntry> type(){
 		return TYPE;

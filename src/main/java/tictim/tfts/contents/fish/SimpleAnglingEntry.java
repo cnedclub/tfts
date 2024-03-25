@@ -6,6 +6,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tictim.tfts.TFTSMod;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.fish.condition.FishCondition;
 import tictim.tfts.utils.A;
@@ -37,7 +38,7 @@ public record SimpleAnglingEntry(
 			Codec.BOOL.optionalFieldOf("gives_exp", true).forGetter(SimpleAnglingEntry::givesExp)
 	).apply(b, SimpleAnglingEntry::new));
 
-	public static final AnglingEntryType<SimpleAnglingEntry> TYPE = new AnglingEntryType<>(CODEC);
+	public static final AnglingEntryType<SimpleAnglingEntry> TYPE = new AnglingEntryType<>(TFTSMod.id("angling"), CODEC);
 
 	@Override @NotNull public AnglingEntryType<SimpleAnglingEntry> type(){
 		return TYPE;

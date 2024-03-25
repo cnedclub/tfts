@@ -1,12 +1,12 @@
 package tictim.tfts.contents.fish;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+import tictim.tfts.contents.AbstractEntryType;
 
-import java.util.Objects;
-
-public record AnglingEntryType<T extends AnglingEntry<T>>(@NotNull Codec<T> codec){
-	public AnglingEntryType{
-		Objects.requireNonNull(codec, "codec == null");
+public final class AnglingEntryType<T extends AnglingEntry<T>> extends AbstractEntryType<T>{
+	public AnglingEntryType(@NotNull ResourceLocation id, @NotNull Codec<T> codec){
+		super(id, codec);
 	}
 }

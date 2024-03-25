@@ -1,12 +1,12 @@
 package tictim.tfts.contents.fish.condition;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+import tictim.tfts.contents.AbstractEntryType;
 
-import java.util.Objects;
-
-public record FishConditionType<T extends FishCondition<T>>(@NotNull Codec<T> codec){
-	public FishConditionType{
-		Objects.requireNonNull(codec, "codec == null");
+public final class FishConditionType<T extends FishCondition<T>> extends AbstractEntryType<T>{
+	public FishConditionType(@NotNull ResourceLocation id, @NotNull Codec<T> codec){
+		super(id, codec);
 	}
 }
