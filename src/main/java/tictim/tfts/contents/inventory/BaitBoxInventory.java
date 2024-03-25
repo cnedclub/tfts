@@ -1,4 +1,4 @@
-package tictim.tfts.caps;
+package tictim.tfts.contents.inventory;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;

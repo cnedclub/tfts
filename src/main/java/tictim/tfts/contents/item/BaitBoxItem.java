@@ -19,7 +19,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tictim.tfts.caps.BaitBoxInventory;
+import tictim.tfts.contents.inventory.BaitBoxInventory;
 import tictim.tfts.contents.inventory.BaitBoxMenu;
 import tictim.tfts.utils.A;
 import top.theillusivec4.curios.api.SlotContext;

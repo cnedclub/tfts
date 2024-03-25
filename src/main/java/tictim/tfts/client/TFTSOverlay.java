@@ -9,9 +9,9 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.contents.fish.AnglingUtils;
 import tictim.tfts.contents.fish.BaitStat;
+import tictim.tfts.contents.inventory.BaitBoxInventory;
 
 import java.util.ArrayList;
 import java.util.List;

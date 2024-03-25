@@ -16,11 +16,11 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import tictim.tfts.caps.BaitBoxInventory;
 import tictim.tfts.client.TFTSOverlay;
 import tictim.tfts.contents.TFTSMenus;
 import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.entity.TFTSHook;
+import tictim.tfts.contents.inventory.BaitBoxInventory;
 import tictim.tfts.net.TFTSNet;
 
 @Mod(TFTSMod.MODID)
