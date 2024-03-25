@@ -9,12 +9,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-public class InWorldFilletProcessor implements FilletRecipe.ResultProcessor{
+public class InWorldRecipeProcessor implements FilletRecipe.ResultProcessor,
+		GrindingRecipe.ResultProcessor{
 	private final ServerLevel level;
 	private final Vec3 inWorldPosition;
 	private float experience;
 
-	public InWorldFilletProcessor(@NotNull ServerLevel level, @NotNull Vec3 inWorldPosition){
+	public InWorldRecipeProcessor(@NotNull ServerLevel level, @NotNull Vec3 inWorldPosition){
 		this.level = level;
 		this.inWorldPosition = inWorldPosition;
 	}

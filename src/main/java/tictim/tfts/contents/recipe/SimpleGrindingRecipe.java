@@ -15,42 +15,37 @@ import tictim.tfts.utils.A;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class SimpleFilletRecipe extends FilletRecipe{
-	public static final RecipeSerializer<SimpleFilletRecipe> SERIALIZER = new Serializer();
+public class SimpleGrindingRecipe extends GrindingRecipe{
+	public static final RecipeSerializer<SimpleGrindingRecipe> SERIALIZER = new Serializer();
 
 	private final Ingredient input;
 	private final List<ChancedOutput> results;
-	private final float experience;
 
-	public SimpleFilletRecipe(@NotNull ResourceLocation id,
-	                          @NotNull Ingredient input,
-	                          @NotNull List<ChancedOutput> results,
-	                          float experience){
+	public SimpleGrindingRecipe(@NotNull ResourceLocation id,
+	                            @NotNull Ingredient input,
+	                            @NotNull List<ChancedOutput> results){
 		super(id);
-		this.input = Objects.requireNonNull(input, "fish == null");
-		this.results = Objects.requireNonNull(results, "results == null");
-		this.experience = Float.isNaN(experience) ? 0 : Math.max(0, experience);
+		this.input = input;
+		this.results = results;
 	}
 
 	@Override @NotNull public RecipeSerializer<?> getSerializer(){
 		return SERIALIZER;
 	}
 
-	@Override @Nullable public RecipeResult<Context, ResultProcessor, ItemStack> matches(@NotNull Context context){
+	@Override public @Nullable RecipeResult<Context, ResultProcessor, ItemStack> matches(@NotNull Context context){
 		return this.input.test(context.input()) ? this::process : null;
 	}
 
-	@NotNull private ItemStack process(Context context, ResultProcessor processor){
+	private ItemStack process(Context context, ResultProcessor processor){
 		ItemStack input = context.input();
-		int count = input.getCount();
 		for(ChancedOutput o : this.results){
-			ItemStack stack = o.copyNAmount(count, processor.random());
+			ItemStack stack = o.copy(processor.random());
 			if(!stack.isEmpty()) processor.addResultItem(stack);
 		}
-		if(this.experience>0) processor.addResultExperience(this.experience*count);
-		return ItemStack.EMPTY;
+		input.shrink(1);
+		return input;
 	}
 
 	@Override @NotNull public Ingredient previewIngredient(){
@@ -60,32 +55,29 @@ public class SimpleFilletRecipe extends FilletRecipe{
 		return this.results;
 	}
 
-	public static class Serializer implements RecipeSerializer<SimpleFilletRecipe>{
-		@Override @NotNull public SimpleFilletRecipe fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json){
+	public static class Serializer implements RecipeSerializer<SimpleGrindingRecipe>{
+		@Override @NotNull public SimpleGrindingRecipe fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json){
 			Ingredient input = CraftingHelper.getIngredient(GsonHelper.getNonNull(json, "ingredient"), false);
 			List<ChancedOutput> results = A.parseObjectOrArray(GsonHelper.getNonNull(json, "result"),
 					ChancedOutput::fromJson, "result");
-			float experience = GsonHelper.getAsFloat(json, "experience", 0);
-			return new SimpleFilletRecipe(id, input, results, experience);
+			return new SimpleGrindingRecipe(id, input, results);
 		}
 
-		@Override @Nullable public SimpleFilletRecipe fromNetwork(@NotNull ResourceLocation id, @NotNull FriendlyByteBuf buf){
+		@Override @Nullable public SimpleGrindingRecipe fromNetwork(@NotNull ResourceLocation id, @NotNull FriendlyByteBuf buf){
 			Ingredient input = Ingredient.fromNetwork(buf);
 			List<ChancedOutput> results = new ArrayList<>();
 			for(int i = buf.readVarInt(); i>0; i--){
 				results.add(ChancedOutput.fromNetwork(buf));
 			}
-			float experience = buf.readFloat();
-			return new SimpleFilletRecipe(id, input, results, experience);
+			return new SimpleGrindingRecipe(id, input, results);
 		}
 
-		@Override public void toNetwork(@NotNull FriendlyByteBuf buf, @NotNull SimpleFilletRecipe recipe){
+		@Override public void toNetwork(@NotNull FriendlyByteBuf buf, @NotNull SimpleGrindingRecipe recipe){
 			recipe.input.toNetwork(buf);
 			buf.writeVarInt(recipe.results.size());
 			for(ChancedOutput o : recipe.results){
 				o.toNetwork(buf);
 			}
-			buf.writeFloat(recipe.experience);
 		}
 	}
 }

@@ -12,29 +12,27 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import tictim.tfts.TFTSMod;
-import tictim.tfts.contents.item.Thing;
 import tictim.tfts.contents.recipe.ChancedOutput;
-import tictim.tfts.contents.recipe.FilletRecipe;
+import tictim.tfts.contents.recipe.SimplePreviewRecipe;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class FilletRecipeCategory implements IRecipeCategory<FilletRecipe>{
-	public static final RecipeType<FilletRecipe> RECIPE_TYPE = new RecipeType<>(TFTSMod.id("fillet"), FilletRecipe.class);
-
+public class SimplePreviewRecipeCategory<R extends SimplePreviewRecipe> implements IRecipeCategory<R>{
+	private final RecipeType<R> recipeType;
 	private final IDrawable background;
 	private final IDrawable icon;
 
-	public FilletRecipeCategory(IGuiHelper helper){
-		background = helper.createBlankDrawable(176, 18);
-		icon = helper.createDrawableItemStack(new ItemStack(Thing.FILLET_TABLE));
+	public SimplePreviewRecipeCategory(IGuiHelper helper, RecipeType<R> recipeType, IDrawable icon){
+		this.recipeType = recipeType;
+		this.background = helper.createBlankDrawable(176, 18);
+		this.icon = icon;
 	}
 
-	@Override public RecipeType<FilletRecipe> getRecipeType(){
-		return RECIPE_TYPE;
+	@Override public RecipeType<R> getRecipeType(){
+		return this.recipeType;
 	}
 	@Override public Component getTitle(){
 		return Component.translatable("jei.tfts.fillet");
@@ -47,7 +45,7 @@ public class FilletRecipeCategory implements IRecipeCategory<FilletRecipe>{
 		return icon;
 	}
 
-	@Override public void setRecipe(IRecipeLayoutBuilder builder, FilletRecipe recipe, IFocusGroup focuses){
+	@Override public void setRecipe(IRecipeLayoutBuilder builder, R recipe, IFocusGroup focuses){
 		Ingredient ingredient = recipe.previewIngredient();
 		List<ChancedOutput> results = recipe.previewResults();
 		if(ingredient==null||results==null) return;

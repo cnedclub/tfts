@@ -13,11 +13,10 @@ import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tictim.tfts.contents.TFTSMenus;
-import tictim.tfts.contents.TFTSRecipes;
 import tictim.tfts.contents.block.FilletTableBlockEntity;
 import tictim.tfts.contents.recipe.FilletContext;
 import tictim.tfts.contents.recipe.FilletRecipe;
-import tictim.tfts.contents.recipe.InWorldFilletProcessor;
+import tictim.tfts.contents.recipe.InWorldRecipeProcessor;
 import tictim.tfts.utils.A;
 
 import java.util.Objects;
@@ -63,11 +62,9 @@ public class FilletTableMenu extends AbstractContainerMenu{
 		if(this.server==null||this.blockEntity==null) return;
 		if(!this.table.getStackInSlot(0).isEmpty()){
 			FilletContext ctx = new FilletContext(this.table, this.server, this.player, this.blockEntity);
-			for(var recipe : this.server.getRecipeManager().getAllRecipesFor(TFTSRecipes.FILLET.get())){
-				if(recipe.matches(ctx)!=null){
-					this.shit.set(1);
-					return;
-				}
+			if(A.getRecipe(this.server, FilletRecipe.TYPE, ctx)!=null){
+				this.shit.set(1);
+				return;
 			}
 		}
 		this.shit.set(0);
@@ -80,17 +77,14 @@ public class FilletTableMenu extends AbstractContainerMenu{
 	public void doFillet(@NotNull ServerPlayer player){
 		if(this.table.getStackInSlot(0).isEmpty()) return;
 		FilletContext ctx = new FilletContext(this.table, player.server, player, this.blockEntity);
-		for(var recipe : player.server.getRecipeManager().getAllRecipesFor(TFTSRecipes.FILLET.get())){
-			FilletRecipe.Result result = recipe.matches(ctx);
-			if(result!=null){
-				InWorldFilletProcessor processor = new InWorldFilletProcessor(player.serverLevel(),
-						Objects.requireNonNull(ctx.worldPosition()));
-				ItemStack remaining = result.process(ctx, processor);
-				processor.dropExperience();
-				this.table.setStackInSlot(0, remaining);
-				// TODO pseudo item particles on item processing? if possible
-				return;
-			}
+		var result = A.getRecipe(player.server, FilletRecipe.TYPE, ctx);
+		if(result!=null){
+			InWorldRecipeProcessor processor = new InWorldRecipeProcessor(player.serverLevel(),
+					Objects.requireNonNull(ctx.worldPosition()));
+			ItemStack remaining = result.process(ctx, processor);
+			processor.dropExperience();
+			this.table.setStackInSlot(0, remaining);
+			// TODO pseudo item particles on item processing? if possible
 		}
 	}
 

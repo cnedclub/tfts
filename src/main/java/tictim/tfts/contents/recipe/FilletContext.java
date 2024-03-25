@@ -33,7 +33,7 @@ public class FilletContext implements FilletRecipe.Context{
 		this.blockEntity = blockEntity;
 	}
 
-	@Override @NotNull public ItemStack fish(){
+	@Override @NotNull public ItemStack input(){
 		return table.getStackInSlot(0);
 	}
 	@Override @NotNull public MinecraftServer server(){

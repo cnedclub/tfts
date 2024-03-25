@@ -12,15 +12,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tictim.tfts.TFTSMod;
 
-public abstract class FilletRecipe extends TFTSCustomRecipe<FilletRecipe.Context, FilletRecipe.ResultProcessor, ItemStack>
+public abstract class GrindingRecipe extends TFTSCustomRecipe<GrindingRecipe.Context, GrindingRecipe.ResultProcessor, ItemStack>
 		implements SimplePreviewRecipe{
-	public static final SimpleRecipeType<FilletRecipe> TYPE = new SimpleRecipeType<>(TFTSMod.id("fillet"));
+	public static final SimpleRecipeType<GrindingRecipe> TYPE = new SimpleRecipeType<>(TFTSMod.id("grinding"));
 
-	public FilletRecipe(@NotNull ResourceLocation id){
+	public GrindingRecipe(@NotNull ResourceLocation id){
 		super(id);
 	}
 
-	@Override @NotNull public final RecipeType<?> getType(){
+	@Override @NotNull public RecipeType<?> getType(){
 		return TYPE;
 	}
 
@@ -37,6 +37,5 @@ public abstract class FilletRecipe extends TFTSCustomRecipe<FilletRecipe.Context
 		@NotNull RandomSource random();
 
 		void addResultItem(@NotNull ItemStack stack);
-		void addResultExperience(float amount);
 	}
 }

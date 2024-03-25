@@ -1,5 +1,6 @@
 {
   "type": "tfts:fillet",
+  "experience": 0.35,
   "ingredient": {
     "item": "tfts:carp"
   },

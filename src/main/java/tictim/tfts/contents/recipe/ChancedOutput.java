@@ -17,6 +17,10 @@ public record ChancedOutput(@NotNull ItemStack stack, double chance){
 		Objects.requireNonNull(stack, "stack == null");
 	}
 
+	@NotNull public ItemStack copy(@NotNull RandomSource random){
+		return copyNAmount(1, random);
+	}
+
 	@NotNull public ItemStack copyNAmount(int amount, @NotNull RandomSource random){
 		if(amount<=0||!(this.chance>0)) return ItemStack.EMPTY;
 		if(this.chance>=1) return this.stack.copyWithCount(this.stack.getCount()*amount);

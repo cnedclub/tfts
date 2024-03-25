@@ -1,0 +1,10 @@
+{
+  "type": "tfts:grinding",
+  "ingredient": {
+    "item": "minecraft:wheat"
+  },
+  "result": {
+    "count": 1,
+    "item": "tfts:starch"
+  }
+}

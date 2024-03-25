@@ -1,6 +1,8 @@
 package datagen;
 
-import datagen.recipe.FilletRecipeBuilder;
+import datagen.recipe.FinishedFilletRecipe;
+import datagen.recipe.FinishedGrindingRecipe;
+import datagen.recipe.SimpleRecipeBuilder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
@@ -173,44 +175,44 @@ public class RecipeGen extends RecipeProvider{
 		 */
 
 		//Trashes
-		fillet().fish(Fish.BASS)
+		fillet().input(Fish.BASS)
 				.out(Thing.SMALL_FISH_FILLET)
 				.finish(writer, filletId("bass"));
 
 		//common fish
 
-		fillet().fish(Fish.CATFISH)
+		fillet().input(Fish.CATFISH)
 				.out(Thing.FISH_FILLET, 2)
 				.chanced(Items.BONE_MEAL, 4, .8)
 				.finish(writer, filletId("catfish"));
 
-		fillet().fish(Fish.BROWN_CROAKER)
+		fillet().input(Fish.BROWN_CROAKER)
 				.out(Thing.SMALL_FISH_FILLET, 2)
 				.chanced(Items.BONE_MEAL, 2, .8)
 				.finish(writer, filletId("brown_croaker"));
 
-		fillet().fish(Fish.ROCKFISH)
+		fillet().input(Fish.ROCKFISH)
 				.out(Thing.SMALL_FISH_FILLET, 2)
 				.chanced(Items.BONE_MEAL, 3, .8)
 				.chanced(Items.COBBLESTONE, 2, .1)
 				.finish(writer, filletId("rockfish"));
 
-		fillet().fish(Fish.CARP)
+		fillet().input(Fish.CARP)
 				.out(Thing.SMALL_FISH_FILLET, 1)
 				.chanced(Items.BONE_MEAL, 2, .8)
 				.finish(writer, filletId("carp"));
 
-		fillet().fish(Fish.CREEPER_FISH)
+		fillet().input(Fish.CREEPER_FISH)
 				.chanced(Items.GUNPOWDER, .5)
 				.chanced(Items.GUNPOWDER, .5)
 				.finish(writer, filletId("creeper_fish"));
 
-		fillet().fish(Fish.BARRELEYE)
+		fillet().input(Fish.BARRELEYE)
 				.out(Thing.SMALL_FISH_FILLET, 1)
 				.out(Thing.BARRELEYE_EYEBALL, 2)
 				.finish(writer, filletId("barreleye"));
 
-		fillet().fish(Fish.ZOMFISH)
+		fillet().input(Fish.ZOMFISH)
 				.chanced(Items.ROTTEN_FLESH, .5)
 				.chanced(Items.ROTTEN_FLESH, .5)
 				.chanced(Items.IRON_INGOT, 0.08)
@@ -220,40 +222,40 @@ public class RecipeGen extends RecipeProvider{
 
 		//uncommon fish
 
-		fillet().fish(Fish.GARIBALDI_DAMSELFISH)
+		fillet().input(Fish.GARIBALDI_DAMSELFISH)
 				.out(Thing.SMALL_FISH_FILLET)
 				.chanced(Items.BONE_MEAL, .8)
 				.finish(writer, filletId("garibaldi_damselfish"));
 
-		fillet().fish(Fish.FLYING_FISH)
+		fillet().input(Fish.FLYING_FISH)
 				.out(Thing.SMALL_FISH_FILLET)
 				.chanced(Items.BONE_MEAL, .8)
 				.finish(writer, filletId("flying_fish"));
 
-		fillet().fish(Fish.TUNA)
+		fillet().input(Fish.TUNA)
 				.out(Thing.FISH_FILLET)
 				.chanced(Items.BONE_MEAL, 4, .8)
 				.finish(writer, filletId("tuna"));
 
 		//Rare fish
 
-		fillet().fish(Fish.OARFISH)
+		fillet().input(Fish.OARFISH)
 				.out(Thing.FISH_FILLET, 2)
 				.chanced(Items.BONE_MEAL, 4, .8)
 				.finish(writer, filletId("oarfish"));
 
-		fillet().fish(Fish.MELIBE)
+		fillet().input(Fish.MELIBE)
 				.out(Thing.SMALL_FISH_FILLET)
 				.chanced(Items.BONE_MEAL, .8)
 				.chanced(Items.SLIME_BALL, .4)
 				.finish(writer, filletId("melibe"));
 
-		fillet().fish(Fish.MARLIN)
+		fillet().input(Fish.MARLIN)
 				.out(Thing.FISH_FILLET, 2)
 				.chanced(Items.BONE_MEAL, 4, .8)
 				.finish(writer, filletId("marlin"));
 
-		fillet().fish(Fish.PENGUIN)
+		fillet().input(Fish.PENGUIN)
 				.out(Items.CHICKEN, 1)
 				.chanced(Items.LEATHER, .5)
 				.chanced(Items.BONE_MEAL, 3, .8)
@@ -261,13 +263,16 @@ public class RecipeGen extends RecipeProvider{
 
 		//SR
 
-		fillet().fish(Fish.OCEAN_SUNFISH)
+		fillet().input(Fish.OCEAN_SUNFISH)
 				.out(Thing.FISH_FILLET, 2)
 				.chanced(Items.BONE_MEAL, 4, .8)
 				.finish(writer, filletId("ocean_sunfish"));
 
 		cooking(writer, Thing.SMALL_FISH_FILLET, Thing.COOKED_SMALL_FISH_FILLET);
 		cooking(writer, Thing.FISH_FILLET, Thing.COOKED_FISH_FILLET);
+
+		grinding().input(Items.WHEAT).out(Thing.STARCH).finish(writer, grindingId("starch_from_wheat"));
+		grinding().input(Items.POTATO).out(Thing.STARCH).finish(writer, grindingId("starch_from_potato"));
 	}
 
 	private static void cooking(@NotNull Consumer<FinishedRecipe> writer, ItemLike input, ItemLike output){
@@ -280,11 +285,19 @@ public class RecipeGen extends RecipeProvider{
 				input, output, 0.35f);
 	}
 
-	private static FilletRecipeBuilder fillet(){
-		return new FilletRecipeBuilder();
+	private static SimpleRecipeBuilder fillet(){
+		return new SimpleRecipeBuilder((id, b) -> new FinishedFilletRecipe(id, b.input(), b.results(), b.experience()))
+				.exp(0.35f);
+	}
+
+	private static SimpleRecipeBuilder grinding(){
+		return new SimpleRecipeBuilder((id, b) -> new FinishedGrindingRecipe(id, b.input(), b.results()));
 	}
 
 	private static ResourceLocation filletId(String path){
 		return id("fillet/"+path);
+	}
+	private static ResourceLocation grindingId(String path){
+		return id("grinding/"+path);
 	}
 }

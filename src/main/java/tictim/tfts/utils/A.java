@@ -1,5 +1,8 @@
 package tictim.tfts.utils;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -14,6 +17,7 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -26,7 +30,12 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tictim.tfts.contents.recipe.RecipeResult;
+import tictim.tfts.contents.recipe.TFTSCustomRecipe;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -159,6 +168,44 @@ public final class A{ // fuck every single java naming conventions, also fuck ca
 	@Nullable private static RegistryAccess getCommonRegistryAccess(){
 		MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 		return server!=null ? server.registryAccess() : null;
+	}
+
+	public static <T> List<T> parseObjectOrArray(@NotNull JsonElement json,
+	                                             @NotNull Function<JsonObject, T> parser){
+		return parseObjectOrArray(json, parser, null);
+	}
+	public static <T> List<T> parseObjectOrArray(@NotNull JsonElement json,
+	                                             @NotNull Function<JsonObject, T> parser,
+	                                             @Nullable String errorFieldName){
+		Objects.requireNonNull(json, "json == null");
+		Objects.requireNonNull(parser, "parser == null");
+
+		if(json.isJsonArray()){
+			List<T> list = new ArrayList<>();
+			for(JsonElement e : json.getAsJsonArray()){
+				if(!e.isJsonObject()){
+					throw new JsonParseException("Expected elements of "+(errorFieldName!=null ? "field '"+errorFieldName+"'" : "json array")+" to be an object");
+				}
+				list.add(parser.apply(e.getAsJsonObject()));
+			}
+			return list;
+		}else if(json.isJsonObject()){
+			return List.of(parser.apply(json.getAsJsonObject()));
+		}else{
+			throw new JsonParseException("Expected "+(errorFieldName!=null ? "field '"+errorFieldName+"'" : "json element")+" to be either an array or an object");
+		}
+	}
+
+	@Nullable
+	public static <Context, ResultProcessor, Result> RecipeResult<Context, ResultProcessor, Result> getRecipe(
+			@NotNull MinecraftServer server,
+			@NotNull RecipeType<? extends TFTSCustomRecipe<Context, ResultProcessor, Result>> recipeType,
+			@NotNull Context context){
+		for(var recipe : server.getRecipeManager().getAllRecipesFor(recipeType)){
+			var result = recipe.matches(context);
+			if(result!=null) return result;
+		}
+		return null;
 	}
 
 	@FunctionalInterface
