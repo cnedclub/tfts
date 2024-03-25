@@ -96,9 +96,9 @@ public final class TFTSRegistries{
 		TFTSEntities.init();
 		AnglingEntries.init();
 
-		Fish.register();
-		Bait.register();
-		Thing.register();
+		Fish.init();
+		Bait.init();
+		Thing.init();
 
 		bus.addListener(TFTSRegistries::register);
 	}
