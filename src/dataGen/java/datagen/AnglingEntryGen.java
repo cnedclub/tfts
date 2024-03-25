@@ -12,7 +12,6 @@ import tictim.tfts.contents.TFTSRegistries;
 import tictim.tfts.contents.fish.AnglingEntry;
 import tictim.tfts.contents.fish.SimpleAnglingEntry;
 import tictim.tfts.contents.fish.TrashAnglingEntry;
-import tictim.tfts.contents.fish.condition.LightCondition;
 import tictim.tfts.contents.fish.condition.TimeCondition;
 import tictim.tfts.contents.item.Fish;
 
@@ -26,10 +25,10 @@ import static tictim.tfts.contents.fish.NibbleBehavior.nibble;
 import static tictim.tfts.contents.fish.NibbleBehavior.snatch;
 import static tictim.tfts.contents.fish.PrimitiveFishEnv.*;
 
-public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<AnglingEntry<?>> {
+public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<AnglingEntry<?>>{
 	private final Map<ResourceLocation, AnglingEntryBuilder<?>> map = new Object2ObjectOpenHashMap<>();
 
-	protected void registerAll() {
+	protected void registerAll(){
 		// vanilla fish
 
 		simpleFish(id("cod"))
@@ -122,7 +121,7 @@ public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<Ang
 				.baseWeight(40)
 				.minFishingPower(.5)
 				.env(ALL_WATER)
-				.condition(LightCondition.EIGHT)
+				.condition(TimeCondition.NIGHT)
 				.bait(any(ALL_MEATS, ALL_FOODS, ALL_MUSHROOMS, ALL_PLANTS), 1)
 				.nibbleBehavior(nibble(.3));
 
@@ -138,11 +137,9 @@ public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<Ang
 				.baseWeight(40)
 				.minFishingPower(.5)
 				.env(ALL_WATER)
-				.condition(LightCondition.EIGHT)
 				.condition(TimeCondition.NIGHT)
 				.bait(any(ALL_MEATS, ALL_FOODS, ALL_MUSHROOMS, ALL_PLANTS), 1)
-				.nibbleBehavior(snatch());
-
+				.nibbleBehavior(nibble(.5));
 
 		// uncommon
 
@@ -219,30 +216,30 @@ public class AnglingEntryGen implements RegistrySetBuilder.RegistryBootstrap<Ang
 	}
 
 	@Override
-	public void run(@NotNull BootstapContext<AnglingEntry<?>> ctx) {
+	public void run(@NotNull BootstapContext<AnglingEntry<?>> ctx){
 		registerAll();
 
-		for (var e : this.map.entrySet()) {
+		for(var e : this.map.entrySet()){
 			ctx.register(ResourceKey.create(TFTSRegistries.ANGLING_ENTRY_REGISTRY_KEY, e.getKey()),
 					e.getValue().create());
 		}
 	}
 
-	protected AnglingEntryBuilder<SimpleAnglingEntry> simpleFish(@NotNull Fish fish) {
-		return simpleFish(id(fish.registryName())).loot(fish);
+	protected AnglingEntryBuilder<SimpleAnglingEntry> simpleFish(@NotNull Fish fish){
+		return simpleFish(fish.registryID()).loot(fish);
 	}
 
-	protected AnglingEntryBuilder<SimpleAnglingEntry> simpleFish(@NotNull ResourceLocation id) {
+	protected AnglingEntryBuilder<SimpleAnglingEntry> simpleFish(@NotNull ResourceLocation id){
 		return register(id, AnglingEntryBuilder.simpleFish());
 	}
 
-	protected AnglingEntryBuilder<TrashAnglingEntry> trash(@NotNull ResourceLocation id) {
+	protected AnglingEntryBuilder<TrashAnglingEntry> trash(@NotNull ResourceLocation id){
 		return register(id, AnglingEntryBuilder.trash());
 	}
 
-	protected <T extends AnglingEntryBuilder<?>> T register(@NotNull ResourceLocation id, @NotNull T entry) {
-		if (this.map.put(id, entry) != null) {
-			throw new IllegalStateException("Angling entry with ID " + id + " already exists");
+	protected <T extends AnglingEntryBuilder<?>> T register(@NotNull ResourceLocation id, @NotNull T entry){
+		if(this.map.put(id, entry)!=null){
+			throw new IllegalStateException("Angling entry with ID "+id+" already exists");
 		}
 		return entry;
 	}

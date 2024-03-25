@@ -1,15 +1,14 @@
 package tictim.tfts.utils;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface WgtRoll<T>{
-	@NotNull static <T> WgtRoll<T> simple(){
+	@NotNull static <T> SimpleWgtRoll<T> simple(){
 		return new SimpleWgtRoll<>();
 	}
-	@NotNull static WgtRoll<@NotNull BlockPos> priorityCutBlockPosRoll(double threshold){
+	@NotNull static PriorityCutBlockPosRoll priorityCutBlockPosRoll(double threshold){
 		return new PriorityCutBlockPosRoll(threshold);
 	}
 

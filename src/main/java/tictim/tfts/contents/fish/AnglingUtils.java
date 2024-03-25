@@ -185,7 +185,7 @@ public final class AnglingUtils{
 				.registry(TFTSRegistries.ANGLING_ENTRY_REGISTRY_KEY);
 		if(optionalEntries.isEmpty()) return null;
 
-		WgtRoll<AnglingEntry<?>> roll = WgtRoll.simple();
+		var roll = WgtRoll.<AnglingEntry<?>>simple();
 		for(AnglingEntry<?> e : optionalEntries.get()){
 			double weight = e.getWeight(context);
 			roll.add(e, weight);

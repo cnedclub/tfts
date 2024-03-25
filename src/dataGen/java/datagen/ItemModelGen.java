@@ -53,12 +53,12 @@ public class ItemModelGen extends ItemModelProvider{
 		basicItem(Fish.CRAB);
 		basicItem(Fish.MELIBE);
 
-		for(var bait : Bait.values()) {
+		for(var bait : Bait.values()){
 			basicItem(bait);
 		}
 	}
 
-	// fuck you forge
+	@SuppressWarnings("UnusedReturnValue")
 	private ItemModelBuilder basicItem(ItemLike item){
 		return basicItem(item.asItem());
 	}
