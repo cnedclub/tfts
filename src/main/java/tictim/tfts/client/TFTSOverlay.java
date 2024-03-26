@@ -72,7 +72,7 @@ public final class TFTSOverlay implements IGuiOverlay{
 						.withStyle(bait.getRarity().getStyleModifier());
 				if(bait.hasCustomHoverName()) itemName.withStyle(ChatFormatting.ITALIC);
 				text.add(itemName);
-				AnglingUtils.addBaitStatText(text, stat, false);
+				ClientUtils.addBaitStatText(text, stat, false);
 			}else{
 				text = List.of(Component.translatable("overlay.tfts.no_bait"));
 			}

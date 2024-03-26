@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import tictim.tfts.client.ClientUtils;
 import tictim.tfts.contents.fish.AnglingUtils;
 import tictim.tfts.contents.fish.BaitStat;
 
@@ -40,7 +41,7 @@ public abstract class ItemStackMixin{ // i'm using mixin because forge's tooltip
 		if(baitStat==null||baitStat.rawStats().isEmpty()) return;
 
 		list.add(Component.translatable("item.tfts.generic.tooltip.bait_stats"));
-		AnglingUtils.addBaitStatText(list, baitStat, flags.isAdvanced()&&Screen.hasShiftDown());
+		ClientUtils.addBaitStatText(list, baitStat, flags.isAdvanced()&&Screen.hasShiftDown());
 	}
 
 	@Shadow public abstract boolean isEmpty();

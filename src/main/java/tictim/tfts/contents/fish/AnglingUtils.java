@@ -1,15 +1,12 @@
 package tictim.tfts.contents.fish;
 
 import it.unimi.dsi.fastutil.longs.*;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -22,8 +19,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tictim.tfts.contents.TFTSRegistries;
@@ -35,7 +30,6 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -235,28 +229,5 @@ public final class AnglingUtils{
 		if(baitStat==null) return false;
 		stack.shrink(1);
 		return true;
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void addBaitStatText(@NotNull List<Component> text, @NotNull BaitStat stat, boolean debug){
-		for(var e : (debug ? stat.allStats() : stat.allStatsSorted()).object2DoubleEntrySet()){
-			String key = e.getKey().getTranslationKey();
-			if(I18n.exists(key)){
-				if(debug){
-					text.add(Component.translatable("item.tfts.generic.tooltip.bait_stat.debug",
-							Component.translatable(key).withStyle(ChatFormatting.YELLOW),
-							e.getKey().toString(),
-							ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(e.getDoubleValue())));
-				}else{
-					text.add(Component.translatable("item.tfts.generic.tooltip.bait_stat",
-							Component.translatable(key).withStyle(ChatFormatting.YELLOW),
-							ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(e.getDoubleValue())));
-				}
-			}else if(debug){
-				text.add(Component.translatable("item.tfts.generic.tooltip.bait_stat.debug_no_translation",
-						e.getKey().toString(),
-						ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(e.getDoubleValue())));
-			}
-		}
 	}
 }
